@@ -117,21 +117,21 @@ window.submitOrder = async function() {
     }
 
     const currentNum = Date.now().toString().slice(-6);
- 
 
     let totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n----------\n👤 ${name}\n📞 ${phone}\n📍 ${city}, ${branch}\n\n🛒 Товари:\n`;
     orderText += cart.map(i => `- ${i.name} x${i.qty}`).join('\n');
     orderText += `\n\n💰 Разом: ${totalSum.toFixed(2)} ₴`;
 
-    try {
-        await Promise.all(chatIds.map(id => 
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: id, text: orderText })
-            })
-        ));
+    const googleScriptUrl = "https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec";
+
+try {
+    await fetch(googleScriptUrl, {
+        method: "POST",
+        mode: "no-cors", // Це важливо для Google Scripts
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: orderText })
+    });
 
         const mainContent = document.getElementById('modal-main-content');
         const successMsg = document.getElementById('success-msg');
@@ -150,7 +150,8 @@ window.submitOrder = async function() {
         saveCart([]); 
         updateCartUI();
     } catch (e) {
-        alert("Помилка відправки.");
+        console.error("Помилка:", e);
+        alert("Помилка відправки.Спробуйте ще раз.");
     }
 };
 
@@ -181,5 +182,4 @@ window.addEventListener('storage', updateCartUI);
 window.goBack = function() {
     if (window.history.length > 1) window.history.back();
     else window.location.href = 'index.html';
-
 };
