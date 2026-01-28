@@ -117,8 +117,7 @@ window.submitOrder = async function() {
     }
 
     const currentNum = Date.now().toString().slice(-6);
-    const botToken = "8532849974:AAH9wjxweZXeUF9372z_Z30GXfXBn2urYOM"; 
-    const chatIds = ["457261010", "593171782"]; 
+ 
 
     let totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n----------\n👤 ${name}\n📞 ${phone}\n📍 ${city}, ${branch}\n\n🛒 Товари:\n`;
@@ -182,4 +181,5 @@ window.addEventListener('storage', updateCartUI);
 window.goBack = function() {
     if (window.history.length > 1) window.history.back();
     else window.location.href = 'index.html';
+
 };
