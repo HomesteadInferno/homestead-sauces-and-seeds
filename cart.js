@@ -123,50 +123,59 @@ window.clearFullCart = function() {
 
 // === 4. ВІДПРАВКА ЗАМОВЛЕННЯ ===
 window.submitOrder = async function() {
+    // 1. Отримуємо кнопку та перевіряємо кошик
+    const submitBtn = document.querySelector('.summary-side .add-btn');
+    const originalText = submitBtn ? submitBtn.innerHTML : "Оформити замовлення";
+    const cart = typeof getFreshCart === 'function' ? getFreshCart() : [];
+
+    if (cart.length === 0) {
+        alert("Ваш кошик ще порожній. Додайте щось смачненьке! 🌶️");
+        return;
+    }
+
+    // 2. Розумна перевірка полів
     const fieldIds = ['cust-name', 'cust-phone', 'cust-city', 'cust-branch'];
     let hasError = false;
+
     fieldIds.forEach(id => {
         const input = document.getElementById(id);
         if (input) {
-            if (!input.value.trim()) {
-                input.classList.add('input-error'); // Додаємо червону рамку
+            let value = input.value.trim();
+            let isInvalid = !value; // Помилка, якщо порожньо
+
+            // Спеціальна перевірка для телефону
+            if (id === 'cust-phone' && value) {
+                const digitsOnly = value.replace(/\D/g, "");
+                if (digitsOnly.length < 10) isInvalid = true;
+            }
+
+            if (isInvalid) {
+                input.classList.add('input-error');
                 hasError = true;
             } else {
-                input.classList.remove('input-error'); // Прибираємо, якщо вже заповнено
+                input.classList.remove('input-error');
             }
         }
     });
 
     if (hasError) {
-        alert("Будь ласка, заповніть виділені поля для доставки.");
+        alert("Будь ласка, заповніть всі поля правильно. Телефон має містити мінімум 10 цифр.");
         return;
     }
 
-    const submitBtn = document.querySelector('.summary-side .add-btn');
-    const originalText = submitBtn.innerHTML;
-    const cart = getFreshCart();
-    
-    const name = document.getElementById('cust-name')?.value.trim();
-    const phone = document.getElementById('cust-phone')?.value.trim();
-    const city = document.getElementById('cust-city')?.value.trim();
-    const branch = document.getElementById('cust-branch')?.value.trim();
-    
-    
-    if (!name || !phone || !city || !branch) {
-        alert("Будь ласка, заповніть всі поля!");
-        return;
-    }
-
-    // 2. БЛОКУЄМО КНОПКУ ПЕРЕД ВІДПРАВКОЮ
+    // 3. Блокуємо кнопку (щоб не було дублів)
     submitBtn.disabled = true;
     submitBtn.style.opacity = "0.7";
     submitBtn.style.cursor = "not-allowed";
-    submitBtn.innerHTML = `
-        <span class="spinner"></span> Відправляємо...
-    `;
+    submitBtn.innerHTML = `<span class="spinner"></span> Відправляємо...`;
 
+    // 4. Збираємо дані для відправки
+    const name = document.getElementById('cust-name').value.trim();
+    const phone = document.getElementById('cust-phone').value.trim();
+    const city = document.getElementById('cust-city').value.trim();
+    const branch = document.getElementById('cust-branch').value.trim();
     const currentNum = Date.now().toString().slice(-6);
-
+    
     let totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n----------\n👤 ${name}\n📞 ${phone}\n📍 ${city}, ${branch}\n\n🛒 Товари:\n`;
     orderText += cart.map(i => `- ${i.name} x${i.qty}`).join('\n');
@@ -174,24 +183,23 @@ window.submitOrder = async function() {
 
     const googleScriptUrl = "https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec";
 
-try {
+    // 5. Відправка
+    try {
         await fetch(googleScriptUrl, {
             method: "POST",
-            mode: "no-cors", 
+            mode: "no-cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: orderText })
         });
     } catch (e) {
-        console.log("Запит пішов (обробка через no-cors)"); 
+        console.log("Запит пішов (no-cors)");
     }
 
-    // --- ВСЕ, ЩО НИЖЧЕ, ТЕПЕР ПОЗА CATCH І СПРАЦЮЄ ЗАВЖДИ ---
-
+    // 6. Показуємо успіх та очищуємо все
     const mainContent = document.getElementById('modal-main-content');
     const successMsg = document.getElementById('success-msg');
-        
-    if (mainContent) mainContent.style.display = 'none';
     
+    if (mainContent) mainContent.style.display = 'none';
     if (successMsg) {
         successMsg.style.display = 'block';
         successMsg.innerHTML = `
@@ -201,18 +209,17 @@ try {
                 <button class="add-btn" onclick="closeCheckout()" style="margin-top:20px; background: #325e34; color: white; border: none; padding: 10px 20px; cursor: pointer;">Закрити</button>
             </div>`;
     }
-        
-    saveCart([]); 
-    updateCartUI();
+
+    // Розблокуємо кнопку на майбутнє та чистимо кошик
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = "1";
+    submitBtn.innerHTML = originalText;
     
-    // Повертаємо кнопці початковий стан (на майбутнє)
-    if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = "1";
-        submitBtn.style.cursor = "pointer";
-        submitBtn.innerHTML = originalText;
-    }
-}; // Кінець функції submitOrder
+    if (typeof saveCart === 'function') saveCart([]); 
+    if (typeof updateCartUI === 'function') updateCartUI();
+};
+
+// Кінець функції submitOrder
 
 // === 1. ГАЛЕРЕЯ (Щоб не було помилок при завантаженні) ===
 function updateView(img) {
@@ -243,4 +250,5 @@ window.addEventListener('storage', updateCartUI);
 window.goBack = function() {
     if (window.history.length > 1) window.history.back();
     else window.location.href = 'index.html';
+
 };
