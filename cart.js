@@ -117,19 +117,22 @@ function saveCart(cart) {
     localStorage.setItem('homestead_cart', JSON.stringify(cart));
 }
 
-// === 2. ОНОВЛЕННЯ ІНТЕРФЕЙСУ (Включаючи верхнє меню) ===
+
+
+// === 2. ОНОВЛЕННЯ ІНТЕРФЕЙСУ (Включаючи верхнє меню та плаваючу кнопку) ===
 function updateCartUI() {
     const cart = getFreshCart(); 
     const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
     const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
 
-    // Оновлюємо всі цифри на іконках (і плаваючу, і у шапці)
-    document.querySelectorAll('#cart-count, .cart-badge').forEach(c => { 
-        c.innerText = totalQty; 
+    // Оновлюємо ВСІ лічильники (і в шапці, і плаваючий) через клас .cart-count
+    // Також залишаємо ID #cart-count для сумісності
+    const allCounters = document.querySelectorAll('.cart-count, #cart-count, .cart-badge');
+    allCounters.forEach(counter => { 
+        counter.innerText = totalQty; 
     });
 
-    // Оновлюємо всі списки товарів (і в модалці, і у випадаючому меню зверху)
-    // ВАЖЛИВО: додай клас .cart-items-container у HTML свого випадаючого меню
+    // Оновлюємо всі списки товарів
     const listContainers = document.querySelectorAll('#final-list, .cart-items-container');
     
     listContainers.forEach(container => {
@@ -152,7 +155,7 @@ function updateCartUI() {
     });
 
     // Оновлюємо всі поля з фінальною сумою
-    document.querySelectorAll('#final-price, .total-price-display').forEach(priceEl => {
+    document.querySelectorAll('#final-price, .total-price-display, #cart-total').forEach(priceEl => {
         priceEl.innerText = `${totalSum.toFixed(2)} ₴`;
     });
 }
