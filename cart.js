@@ -1,3 +1,109 @@
+
+//БЛОК КЕРУВАННЯ АКЦІЯМИ.
+const GLOBAL_SETTINGS = {
+    isSaleActive: true, // Зміни на false, щоб вимкнути всі акції одним махом
+    discountPercent: 10, // Розмір знижки у відсотках
+    saleDeadline: "2026-02-05", // Дата закінчення для таймера
+    promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10%!"
+};
+function applyGlobalSale() {
+    // 1. Головний вимикач акції [cite: 2026-01-26]
+    if (!GLOBAL_SETTINGS || !GLOBAL_SETTINGS.isSaleActive) return;
+
+    const discount = GLOBAL_SETTINGS.discountPercent;
+
+    // --- ОБРОБКА КАРТОК ТОВАРІВ ---
+    const cardPrices = document.querySelectorAll('.card-price');
+    
+    cardPrices.forEach(el => {
+        // Перевіряємо, чи дозволена акція саме для цього товару
+        const isSaleAllowed = el.getAttribute('data-allow-sale') === 'true';
+        
+        if (isSaleAllowed) {
+            const basePrice = parseFloat(el.getAttribute('data-base-price'));
+            if (!basePrice) return;
+
+            const newPrice = Math.round(basePrice * (1 - discount / 100));
+
+            // Оновлюємо текст ціни на картці (жовтий колір для контрасту)
+            el.innerHTML = `
+                <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.85em;">${basePrice} ₴</span> 
+                <span style="color: #ffeb3b; font-weight: bold; margin-left: 8px;">${newPrice} ₴</span>
+            `;
+            
+            // Знаходимо батьківську картку та її кнопку
+            const card = el.closest('.product-card'); 
+            if (card) {
+                // ОНОВЛЮЄМО ЦІНУ В КНОПЦІ ДЛЯ КОШИКА
+                const cardBtn = card.querySelector('.add-btn');
+                if (cardBtn) {
+                    cardBtn.setAttribute('data-price', newPrice);
+                }
+
+                // Додаємо візуальну плашку "АКЦІЯ" [cite: 2026-01-26]
+                if (!card.querySelector('.sale-badge')) {
+                    const badge = document.createElement('div');
+                    badge.className = 'sale-badge';
+                    badge.innerText = 'АКЦІЯ';
+                    card.style.position = 'relative'; // Для правильного позиціювання плашки
+                    card.appendChild(badge);
+                }
+            }
+        }
+    });
+
+    // --- ОБРОБКА ЦІНИ НА СТОРІНЦІ ТОВАРУ ---
+const mainPriceContainer = document.getElementById('p-price');
+const mainAddToCartBtn = document.querySelector('.add-btn');
+
+if (mainPriceContainer) {
+    // ПЕРЕВІРКА: чи дозволена акція для цього конкретного товару?
+    const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
+
+    if (isSaleAllowed) {
+        const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val'));
+        const newPrice = Math.round(basePrice * (1 - discount / 100));
+
+        mainPriceContainer.innerHTML = `
+            <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.8em; margin-right: 10px; color: white;">
+                ${basePrice.toFixed(2)} ₴
+            </span>
+            <span style="color: #ffeb3b; font-weight: bold;">
+                ${newPrice.toFixed(2)} ₴
+            </span>
+            <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>
+        `;
+
+        if (mainAddToCartBtn) {
+            mainAddToCartBtn.setAttribute('data-price', newPrice);
+        }
+    } else {
+        // Якщо акція НЕ дозволена - переконуємось, що кнопка має стандартну ціну
+        if (mainAddToCartBtn) {
+            const basePrice = mainPriceContainer.getAttribute('data-val');
+            mainAddToCartBtn.setAttribute('data-price', basePrice);
+        }
+    }
+}
+
+    // --- ДОДАВАННЯ БАНЕРА НАГОРІ ---
+    if (GLOBAL_SETTINGS.promoText && !document.getElementById('sale-banner')) {
+        const banner = document.createElement('div');
+        banner.id = "sale-banner";
+        banner.style.cssText = "background: #e74c3c; color: white; text-align: center; padding: 10px; font-weight: bold; position: sticky; top: 0; z-index: 1000; font-family: sans-serif;";
+        banner.innerText = GLOBAL_SETTINGS.promoText;
+        document.body.prepend(banner);
+    }
+}
+
+// Запуск функції після завантаження всього контенту
+document.addEventListener('DOMContentLoaded', applyGlobalSale);
+//ЕНДБЛОК КЕРУВАННЯ АКЦІЯМИ.
+
+
+
+
+
 // === 1. РОБОТА З ПАМ'ЯТТЮ ===
 function getFreshCart() {
     try {
@@ -84,19 +190,31 @@ window.removeFromCart = function(index) {
 
 window.pushToCart = function() {
     const nameEl = document.getElementById('p-name');
-    const priceEl = document.getElementById('p-price');
+    const priceContainer = document.getElementById('p-price');
     const qtyEl = document.getElementById('p-qty');
+    const addBtn = document.querySelector('.add-btn');
 
-    if (!nameEl || !priceEl) return;
+    if (!nameEl || !priceContainer) return;
 
     let cart = getFreshCart();
     const name = nameEl.innerText;
-    const price = parseFloat(priceEl.getAttribute('data-val'));
+    
+    // Визначаємо ціну: якщо акція дозволена — беремо з кнопки, якщо ні — з data-val
+    const isAllowed = priceContainer.getAttribute('data-allow-sale') === 'true';
+    const price = isAllowed && addBtn.hasAttribute('data-price') 
+                  ? parseFloat(addBtn.getAttribute('data-price')) 
+                  : parseFloat(priceContainer.getAttribute('data-val'));
+
     const qty = parseInt(qtyEl.value) || 1;
 
-    const existing = cart.find(item => item.name === name);
-    if (existing) { existing.qty += qty; } 
-    else { cart.push({ name, price, qty }); }
+    // ШУКАЄМО ТОВАР І ЗА ІМ'ЯМ, І ЗА ЦІНОЮ
+    const existing = cart.find(item => item.name === name && item.price === price);
+
+    if (existing) { 
+        existing.qty += qty; 
+    } else { 
+        cart.push({ name, price, qty }); 
+    }
     
     saveCart(cart);
     updateCartUI();
@@ -123,59 +241,50 @@ window.clearFullCart = function() {
 
 // === 4. ВІДПРАВКА ЗАМОВЛЕННЯ ===
 window.submitOrder = async function() {
-    // 1. Отримуємо кнопку та перевіряємо кошик
-    const submitBtn = document.querySelector('.summary-side .add-btn');
-    const originalText = submitBtn ? submitBtn.innerHTML : "Оформити замовлення";
-    const cart = typeof getFreshCart === 'function' ? getFreshCart() : [];
-
-    if (cart.length === 0) {
-        alert("Ваш кошик ще порожній. Додайте щось смачненьке! 🌶️");
-        return;
-    }
-
-    // 2. Розумна перевірка полів
     const fieldIds = ['cust-name', 'cust-phone', 'cust-city', 'cust-branch'];
     let hasError = false;
-
     fieldIds.forEach(id => {
         const input = document.getElementById(id);
         if (input) {
-            let value = input.value.trim();
-            let isInvalid = !value; // Помилка, якщо порожньо
-
-            // Спеціальна перевірка для телефону
-            if (id === 'cust-phone' && value) {
-                const digitsOnly = value.replace(/\D/g, "");
-                if (digitsOnly.length < 10) isInvalid = true;
-            }
-
-            if (isInvalid) {
-                input.classList.add('input-error');
+            if (!input.value.trim()) {
+                input.classList.add('input-error'); // Додаємо червону рамку
                 hasError = true;
             } else {
-                input.classList.remove('input-error');
+                input.classList.remove('input-error'); // Прибираємо, якщо вже заповнено
             }
         }
     });
 
     if (hasError) {
-        alert("Будь ласка, заповніть всі поля правильно. Телефон має містити мінімум 10 цифр.");
+        alert("Будь ласка, заповніть виділені поля для доставки.");
         return;
     }
 
-    // 3. Блокуємо кнопку (щоб не було дублів)
+    const submitBtn = document.querySelector('.summary-side .add-btn');
+    const originalText = submitBtn.innerHTML;
+    const cart = getFreshCart();
+    
+    const name = document.getElementById('cust-name')?.value.trim();
+    const phone = document.getElementById('cust-phone')?.value.trim();
+    const city = document.getElementById('cust-city')?.value.trim();
+    const branch = document.getElementById('cust-branch')?.value.trim();
+    
+    
+    if (!name || !phone || !city || !branch) {
+        alert("Будь ласка, заповніть всі поля!");
+        return;
+    }
+
+    // 2. БЛОКУЄМО КНОПКУ ПЕРЕД ВІДПРАВКОЮ
     submitBtn.disabled = true;
     submitBtn.style.opacity = "0.7";
     submitBtn.style.cursor = "not-allowed";
-    submitBtn.innerHTML = `<span class="spinner"></span> Відправляємо...`;
+    submitBtn.innerHTML = `
+        <span class="spinner"></span> Відправляємо...
+    `;
 
-    // 4. Збираємо дані для відправки
-    const name = document.getElementById('cust-name').value.trim();
-    const phone = document.getElementById('cust-phone').value.trim();
-    const city = document.getElementById('cust-city').value.trim();
-    const branch = document.getElementById('cust-branch').value.trim();
     const currentNum = Date.now().toString().slice(-6);
-    
+
     let totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n----------\n👤 ${name}\n📞 ${phone}\n📍 ${city}, ${branch}\n\n🛒 Товари:\n`;
     orderText += cart.map(i => `- ${i.name} x${i.qty}`).join('\n');
@@ -183,23 +292,24 @@ window.submitOrder = async function() {
 
     const googleScriptUrl = "https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec";
 
-    // 5. Відправка
-    try {
+try {
         await fetch(googleScriptUrl, {
             method: "POST",
-            mode: "no-cors",
+            mode: "no-cors", 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: orderText })
         });
     } catch (e) {
-        console.log("Запит пішов (no-cors)");
+        console.log("Запит пішов (обробка через no-cors)"); 
     }
 
-    // 6. Показуємо успіх та очищуємо все
+    // --- ВСЕ, ЩО НИЖЧЕ, ТЕПЕР ПОЗА CATCH І СПРАЦЮЄ ЗАВЖДИ ---
+
     const mainContent = document.getElementById('modal-main-content');
     const successMsg = document.getElementById('success-msg');
-    
+        
     if (mainContent) mainContent.style.display = 'none';
+    
     if (successMsg) {
         successMsg.style.display = 'block';
         successMsg.innerHTML = `
@@ -209,17 +319,18 @@ window.submitOrder = async function() {
                 <button class="add-btn" onclick="closeCheckout()" style="margin-top:20px; background: #325e34; color: white; border: none; padding: 10px 20px; cursor: pointer;">Закрити</button>
             </div>`;
     }
-
-    // Розблокуємо кнопку на майбутнє та чистимо кошик
-    submitBtn.disabled = false;
-    submitBtn.style.opacity = "1";
-    submitBtn.innerHTML = originalText;
+        
+    saveCart([]); 
+    updateCartUI();
     
-    if (typeof saveCart === 'function') saveCart([]); 
-    if (typeof updateCartUI === 'function') updateCartUI();
-};
-
-// Кінець функції submitOrder
+    // Повертаємо кнопці початковий стан (на майбутнє)
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+        submitBtn.innerHTML = originalText;
+    }
+}; // Кінець функції submitOrder
 
 // === 1. ГАЛЕРЕЯ (Щоб не було помилок при завантаженні) ===
 function updateView(img) {
@@ -250,5 +361,4 @@ window.addEventListener('storage', updateCartUI);
 window.goBack = function() {
     if (window.history.length > 1) window.history.back();
     else window.location.href = 'index.html';
-
 };
