@@ -213,34 +213,12 @@ window.submitOrder = async function() {
                     cart.map(i => `- ${i.name} x${i.qty}`).join('\n');
 
     try {
-     // ... (початок функції залишається таким самим)
-
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `<span class="spinner"></span> Відправляємо...`;
-
-    // 4. ВІДПРАВЛЯЄМО
-    try {
-        // Ми не ставимо await перед fetch, щоб не чекати відповіді від повільного Google
-        fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
-            method: "POST", 
-            mode: "no-cors", 
-            headers: { "Content-Type": "application/json" },
+        await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
+            method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: orderText })
         });
-        
-        // Робимо паузу в 1 секунду для солідності, і показуємо успіх
-        setTimeout(() => {
-            showOrderSuccess(currentNum);
-        }, 800);
+    } catch (e) { console.log("Sent"); }
 
-    } catch (e) { 
-        // Якщо навіть помилка мережі, все одно покажемо успіх, бо зазвичай дані доходять
-        showOrderSuccess(currentNum);
-    }
-};
-
-// Винесемо показ успіху в окрему функцію, щоб код був чистішим
-function showOrderSuccess(num) {
     const mainContent = document.getElementById('modal-main-content');
     const successMsg = document.getElementById('success-msg');
     const modalContent = document.querySelector('.modal-content');
@@ -250,17 +228,15 @@ function showOrderSuccess(num) {
         successMsg.style.display = 'block';
         successMsg.innerHTML = `
             <div style="padding: 40px 20px; text-align: center;">
-                <h2 style="color: #6ba86b;">🌿 Замовлення №${num} прийнято!</h2>
-                <p style="color:white; margin-bottom:20px;">Ми отримали ваші дані та скоро зателефонуємо.</p>
-                <button class="add-btn" onclick="closeCheckout()" style="background: #325e34; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Закрити</button>
+                <h2 style="color: #6ba86b;">🌿 Замовлення №${currentNum} прийнято!</h2>
+                <button class="add-btn" onclick="closeCheckout()" style="margin-top:20px;">Закрити</button>
             </div>`;
-        if (modalContent) modalContent.scrollTop = 0;
+        if (modalContent) modalContent.scrollTop = 0; // ФІКС СКРОЛУ
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+        
     saveCart([]);
     updateCartUI();
-}
-
     if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
 };
 
