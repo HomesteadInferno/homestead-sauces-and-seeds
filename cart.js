@@ -241,6 +241,8 @@ window.submitOrder = async function() {
 };
 
 // === ГАЛЕРЕЯ ТА ЗАПУСК ===
+let currentImgIndex = 0; // Додаємо індекс для відстеження фото
+
 function updateView(img) {
     const mainView = document.getElementById('main-view');
     if (mainView) {
@@ -249,6 +251,17 @@ function updateView(img) {
         img.classList.add('active');
     }
 }
+
+// ОСЬ ЦЯ ФУНКЦІЯ ПОВЕРНУЛАСЯ ДЛЯ СТРІЛОЧОК:
+window.changeImage = function(dir) {
+    const thumbs = document.querySelectorAll('.thumb-img');
+    if (thumbs.length > 0) {
+        // Рахуємо наступний або попередній індекс
+        currentImgIndex = (currentImgIndex + dir + thumbs.length) % thumbs.length;
+        // Оновлюємо головне фото
+        updateView(thumbs[currentImgIndex]);
+    }
+};
 
 document.addEventListener('DOMContentLoaded', updateCartUI);
 window.addEventListener('pageshow', updateCartUI);
