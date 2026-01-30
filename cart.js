@@ -167,15 +167,48 @@ window.pushToCart = function() {
     updateCartUI();
     alert("Додано у кошик! 🌶️");
 };
-window.addToCartDirectly = function(name, price) {
-    let cart = getFreshCart();
-    const existing = cart.find(i => i.name === name && i.price === price);
-    if (existing) existing.qty += 1; 
-    else cart.push({ name, price, qty: 1 });
+window.addToCartDirectly = function(manualName, buttonElement) {
+    const card = buttonElement.closest('.product-card');
     
-    saveCart(cart);
-    updateCartUI();
-    alert("Додано: " + name + " 🌶️");
+   // Якщо manualName порожнє, беремо текст із заголовка h3 на картці
+    const actualName = manualName || card.querySelector('h3').innerText;
+    try {
+        // 1. Шукаємо картку
+        const card = buttonElement.closest('.product-card');
+        if (!card) throw new Error("Картку товару не знайдено");
+
+        // 2. Шукаємо елемент ціни всередині картки
+        const priceElement = card.querySelector('.card-price');
+        if (!priceElement) throw new Error("Ціну на картці не знайдено");
+
+        /// Отримуємо текст і розбиваємо його на окремі числа
+const rawText = priceElement.innerText;
+const numbers = rawText.match(/\d+/g); // Знаходить всі числа окремо: ["50", "45"]
+// Беремо останнє число (це завжди буде актуальна ціна, навіть якщо є стара закреслена)
+const cleanPrice = numbers ? parseFloat(numbers[numbers.length - 1]) : 0;
+
+        if (isNaN(cleanPrice)) throw new Error("Не вдалося розпізнати ціну");
+
+        // 4. Логіка кошика (стандартна)
+        let cart = getFreshCart();
+        const existing = cart.find(i => i.name === name);
+        
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ name: name, price: cleanPrice, qty: 1 });
+        }
+        
+        saveCart(cart);
+        updateCartUI();
+        
+        // 5. Сповіщення
+        alert(`🌶️ ${name} додано! Ціна: ${cleanPrice} ₴`);
+
+    } catch (error) {
+        console.error("Помилка в addToCartDirectly:", error.message);
+        alert("Ой! Сталася помилка при додаванні. Перевір консоль.");
+    }
 };
 
 window.clearFullCart = function() {
