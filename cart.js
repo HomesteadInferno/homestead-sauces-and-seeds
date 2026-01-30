@@ -235,10 +235,6 @@ window.pushToCart = function() {
     alert("Додано у кошик! 🌶️");
 };
 
-    const submitOrderBtn = document.querySelector('.summary-side .add-btn');
-    if (submitOrderBtn) {
-        submitOrderBtn.style.display = (cart.length === 0) ? 'none' : 'block';
-    }
 
 
 
