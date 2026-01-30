@@ -235,10 +235,11 @@
 .quick-add-btn {
     position: static !important;
     flex-shrink: 0; /* Щоб кнопка не стискалася, якщо назва задовга */
+    transition: transform 0.2s, background-color 0.2s !important;
 }
 .quick-add-btn:hover {
-    transform: scale(1.1); /* Кнопка трохи збільшиться */
-    background: #388e3c;
+    transform: scale(1.1); /* Кнопка трохи збільшується при наведенні */
+    background-color: #45a049 !important;
 }
 
 /* На комп'ютерах залишаємо 3 або 4 в ряд */
