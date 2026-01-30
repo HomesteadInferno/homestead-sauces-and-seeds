@@ -194,7 +194,7 @@ window.submitOrder = async function() {
     const city = document.getElementById('cust-city')?.value.trim();
     const branch = document.getElementById('cust-branch')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
-
+    const comment = document.getElementById('cust-comment')?.value.trim() || "";
     localStorage.setItem('saved_name', name);
     localStorage.setItem('saved_phone', phone);
     localStorage.setItem('saved_city', city);
@@ -208,7 +208,6 @@ window.submitOrder = async function() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = `Відправляємо...`;
 
-const comment = document.getElementById('cust-comment')?.value.trim() || "";
 
     const currentNum = Date.now().toString().slice(-6);
 const cart = getFreshCart();
