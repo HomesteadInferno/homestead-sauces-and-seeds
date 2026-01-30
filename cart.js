@@ -195,6 +195,7 @@ window.submitOrder = async function() {
     const branch = document.getElementById('cust-branch')?.value.trim();
     const email = document.getElementById('email')?.value.trim();
     const comment = document.getElementById('cust-comment')?.value.trim() || "";
+
     localStorage.setItem('saved_name', name);
     localStorage.setItem('saved_phone', phone);
     localStorage.setItem('saved_city', city);
@@ -203,33 +204,28 @@ window.submitOrder = async function() {
 
     const submitBtn = document.querySelector('.summary-side .add-btn');
     const originalText = submitBtn.innerHTML;
+    
+    // РАХУЄМО ВСЕ ОДИН РАЗ
     const cart = getFreshCart();
+    const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const currentNum = Date.now().toString().slice(-6);
 
     submitBtn.disabled = true;
     submitBtn.innerHTML = `Відправляємо...`;
 
-
-    const currentNum = Date.now().toString().slice(-6);
-const cart = getFreshCart();
-const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-const currentNum = Date.now().toString().slice(-6);
-
+    // ФОРМУЄМО ТЕКСТ
     let orderText = "📦 ЗАМОВЛЕННЯ №" + currentNum + "\n";
-orderText += "👤 " + (name || "Клієнт") + "\n";
-orderText += "📞 " + (phone || "-") + "\n";
-orderText += "📍 " + (city || "-") + ", " + (branch || "-") + "\n";
+    orderText += "👤 " + (name || "Клієнт") + "\n";
+    orderText += "📞 " + (phone || "-") + "\n";
+    orderText += "📍 " + (city || "-") + ", " + (branch || "-") + "\n";
 
-// Коментар (безпечно)
-const commentEl = document.getElementById('cust-comment');
-if (commentEl && commentEl.value.trim()) {
-    orderText += "💬 Коментар: " + commentEl.value.trim() + "\n";
-}
+    if (comment) {
+        orderText += "💬 Коментар: " + comment + "\n";
+    }
 
-orderText += "\n🛒 Товари:\n";
-orderText += cart.map(i => "- " + i.name + " x" + i.qty).join("\n");
-
-// Фінальна сума
-orderText += "\n\n💰 РАЗОМ: " + totalSum.toFixed(2) + " ₴";
+    orderText += "\n🛒 Товари:\n";
+    orderText += cart.map(i => "- " + i.name + " x" + i.qty).join("\n");
+    orderText += "\n\n💰 РАЗОМ: " + totalSum.toFixed(2) + " ₴";
 
     try {
         await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
@@ -250,7 +246,7 @@ orderText += "\n\n💰 РАЗОМ: " + totalSum.toFixed(2) + " ₴";
                 <h2 style="color: #6ba86b;">🌿 Замовлення №${currentNum} прийнято!</h2>
                 <button class="add-btn" onclick="closeCheckout()" style="margin-top:20px;">Закрити</button>
             </div>`;
-        if (modalContent) modalContent.scrollTop = 0; // ФІКС СКРОЛУ
+        if (modalContent) modalContent.scrollTop = 0; 
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
         
