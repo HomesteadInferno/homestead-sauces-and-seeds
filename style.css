@@ -227,7 +227,7 @@ body {
 }
 
 /* Сітка товарів: по 2 в ряд на мобільних */
-.products-grid {
+.product-grid {
     display: grid;
     grid-template-columns: 1fr 1fr; /* 2 колонки */
     gap: 10px;
@@ -252,39 +252,26 @@ body {
     border-radius: 4px;
     display: inline-block;
     margin-bottom: 5px;
-            }
-
-/* Теги (наприклад: 🔥 Гостро) */
-.product-tag {
-    font-size: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffeb3b;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: 5px 0;
-
 }
 
 /* Швидка кнопка кошика на картці */
 .quick-add-btn {
     position: absolute;
     top: 10px;
-    left: 10px; /* ПЕРЕНЕСЛИ НАЛІВО, щоб не билася з акцією справа */
-    background: #4caf50; /* Зробимо її яскравішою */
+    right: 10px;
+    background: #325e34;
     color: white;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    z-index: 99; /* Тепер вона точно буде зверху */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 5;
 }
-
 
 /* На комп'ютерах залишаємо 3 або 4 в ряд */
 @media (min-width: 768px) {
@@ -484,6 +471,4 @@ body {
         font-size: 13px;
     }
 }
-
-
 
