@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homestead - Вирощуйте Пекло</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <title>Homestead - Купити насіння гострих перців та крафтові соуси</title>
+    <meta name="description" content="Магазин 'Homestead': насіння надгострих перців (Habanero, Carolina Reaper, Scorpion), ексклюзивна розсада та авторські гострі соуси Inferno. Вирощуйте пекло вдома!">
+    <meta name="keywords" content="гострий перець, насіння хабанеро, купити розсаду перцю, гострі соуси, Homestead, вирощування перцю">
+
+    <meta property="og:title" content="Homestead - Вирощуйте Пекло на власному городі">
+    <meta property="og:description" content="Насіння найгостріших перців світу та соуси Inferno. Замовляй зараз!">
+    <meta property="og:image" content="peppers-bg.jpg"> <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vash-site.com"> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
+    
     <style>
         /* --- ОСНОВНІ СТИЛІ --- */
         :root {
@@ -22,7 +31,6 @@
             font-family: 'Roboto Slab', serif;
             color: var(--text-color);
             background-color: #1a100a;
-            /* ФОН: Замініть URL на своє велике фото */
             background-image: url('peppers-bg.jpg'); 
             background-size: cover;
             background-position: center;
@@ -59,72 +67,41 @@
        /*СТИЛЬ ДЛЯ НАВІГАЦІЇ */
         .top-nav {
             font-size: 15px;
-            opacity: 0.9; /* Трохи яскравіше */
-            margin-bottom: 10px; /* Трохи більше місця */
-            position: relative; /* Щоб тексти накладались один на одного */
-            height: 20px; /* Фіксуємо висоту, щоб сторінка не стрибала */
+            opacity: 0.9;
+            margin-bottom: 10px;
+            position: relative;
+            height: 20px;
             overflow: hidden;
             width: 100%;
             display: flex;
             justify-content: center;
         }
 
-        /* Стилі для кожного окремого повідомлення */
         .top-nav span {
-            position: absolute; /* Накладаємо їх одне на одне */
+            position: absolute;
             width: 100%;
             text-align: center;
-            opacity: 0; /* Спочатку невидимі */
-            transform: translateY(10px); /* Зсунуті трохи вниз */
-            /* Запускаємо анімацію "textSlide" тривалістю 9 секунд, нескінченно */
+            opacity: 0;
+            transform: translateY(10px);
             animation: textSlide 9s infinite ease-in-out;
         }
 
-        /* Затримка для кожного повідомлення, щоб вони з'являлись по черзі */
-        .top-nav span:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .top-nav span:nth-child(2) {
-            animation-delay: 3s; /* Друге з'явиться через 3 сек */
-        }
-        .top-nav span:nth-child(3) {
-            animation-delay: 6s; /* Третє з'явиться через 6 сек */
-        }
+        .top-nav span:nth-child(1) { animation-delay: 0s; }
+        .top-nav span:nth-child(2) { animation-delay: 3s; }
+        .top-nav span:nth-child(3) { animation-delay: 6s; }
 
-        /* Сама анімація руху */
         @keyframes textSlide {
-            0% {
-                opacity: 0;
-                transform: translateY(10px); /* Знизу */
-            }
-            5% {
-                opacity: 1;
-                transform: translateY(0); /* Стає на місце */
-            }
-            28% {
-                opacity: 1;
-                transform: translateY(0); /* Чекає на місці */
-            }
-            33% {
-                opacity: 0;
-                transform: translateY(-10px); /* Зникає вгору */
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
+            0% { opacity: 0; transform: translateY(10px); }
+            5% { opacity: 1; transform: translateY(0); }
+            28% { opacity: 1; transform: translateY(0); }
+            33% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* Стилі для Логотипу-картинки */
         .logo-image {
-            max-width: 350px; /* Обмежуємо ширину, щоб не було гігантським */
-            width: 100%;      /* Адаптивність */
+            max-width: 350px;
+            width: 100%;
             height: auto;
-            /* display: block;*/
-            /* ЯК РУХАТИ ЛОГОТИП: */
-            /* 1. По центру: margin: 0 auto; */
-            /* 2. Зліва:     margin: 0; */
-            /* 3. Справа:   margin: 0 0 0 auto; */
             margin: 0;
         }
 
@@ -162,16 +139,14 @@
             text-transform: uppercase;
         }
 
-        /* Стилі для міні-іконки перчика в тексті */
         .pepper-icon {
             display: inline-block;
-            height: 24px;       /* Висота іконки підлаштована під текст */
+            height: 24px;
             width: auto;
-            vertical-align: middle; /* Вирівнювання по центру рядка */
-            margin-top: -4px;   /* Легка корекція по вертикалі */
+            vertical-align: middle;
+            margin-top: -4px;
             margin-left: 2px;
             margin-right: 2px;
-            /* Якщо іконки немає, показуємо червоний квадрат як заглушку */
             background-color: transparent; 
         }
 
@@ -220,30 +195,23 @@
             z-index: 2;
         }
 
-        /* Адаптивне позиціонування карток */
         @media (min-width: 900px) {
             .cards-section {
-                flex-direction: row; /* В рядок */
-                align-items: flex-start; /* Вирівнюємо по верху контейнера */
-                gap: 50px; /* Відстань між картками */
-                margin-top: 20px; /* Відступ від тексту */
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 50px;
+                margin-top: 20px;
             }
 
-            /* Ліва і Права картки опускаються вниз */
             .card-link:nth-child(1),
             .card-link:nth-child(3) {
-                margin-top: 80px; /* Зсув вниз */
+                margin-top: 80px;
             }
 
-            /* Центральна картка залишається нагорі (ближче до тексту) */
             .card-link:nth-child(2) {
                 margin-top: 0; 
-                /*transform: scale(1.05);  ховер */
             }
         }
-            
-            .card-link:nth-child(1):hover, .card-link:nth-child(2):hover, .card-link:nth-child(3):hover { transform: translateY(-10px); }
-        
     </style>
 </head>
 <body>
@@ -256,7 +224,7 @@
                     <span>ПІСЛЯПЛАТА</span>
                     <span>БЕЗ МІНІМАЛЬНОЇ СУМИ ЗАМОВЛЕННЯ</span>
                 </div>
-                <img src="homesteadlogo.png" alt="Homestead" class="logo-image">
+                <img src="homesteadlogo.png" alt="Homestead - Магазин гострого насіння та соусів" class="logo-image">
             </header>
 
             <section class="hero-text">
@@ -270,15 +238,15 @@
                 <p class="description">
                     Сорти та гібриди гострих перців із всесвітньо відомими назвами,
                     такими як Ghost
-                    <img src="bhutjolokiaNOTEXT.PNG" alt="pepper" class="pepper-icon">, 
+                    <img src="bhutjolokiaNOTEXT.PNG" alt="Ghost Pepper" class="pepper-icon">, 
                     
                     Fatalii, Habanero Red Savina,
                     
                     Scorpion
-                    <img src="morugascorpNOTEXT.PNG" alt="pepper" class="pepper-icon">, 
+                    <img src="morugascorpNOTEXT.PNG" alt="Scorpion Pepper" class="pepper-icon">, 
                     
                     Aji Lemon, Rocoto
-                    <img src="GiantrocottoNOTEXT.PNG" alt="pepper" class="pepper-icon"> 
+                    <img src="GiantrocottoNOTEXT.PNG" alt="Rocoto Pepper" class="pepper-icon"> 
                     
                     та інші перці, а також
                     овочі, виведені і зібрані для того, щоб
@@ -288,17 +256,17 @@
 
             <section class="cards-section">
                 <a href="sauses.html" class="card-link">
-                    <img src="2.PNG" alt="Соуси" class="card-image">
+                    <img src="2.PNG" alt="Купити гострі соуси Inferno" class="card-image">
                     <div class="card-label">Гострі<br>Соуси</div>
                 </a>
 
                 <a href="seedsandseedlings.html" class="card-link">
-                    <img src="1.PNG" alt="Розсада" class="card-image">
+                    <img src="1.PNG" alt="Замовити розсаду та насіння перцю" class="card-image">
                     <div class="card-label">Насіння<br>та розсада</div>
                 </a>
 
                 <a href="otherseeds.html" class="card-link">
-                    <img src="3.png" alt="Насіння" class="card-image">
+                    <img src="3.png" alt="Супутнє насіння екзотичних рослин" class="card-image">
                     <div class="card-label">Супутнє<br>насіння</div>
                 </a>
             </section>
@@ -307,7 +275,7 @@
         <footer>
             <div class="container footer-content">
                 <div class="footer-logo">
-                    <img src="homesteadlogo.png" alt="Homestead" class="footer-logo-img">
+                    <img src="homesteadlogo.png" alt="Homestead Logo" class="footer-logo-img">
                 </div>
                 
                 <div class="footer-links">
@@ -342,29 +310,29 @@
                     <label>Телефон</label>
                     <input type="tel" id="cust-phone" placeholder="+38XXXXXXXXXX" maxlength="13">
                 </div>
-<div class="form-group">
-    <label>Спосіб доставки</label>
-    <select id="cust-delivery">
-        <option value="Відділення НП">Нова Пошта (Відділення)</option>
-        <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
-        <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
-    </select>
-</div>
+                <div class="form-group">
+                    <label>Спосіб доставки</label>
+                    <select id="cust-delivery">
+                        <option value="Відділення НП">Нова Пошта (Відділення)</option>
+                        <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
+                        <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
+                    </select>
+                </div>
 
-<div class="form-group">
-    <label>Місто</label>
-    <input type="text" id="cust-city" placeholder="Київ">
-    <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
-</div>
+                <div class="form-group">
+                    <label>Місто</label>
+                    <input type="text" id="cust-city" placeholder="Київ">
+                    <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
+                </div>
 
-<div class="form-group">
-    <label>Відділення № або Адреса</label>
-    <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
-</div>
-<div class="form-group">
-    <label>Електронна пошта</label>
-    <input type="text" id="email" placeholder="">
-</div>
+                <div class="form-group">
+                    <label>Відділення № або Адреса</label>
+                    <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
+                </div>
+                <div class="form-group">
+                    <label>Електронна пошта</label>
+                    <input type="text" id="email" placeholder="">
+                </div>
                 <div class="form-group">
                     <label>Коментар</label>
                     <textarea id="cust-comment"></textarea>
@@ -375,7 +343,8 @@
                 <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
                     <h4 style="margin-top:0;">ВАШІ ТОВАРИ:</h4>
                     <div id="final-list"></div> 
-                    <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right;">
+                    
+                    <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right; margin-top: 10px;">
                         Разом: <span id="final-price">0.00</span> ₴
                     </div>
                 </div>
