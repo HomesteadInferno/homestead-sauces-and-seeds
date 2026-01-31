@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Насіння перцю Habanero Red Savina — купити в Homestead</title>
-    <meta name="description" content="Купити насіння надгострого перцю Habanero Red Savina. 500,000 SHU, фруктовий аромат, висока врожайність. Доставка по Україні.">
-    <meta name="keywords" content="Habanero Red Savina, насіння хабанеро, гострий перець насіння, суперхоти купити">
-
+    <title>Habanero Red Savina - Homestead</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
     <style>
         :root {
             --primary-orange: #d6603a;
@@ -24,7 +19,7 @@
             margin: 0;
             font-family: 'Roboto Slab', serif;
             color: var(--text-color);
-            background: #1a100a url('1.PNG') no-repeat center center fixed;
+            background: #1a100a url('https://images.unsplash.com/photo-1591586566735-a9b0c034336c?q=80&w=1920') no-repeat center center fixed;
             background-size: cover;
         }
 
@@ -35,6 +30,7 @@
 
         .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 
+        /* --- ХЕДЕР ТА КОШИК --- */
         header {
             padding: 25px 0;
             display: flex;
@@ -42,80 +38,189 @@
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             margin-bottom: 40px;
+            position: relative;
+            z-index: 100;
         }
 
         .logo-small { max-width: 180px; height: auto; }
 
-        /* Кнопка Назад */
-        .back-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--primary-orange);
-            color: var(--text-color);
-            padding: 10px 20px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-radius: 4px;
-            transition: 0.3s;
+        .cart-wrapper { position: relative; }
+        .cart-icon-btn {
+            background: none; border: none; cursor: pointer; padding: 10px; position: relative;
         }
-        .back-btn:hover { background: var(--primary-orange); }
+        .cart-icon-svg { width: 30px; height: 30px; fill: var(--primary-orange); transition: 0.3s; }
+        .cart-badge {
+            position: absolute; top: 0; right: 0; background: #d64520; color: white;
+            font-size: 11px; font-weight: bold; width: 18px; height: 18px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
 
-        /* МАКЕТ */
+        .cart-dropdown {
+            position: absolute; top: 100%; right: 0; width: 320px; background: var(--cart-bg);
+            border: 1px solid var(--primary-orange); padding: 20px; display: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+        .cart-wrapper:hover .cart-dropdown { display: block; }
+
+        .cart-items-list { max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item-row { 
+            display: flex; justify-content: space-between; padding: 10px 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px;
+        }
+
+        /* --- ОСНОВНИЙ МАКЕТ --- */
         .main-grid { display: grid; grid-template-columns: 240px 1fr; gap: 60px; }
 
+        /* САЙДБАР */
         .sidebar h3 { font-family: 'Playfair Display', serif; color: var(--primary-orange); text-transform: uppercase; border-bottom: 1px solid #44332a; padding-bottom: 10px; }
         .sidebar ul { list-style: none; padding: 0; }
         .sidebar li { margin-bottom: 15px; }
         .sidebar a { text-decoration: none; color: var(--text-color); font-size: 14px; text-transform: uppercase; transition: 0.3s; opacity: 0.8; }
         .sidebar a:hover { color: var(--primary-orange); opacity: 1; padding-left: 5px; }
 
+        /* ТОВАР */
         .product-page { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         
-        /* Галерея */
-        .main-img-wrap { position: relative; width: 100%; height: 450px; border: 1px solid #33251e; overflow: hidden; }
-        .main-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .nav-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); color: white; border: none; padding: 15px 10px;
-            cursor: pointer; z-index: 5; transition: 0.3s;
-        }
-        .nav-arrow:hover { background: var(--primary-orange); }
-        .nav-arrow.left { left: 0; }
-        .nav-arrow.right { right: 0; }
-
+        .main-img-wrap img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #33251e; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         .thumbs-grid { display: flex; gap: 10px; margin-top: 15px; }
-        .thumb-img { width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; opacity: 0.6; }
+        .thumb-img { width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.3s; }
         .thumb-img.active { border-color: var(--primary-orange); opacity: 1; }
 
-        /* Інфо */
-        .product-info h1 { font-family: 'Playfair Display', serif; font-size: 42px; margin: 0 0 10px; color: #fff; }
-        .price-big { font-size: 32px; font-weight: bold; margin: 20px 0; color: #ffeb3b; }
-        .heat-tag { color: var(--primary-orange); font-weight: bold; margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+        .product-info h1 { font-family: 'Playfair Display', serif; font-size: 42px; margin: 0 0 10px; }
+        .price-big { font-size: 32px; font-weight: bold; margin: 20px 0; color: #fff; }
+        .heat-tag { color: var(--primary-orange); font-weight: bold; margin-bottom: 20px; display: block; text-transform: uppercase; }
         
         .add-btn {
             background: var(--primary-orange); color: white; border: none; width: 100%;
-            padding: 18px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            padding: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: 0.3s; font-size: 16px;
         }
-        .add-btn:hover { background: #f0744a; }
+        .add-btn:hover { background: #f0744a; transform: translateY(-2px); }
 
-        /* Модалка */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: var(--modal-overlay); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
-        .modal-box { background: #231a14; width: 95%; max-width: 900px; padding: 30px; border: 1px solid var(--primary-orange); position: relative; display: grid; grid-template-columns: 1fr 320px; gap: 30px; max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; opacity: 0.8; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; background: #1a120e; border: 1px solid #44332a; color: white; padding: 10px; border-radius: 4px; box-sizing: border-box; }
+        /* --- СТИЛІ ДЛЯ СТРІЛОК ГАЛЕРЕЇ --- */
+.main-img-wrap { position: relative; } /* Робимо контейнер головним для позиціювання */
 
-        /* Плаваюча кнопка */
-        .floating-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary-orange); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .cart-badge { position: absolute; top: -5px; right: -5px; background: #fff; color: #000; font-weight: bold; padding: 2px 8px; border-radius: 12px; border: 2px solid var(--primary-orange); font-size: 14px; }
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    padding: 20px 10px;
+    cursor: pointer;
+    font-size: 24px;
+    transition: 0.3s;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-arrow:hover { background: var(--primary-orange); }
+.nav-arrow.left { left: 0; border-radius: 0 4px 4px 0; }
+.nav-arrow.right { right: 0; border-radius: 4px 0 0 4px; }
+
+/* Стиль для випадаючого списку доставки */
+select#cust-delivery {
+    width: 100%;
+    background: #1a120e;
+    border: 1px solid #44332a;
+    color: white;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+}
+select#cust-delivery option { background: #231a14; }
+
+        /* МОДАЛЬНЕ ВІКНО */
+        .modal { 
+            display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; 
+            background: var(--modal-overlay); z-index: 2000; justify-content: center; align-items: center; 
+            backdrop-filter: blur(8px);
+        }
+        .modal-box { 
+            background: #231a14; width: 95%; max-width: 900px; padding: 40px; 
+            border: 1px solid var(--primary-orange); position: relative;
+            display: grid; grid-template-columns: 1fr 300px; gap: 40px;
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
+
+        /* Робимо поля вводу більш стильними */
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: #1a120e;
+    border: 1px solid #44332a;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Підсвітка поля при натисканні */
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 8px rgba(214, 96, 58, 0.3);
+    outline: none;
+}
+
+/* Розділення форми на логічні блоки */
+.form-side h2 {
+    border-bottom: 2px solid var(--primary-orange);
+    display: inline-block;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+}
+
+        .order-summary { background: rgba(0,0,0,0.3); padding: 20px; border: 1px dashed #44332a; }
+
+        #success-msg { text-align: center; grid-column: span 2; display: none; padding: 40px 0; }
 
         @media (max-width: 900px) {
             .main-grid, .product-page, .modal-box { grid-template-columns: 1fr; }
             .sidebar { display: none; }
         }
+        /* --- плаваюча плашка корзини НАВЕРХУ --- */
+        .floating-cart {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--primary-orange);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    }
+
+.floating-cart:hover {
+    transform: scale(1.1);
+}
+
+.cart-icon {
+    font-size: 28px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 2px solid var(--primary-orange);
+}
+
     </style>
 </head>
 <body>
@@ -123,145 +228,188 @@
 <div class="overlay">
     <div class="container">
         <header>
-            <a href="index.html">
-                <img src="homesteadlogo.png" alt="Homestead Logo" class="logo-small">
-            </a>
+             <a href="index.html">
+                    <img src="homesteadlogo.png" alt="Homestead" class="logo-small">
+                </a>
+            <div class="cart-wrapper">
+                <button class="cart-icon-btn">
+                    <svg class="cart-icon-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <div class="cart-badge cart-count">0</div>
+                </button>
+                <div class="cart-dropdown">
+    <div id="cart-items-list" class="cart-items-list cart-items-container">
+        <p style="text-align: center; opacity: 0.5;">Кошик порожній</p>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
+        <span>Разом:</span> 
+        <span id="cart-total" class="total-price-display">0.00 ₴</span>
+    </div>
+    <button class="add-btn" style="padding: 12px;" onclick="openCheckout()">Оформити</button>
+</div>
+            </div>
         </header>
-
-        <button class="back-btn" onclick="goBack()">
-            <svg style="width:20px" viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
-            Назад до каталогу
-        </button>
-
+<button class="back-btn" onclick="goBack()">
+    <svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
+    Назад
+</button>
         <div class="main-grid">
             <aside class="sidebar">
                 <h3>Категорії</h3>
                 <ul>
-                    <li><a href="seedsandseedlings.html">🌶️ Насіння супер-хотів</a></li>
-                    <li><a href="sauses.html">🌶️ Соуси</a></li>
-                    <li><a href="otherseeds.html">🌱 Інше насіння</a></li>
+                            <li><a href="seedsandseedlings.html">🌶️Насіння супер-хотів</a></li>
+                            <li><a href="sauses.html">🌶️ Соуси</a></li>
+                            <li><a href="otherseeds.html">🌱 Інше насіння</a></li>
+                <!--        <li><a href="tomatos.html">🍅 Помідори</a></li> 
+                            <li><a href="#">🌿 Спеції</a></li>
+                            <li><a href="#">Сушений перець</a></li>                       -->
                 </ul>
             </aside>
 
             <main class="product-page">
                 <div class="gallery-col">
-                    <div class="main-img-wrap">
-                        <button class="nav-arrow left" onclick="changeImage(-1)">&#10094;</button>
-                        <img id="main-view" src="item1.jpg" alt="Habanero Red Savina фото">
-                        <button class="nav-arrow right" onclick="changeImage(1)">&#10095;</button>
-                    </div>
-                    <div class="thumbs-grid">
-                        <img src="item1.jpg" class="thumb-img active" onclick="updateView(0)">
-                        <img src="item1.jpg" class="thumb-img" onclick="updateView(1)">
-                        <img src="item1.jpg" class="thumb-img" onclick="updateView(2)">
-                    </div>
+    <div class="main-img-wrap">
+        <button class="nav-arrow left" onclick="changeImage(-1)">&#10094;</button>
+        <img id="main-view" src="item1.jpg" alt="Habanero Red Savina">
+        <button class="nav-arrow right" onclick="changeImage(1)">&#10095;</button>
+    </div>
+    <div class="thumbs-grid">
+        <img src="item1.jpg" class="thumb-img active" onclick="updateView(this)">
+        <img src="item1.jpg" class="thumb-img" onclick="updateView(this)">
+        <img src="item1.jpg" class="thumb-img" onclick="updateView(this)">
+    </div>
 
-                    <div class="product-specs" style="margin-top: 25px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-                        <table style="width: 100%; font-size: 14px;">
-                            <tr><td style="opacity: 0.6;">Вид:</td><td style="text-align: right;">C. Chinense</td></tr>
-                            <tr><td style="opacity: 0.6;">Гострота:</td><td style="text-align: right; color: #ff4d00;">577,000 SHU</td></tr>
-                            <tr><td style="opacity: 0.6;">Термін:</td><td style="text-align: right;">100 днів</td></tr>
-                        </table>
-                    </div>
-                </div>
+    <div class="product-specs" style="margin-top: 20px; border-top: 1px solid rgba(214, 96, 58, 0.3); padding-top: 15px;">
+    <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 8px 0; opacity: 0.7;">Термін вирощування:</td>
+            <td style="padding: 8px 0; text-align: right;">90-110 днів</td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 8px 0; opacity: 0.7;">Висота рослини:</td>
+            <td style="padding: 8px 0; text-align: right;">60-80 см</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px 0; opacity: 0.7;">Гострота (Scoville):</td>
+            <td style="padding: 8px 0; text-align: right; color: #ff4d00;">350,000 - 577,000 SHU</td>
+        </tr>
+    </table>
+</div>
 
-                <div class="product-info">
-                    <span class="heat-tag">🔥 Екстремально гостро</span>
-                    <h1 id="p-name">Habanero Red Savina</h1>
-                    
-                    <p style="line-height: 1.7; opacity: 0.9; font-size: 15px;">
-                        Легендарний сорт, що тримав титул найгострішого перцю у світі протягом 12 років. Має насичений червоний колір та неповторний фруктово-квітковий аромат. Ідеальний для вогняних соусів та сушіння.
+<!--ПЛАШКА ПРИМІТКА<p style="font-size: 13px; color: #888;">
+    <i>* Примітка: чорний колір насіння є природною особливістю даного виду. Порада для вирощування: Рокото належить до виду Capsicum Pubescens. Він обожнює прохолодні ночі та може витримувати легкі заморозки, які вбили б будь-який інший перець. Це багаторічник, який у правильних умовах може рости до 10 років, перетворюючись на справжнє «перцеве дерево».</i>
+</p>-->
+
+</div>
+    <div class="info-col">
+        <span class="heat-tag">Гострота: 🔥 🔥 🔥 (200,000-577,000 SHU)</span>
+            <h1 id="p-name">Habanero Red Savina</h1>
+               <p style="line-height: 1.8; opacity: 0.8;">
+                        «Стара школа», яка не прощає помилок. Red Savina — це посилена версія класичного Хабанеро, виведена спеціально для тих, кому звичайної гостроти вже мало. На відміну від супер-хотів, які б’ють одразу «хімічним» вогнем, Савіна діє підступніше: спочатку ви відчуваєте виразний солодкуватий, майже цукерковий аромат з нотками тропічних фруктів, а за кілька секунд приходить потужна, обволікаюча хвиля жару. Це ідеальний баланс між екстремальною гостротою та гастрономічним задоволенням. Обов'язковий сорт для справжніх поціновувачів гострих соусів та вогняної сальси.
                     </p>
+                    <div class="price-big" id="p-price" data-val="50" data-allow-sale="true">
+                        50.00 <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>
+            </div>    
 
-                    <div class="price-big">
-                        <span id="p-price" data-val="50" data-allow-sale="true">50.00</span> ₴
-                        <span style="font-size: 14px; opacity: 0.5; font-weight: normal; margin-left: 10px;">/ 5 насінин</span>
-                    </div>
-
-                    <div style="display: flex; gap: 10px; margin-bottom: 25px;">
-                        <input type="number" id="p-qty" value="1" min="1" style="width: 60px; background: #1a120e; border: 1px solid #44332a; color: white; text-align: center; border-radius: 4px;">
+            <!--ПЛАШКА ПОПЕРЕДЖЕННЯ ПРО ГОСТРОТУ <div style="background: rgba(214, 96, 58, 0.1); border: 1px solid var(--primary-orange); padding: 15px; margin-top: 20px; border-radius: 5px;">
+    <p style="margin: 0; color: var(--primary-orange); font-weight: bold; font-size: 13px;">
+        ⚠️ ОБЕРЕЖНО: Екстремальна гострота! 
+    </p>
+    <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">
+        Використовуйте захисні рукавички при роботі з насінням та плодами. Не допускайте потрапляння в очі!
+    </p>
+</div> -->
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <input type="number" id="p-qty" value="1" min="1" style="width: 60px; background: #1a120e; border: 1px solid #44332a; color: white; text-align: center;">
                         <button class="add-btn" onclick="pushToCart()">Додати у кошик</button>
                     </div>
-
-                    <ul style="padding: 0; list-style: none; font-size: 13px; opacity: 0.7;">
-                        <li>✓ Власний збір 2026 року</li>
-                        <li>✓ Перевірена схожість</li>
-                        <li>✓ Бонусне насіння у кожному замовленні</li>
-                    </ul>
+                    <div class="product-meta" style="margin-top: 25px; border-top: 1px dashed #443; padding-top: 15px;">
+                     <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
+                     <strong>Кількість:</strong> 5 насінин (+ бонус від ферми)
+                    </p>
+                    <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
+                    <strong>Пакування:</strong> Zip-пакет з маркуванням
+                    </p>
+                    <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
+                    <strong>Рік збору:</strong> 2026
+                   </p>
+            </div>
                 </div>
             </main>
         </div>
     </div>
 </div>
-
 <a href="#" class="floating-cart" onclick="openCheckout(); return false;">
     <span class="cart-icon">🛒</span>
     <span class="cart-badge cart-count">0</span>
+
 </a>
+
+<!--ВІКНО ЗАПОВНЕННЯ ЗАМОВЛЕНЬ-->
 
 <div id="checkoutModal" class="modal">
     <div class="modal-box">
         <span class="close-btn" onclick="closeCheckout()">&times;</span>
-        <div class="form-side">
-            <h2 style="color: var(--primary-orange); margin-bottom: 20px;">Оформлення</h2>
-            <div class="form-group">
-                <label>ПІБ</label>
-                <input type="text" id="cust-name" autocomplete="name" placeholder="Іванов Іван">
-            </div>
-            <div class="form-group">
-                <label>Телефон</label>
-                <input type="tel" id="cust-phone" autocomplete="tel" placeholder="+380...">
-            </div>
-            <div class="form-group">
-                <label>Місто та № Відділення НП</label>
-                <input type="text" id="cust-delivery-info" placeholder="Київ, Відділення №1">
-            </div>
-            <div class="form-group">
-                <label>Коментар</label>
-                <textarea id="cust-comment" rows="3"></textarea>
-            </div>
-        </div>
-        <div class="summary-side">
-            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
-                <h4 style="margin: 0 0 10px 0;">Ваше замовлення:</h4>
-                <div id="final-list" style="font-size: 14px; margin-bottom: 10px;"></div>
-                <div style="font-size: 18px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px;">
-                    Разом: <span id="final-price">0</span> ₴
+        
+        <div id="modal-main-content">
+            <div class="form-side">
+                <h2 style="color: var(--primary-orange); margin-top:0;">Оформлення</h2>
+                <div class="form-group">
+                    <label>Прізвище Ім'я По-батькові</label>
+                    <input type="text" id="cust-name"name="name" autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" id="cust-phone" name="phone" autocomplete="tel" placeholder="+380XXXXXXXXX" maxlength="13">
+                </div>
+<div class="form-group">
+    <label>Спосіб доставки</label>
+    <select id="cust-delivery">
+        <option value="Відділення НП">Нова Пошта (Відділення)</option>
+        <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
+        <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Місто</label>
+    <input type="text" id="cust-city" placeholder="Київ">
+    <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
+</div>
+
+<div class="form-group">
+    <label>Відділення № або Адреса</label>
+    <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
+</div>
+<div class="form-group">
+    <label>Електронна пошта</label>
+    <input type="text" id="email" name="email" autocomplete="email" placeholder="">
+</div>
+                <div class="form-group">
+                    <label>Коментар</label>
+                    <textarea id="cust-comment"></textarea>
                 </div>
             </div>
-            <button class="add-btn" style="margin-top: 15px; background: #4caf50;" onclick="submitOrder()">Підтвердити</button>
+
+            <div class="summary-side">
+                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                    <h4 style="margin-top:0;">ВАШІ ТОВАРИ:<span onclick="clearFullCart()" style="color: #ff4d4d; cursor: pointer; font-size: 12px; float: right;">🗑️ Очистити все</span></h4>
+                    <div id="final-list"></div> 
+                    <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right;">
+                        Разом: <span id="final-price">0.00</span> 
+                    </div>
+                </div>
+                <button class="add-btn" style="margin-top:20px; background:#6ba86b;" onclick="submitOrder()">Замовити</button>
+            </div>
         </div>
-        <div id="success-msg" style="display:none; text-align: center; grid-column: span 2;">
+
+        <div id="success-msg" style="display:none; text-align: center; width: 100%;">
             <h2>🌿 Замовлення прийнято!</h2>
             <p>Дякуємо, ми скоро зв'яжемося з вами.</p>
             <button class="add-btn" onclick="closeCheckout()">Закрити</button>
         </div>
     </div>
 </div>
-
 <script src="cart.js"></script>
-<script>
-    // Скрипт галереї
-    let currentImgIdx = 0;
-    const images = document.querySelectorAll('.thumb-img');
-    const mainImg = document.getElementById('main-view');
-
-    function updateView(idx) {
-        currentImgIdx = idx;
-        images.forEach(img => img.classList.remove('active'));
-        images[idx].classList.add('active');
-        mainImg.src = images[idx].src;
-    }
-
-    function changeImage(dir) {
-        currentImgIdx += dir;
-        if (currentImgIdx >= images.length) currentImgIdx = 0;
-        if (currentImgIdx < 0) currentImgIdx = images.length - 1;
-        updateView(currentImgIdx);
-    }
-
-    function goBack() { window.history.back(); }
-</script>
-
 </body>
+
 </html>
