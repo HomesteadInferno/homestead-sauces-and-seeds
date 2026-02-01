@@ -1,7 +1,7 @@
 
 //БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
-    isSaleActive: true, 
+    isSaleActive: false, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
     promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10%!"
