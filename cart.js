@@ -168,33 +168,33 @@ window.pushToCart = function() {
     alert("Додано у кошик! 🌶️");
 };
 
-// 1. функція додавання з карточки в корзину
-window.addToCartDirectly = function(manualName, buttonElement) {
+window.addToCartDirectly = function(productId, buttonElement) {
     try {
-        // 1. Шукаємо картку
         const card = buttonElement.closest('.product-card');
         if (!card) throw new Error("Картку товару не знайдено");
 
-        // 2. Визначаємо назву (пріоритет: ручна назва -> заголовок h3)
-        const nameElement = card.querySelector('h3');
-        const actualName = manualName || (nameElement ? nameElement.innerText : "Невідомий товар");
+        // 1. БЕРЕМО НАЗВУ З БАЗИ (products.js)
+        // Якщо переданий ID існує в базі, беремо ім'я звідти. 
+        // Якщо ні — використовуємо те, що передали (як запасний варіант).
+        let actualName = (typeof allProducts !== 'undefined' && allProducts[productId]) 
+                         ? allProducts[productId].name 
+                         : productId;
 
-        // 3. Шукаємо ціну
+        // 2. ШУКАЄМО ЦІНУ НА КАРТЦІ (щоб врахувати акцію)
         const priceElement = card.querySelector('.card-price');
         if (!priceElement) throw new Error("Ціну на картці не знайдено");
 
         const rawText = priceElement.innerText;
         const numbers = rawText.match(/\d+/g); 
-        // Беремо останнє число (актуальна ціна) [cite: 2026-01-26]
         const cleanPrice = numbers ? parseFloat(numbers[numbers.length - 1]) : 0;
 
         if (isNaN(cleanPrice)) throw new Error("Не вдалося розпізнати ціну");
 
-        // 4. Логіка кошика
+        // 3. ЛОГІКА КОШИКА
         let cart = getFreshCart();
         
-        // ВАЖЛИВО: Шукаємо саме за actualName
-        const existing = cart.find(i => i.name === actualName);
+        // Тепер порівняння буде ідеальним, бо назва береться з одного джерела
+        const existing = cart.find(i => i.name.trim() === actualName.trim());
         
         if (existing) {
             existing.qty += 1;
@@ -209,8 +209,7 @@ window.addToCartDirectly = function(manualName, buttonElement) {
         saveCart(cart);
         updateCartUI();
         
-        // 5. Гарне сповіщення
-        alert(`🌶️ ${actualName} додано! Ціна: ${cleanPrice} ₴`);
+        alert(`🌶️ ${actualName} додано!`);
 
     } catch (error) {
         console.error("Помилка додавання:", error.message);
