@@ -168,6 +168,55 @@ window.pushToCart = function() {
     alert("Додано у кошик! 🌶️");
 };
 
+// 1. функція додавання з карточки в корзину
+window.addToCartDirectly = function(manualName, buttonElement) {
+    try {
+        // 1. Шукаємо картку
+        const card = buttonElement.closest('.product-card');
+        if (!card) throw new Error("Картку товару не знайдено");
+
+        // 2. Визначаємо назву (пріоритет: ручна назва -> заголовок h3)
+        const nameElement = card.querySelector('h3');
+        const actualName = manualName || (nameElement ? nameElement.innerText : "Невідомий товар");
+
+        // 3. Шукаємо ціну
+        const priceElement = card.querySelector('.card-price');
+        if (!priceElement) throw new Error("Ціну на картці не знайдено");
+
+        const rawText = priceElement.innerText;
+        const numbers = rawText.match(/\d+/g); 
+        // Беремо останнє число (актуальна ціна) [cite: 2026-01-26]
+        const cleanPrice = numbers ? parseFloat(numbers[numbers.length - 1]) : 0;
+
+        if (isNaN(cleanPrice)) throw new Error("Не вдалося розпізнати ціну");
+
+        // 4. Логіка кошика
+        let cart = getFreshCart();
+        
+        // ВАЖЛИВО: Шукаємо саме за actualName
+        const existing = cart.find(i => i.name === actualName);
+        
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ 
+                name: actualName, 
+                price: cleanPrice, 
+                qty: 1 
+            });
+        }
+        
+        saveCart(cart);
+        updateCartUI();
+        
+        // 5. Гарне сповіщення
+        alert(`🌶️ ${actualName} додано! Ціна: ${cleanPrice} ₴`);
+
+    } catch (error) {
+        console.error("Помилка додавання:", error.message);
+    }
+};
+
 window.clearFullCart = function() {
     if (confirm("Видалити всі товари з кошика?")) {
         saveCart([]);
@@ -178,66 +227,97 @@ window.clearFullCart = function() {
 
 // === 4. ВІДПРАВКА ЗАМОВЛЕННЯ ===
 window.submitOrder = async function() {
-    const fieldIds = ['cust-name', 'cust-phone', 'cust-city', 'cust-branch'];
+    // 1. Отримуємо посилання на поля
+    const fields = {
+        name: document.getElementById('cust-name'),
+        phone: document.getElementById('cust-phone'),
+        city: document.getElementById('cust-city'),
+        branch: document.getElementById('cust-branch')
+    };
+
     let hasError = false;
-    fieldIds.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            if (!input.value.trim()) { input.classList.add('input-error'); hasError = true; } 
-            else input.classList.remove('input-error');
+
+    // 2. Очищаємо попередні помилки
+    Object.values(fields).forEach(el => el && el.classList.remove('input-error'));
+
+    // 3. Перевірка на порожнечу
+    for (let key in fields) {
+        if (!fields[key] || !fields[key].value.trim()) {
+            fields[key]?.classList.add('input-error');
+            hasError = true;
         }
-    });
-    if (hasError) { alert("Заповніть поля доставки!"); return; }
+    }
 
-    const name = document.getElementById('cust-name')?.value.trim();
-    const phone = document.getElementById('cust-phone')?.value.trim();
-    const city = document.getElementById('cust-city')?.value.trim();
-    const branch = document.getElementById('cust-branch')?.value.trim();
-    const email = document.getElementById('email')?.value.trim();
+    // 4. СПЕЦІАЛЬНА ПЕРЕВІРКА ТЕЛЕФОНУ
+    // Формат: +380 або 0, далі 9 цифр
+    const phoneRegex = /^(?:\+38)?0\d{9}$/;
+    if (fields.phone && !phoneRegex.test(fields.phone.value.trim().replace(/\s/g, ''))) {
+        alert("Будь ласка, введіть коректний номер телефону (наприклад: 0951234567)");
+        fields.phone.classList.add('input-error');
+        hasError = true;
+    }
 
-    localStorage.setItem('saved_name', name);
-    localStorage.setItem('saved_phone', phone);
-    localStorage.setItem('saved_city', city);
-    localStorage.setItem('saved_branch', branch);
-    if (email) localStorage.setItem('saved_email', email);
+    if (hasError) {
+        alert("Будь ласка, заповніть всі обов'язкові поля коректно!");
+        return;
+    }
 
+    // --- Далі йде ваш код відправки (він робочий) ---
     const submitBtn = document.querySelector('.summary-side .add-btn');
     const originalText = submitBtn.innerHTML;
     const cart = getFreshCart();
+    const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    const currentNum = Date.now().toString().slice(-6);
 
     submitBtn.disabled = true;
     submitBtn.innerHTML = `Відправляємо...`;
 
-    const currentNum = Date.now().toString().slice(-6);
-    let orderText = `📦 №${currentNum}\n👤 ${name}\n📞 ${phone}\n📍 ${city}, ${branch}\n🛒 Товари:\n` + 
-                    cart.map(i => `- ${i.name} x${i.qty}`).join('\n');
+    // Збір даних
+    const orderData = {
+        name: fields.name.value.trim(),
+        phone: fields.phone.value.trim(),
+        city: fields.city.value.trim(),
+        branch: fields.branch.value.trim(),
+        email: document.getElementById('email')?.value.trim() || "-",
+        comment: document.getElementById('cust-comment')?.value.trim() || ""
+    };
+
+    // Зберігаємо в пам'ять для наступного разу
+    localStorage.setItem('saved_name', orderData.name);
+    localStorage.setItem('saved_phone', orderData.phone);
+    localStorage.setItem('saved_city', orderData.city);
+    localStorage.setItem('saved_branch', orderData.branch);
+
+    // Формуємо текст повідомлення
+    let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n👤 ${orderData.name}\n📞 ${orderData.phone}\n📍 ${orderData.city}, ${orderData.branch}\n📧 ${orderData.email}\n💬 ${orderData.comment}\n\n🛒 Товари:\n`;
+    orderText += cart.map(i => `- ${i.name} (${i.price} ₴) x ${i.qty}`).join("\n");
+    orderText += `\n\n💰 РАЗОМ: ${totalSum.toFixed(2)} ₴`;
 
     try {
         await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
             method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: orderText })
         });
-    } catch (e) { console.log("Sent"); }
-
-    const mainContent = document.getElementById('modal-main-content');
-    const successMsg = document.getElementById('success-msg');
-    const modalContent = document.querySelector('.modal-content');
-
-    if (mainContent) mainContent.style.display = 'none';
-    if (successMsg) {
+        
+        // Показ успіху
+        document.getElementById('modal-main-content').style.display = 'none';
+        const successMsg = document.getElementById('success-msg');
         successMsg.style.display = 'block';
         successMsg.innerHTML = `
             <div style="padding: 40px 20px; text-align: center;">
                 <h2 style="color: #6ba86b;">🌿 Замовлення №${currentNum} прийнято!</h2>
-                <button class="add-btn" onclick="closeCheckout()" style="margin-top:20px;">Закрити</button>
+                <p>Дякуємо, ми скоро зв'яжемося з Вами.</p>
+                <button class="add-btn" onclick="location.reload()" style="margin-top:20px;">На головну</button>
             </div>`;
-        if (modalContent) modalContent.scrollTop = 0; // ФІКС СКРОЛУ
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
         
-    saveCart([]);
-    updateCartUI();
-    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
+        saveCart([]);
+        updateCartUI();
+    } catch (e) {
+        alert("Помилка відправки. Спробуйте ще раз або напишіть нам у месенджер.");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
 };
 
 // === ГАЛЕРЕЯ ТА ЗАПУСК ===
