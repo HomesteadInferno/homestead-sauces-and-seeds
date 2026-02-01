@@ -174,35 +174,38 @@ window.pushToCart = function() {
     alert("Додано у кошик! 🌶️");
 };
 
-window.addToCartDirectly = function(productId, buttonElement) {
+window.addToCartDirectly = function(productName, buttonElement) {
     try {
-        // 1. Отримуємо дані з бази (products.js)
-        const productData = (typeof allProducts !== 'undefined') ? allProducts[productId] : null;
-        
-        // Визначаємо відображуване ім'я: з бази АБО те, що прийшло як ID
-        const actualName = productData ? productData.name : productId;
+        // 1. Отримуємо назву
+        const actualName = productName;
+        if (!actualName || actualName === 'undefined') {
+            console.error("Помилка: назва товару не визначена");
+            return;
+        }
 
-        // 2. Шукаємо ціну (з бази або з екрану)
-        let cleanPrice = productData ? productData.price : 0;
-        const wrapper = buttonElement.closest('.product-card') || document.querySelector('.product-page') || document;
-        const priceElement = wrapper.querySelector('.card-price, #p-price');
+        // 2. Шукаємо ціну на сторінці
+        const wrapper = buttonElement.closest('.product-card') || 
+                        document.querySelector('.product-info-side') || 
+                        document;
+        
+        const priceElement = wrapper.querySelector('.card-price, #p-price, .current-price');
+        let cleanPrice = 0;
         
         if (priceElement) {
             const numbers = priceElement.innerText.match(/\d+/g);
-            if (numbers) cleanPrice = parseFloat(numbers[numbers.length - 1]);
+            cleanPrice = numbers ? parseFloat(numbers[numbers.length - 1]) : 0;
         }
 
         // 3. Додаємо в кошик
         let cart = getFreshCart();
         
-        // ШУКАЄМО ПО ID (це найнадійніше для "стакання")
-        const existing = cart.find(i => (i.productId === productId) || (i.name === actualName));
+        // Шукаємо за НАЗВОЮ (це об'єднає товари з головної та зі сторінки)
+        const existing = cart.find(i => i.name.trim() === actualName.trim());
 
         if (existing) {
             existing.qty += 1;
         } else {
             cart.push({ 
-                productId: productId, // зберігаємо ID для зв'язку
                 name: actualName, 
                 price: cleanPrice, 
                 qty: 1 
