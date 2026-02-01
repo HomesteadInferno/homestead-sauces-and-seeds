@@ -146,25 +146,43 @@ window.removeFromCart = function(index) {
     if (cart.length === 0) closeCheckout();
 };
 
+// Універсальна функція додавання
+window.addToCart = function(productId, price, name, qty = 1) {
+    let cart = getFreshCart();
+    
+    // Шукаємо за ім'ям (або краще за ID, якщо додасте його в об'єкт кошика)
+    const existing = cart.find(item => item.name.trim() === name.trim());
+
+    if (existing) {
+        existing.qty += qty;
+        // Оновлюємо ціну на випадок, якщо вона змінилася (акція)
+        existing.price = price; 
+    } else {
+        cart.push({ name: name.trim(), price, qty });
+    }
+    
+    saveCart(cart);
+    updateCartUI();
+};
+
+// 1. Для сторінки товару (product.html)
 window.pushToCart = function() {
     const nameEl = document.getElementById('p-name');
     const priceContainer = document.getElementById('p-price');
-    const qtyEl = document.getElementById('p-qty');
     const addBtn = document.querySelector('.add-btn');
+    const qtyEl = document.getElementById('p-qty');
+
     if (!nameEl || !priceContainer) return;
 
-    let cart = getFreshCart();
     const isAllowed = priceContainer.getAttribute('data-allow-sale') === 'true';
     const price = isAllowed && addBtn.hasAttribute('data-price') 
                   ? parseFloat(addBtn.getAttribute('data-price')) 
                   : parseFloat(priceContainer.getAttribute('data-val'));
-    const qty = parseInt(qtyEl.value) || 1;
-
-    const existing = cart.find(item => item.name === nameEl.innerText && item.price === price);
-    if (existing) existing.qty += qty; else cart.push({ name: nameEl.innerText, price, qty });
     
-    saveCart(cart);
-    updateCartUI();
+    const qty = parseInt(qtyEl.value) || 1;
+    const name = nameEl.innerText;
+
+    addToCart(null, price, name, qty);
     alert("Додано у кошик! 🌶️");
 };
 
