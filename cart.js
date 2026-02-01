@@ -176,43 +176,45 @@ window.pushToCart = function() {
 
 window.addToCartDirectly = function(productId, buttonElement) {
     try {
+        // 1. Отримуємо дані з бази (products.js)
+        const productData = (typeof allProducts !== 'undefined') ? allProducts[productId] : null;
+        
+        // Визначаємо відображуване ім'я: з бази АБО те, що прийшло як ID
+        const actualName = productData ? productData.name : productId;
+
+        // 2. Шукаємо ціну (з бази або з екрану)
+        let cleanPrice = productData ? productData.price : 0;
+        const wrapper = buttonElement.closest('.product-card') || document.querySelector('.product-page') || document;
+        const priceElement = wrapper.querySelector('.card-price, #p-price');
+        
+        if (priceElement) {
+            const numbers = priceElement.innerText.match(/\d+/g);
+            if (numbers) cleanPrice = parseFloat(numbers[numbers.length - 1]);
+        }
+
+        // 3. Додаємо в кошик
         let cart = getFreshCart();
         
-        // Шукаємо в кошику по ID, а не по імені!
-        const existing = cart.find(i => i.id === productId);
-        
+        // ШУКАЄМО ПО ID (це найнадійніше для "стакання")
+        const existing = cart.find(i => (i.productId === productId) || (i.name === actualName));
+
         if (existing) {
             existing.qty += 1;
         } else {
-            // Беремо ціну з картки (щоб врахувати акцію)
-            const wrapper = buttonElement.closest('.product-card') || buttonElement.closest('.product-info-side') || document;
-            const priceElement = wrapper.querySelector('.card-price, .current-price');
-            let cleanPrice = 0;
-            
-            if (priceElement) {
-                const numbers = priceElement.innerText.match(/\d+/g);
-                cleanPrice = numbers ? parseFloat(numbers[numbers.length - 1]) : 0;
-            }
-
-            // Кладемо в кошик ID
             cart.push({ 
-                id: productId, // <--- ГОЛОВНЕ
+                productId: productId, // зберігаємо ID для зв'язку
+                name: actualName, 
                 price: cleanPrice, 
                 qty: 1 
             });
         }
-        
+
         saveCart(cart);
         updateCartUI();
-        alert(`Додано!`);
-    } catch (e) { console.error(e); }
-};
+        alert(`🌶️ ${actualName} додано!`);
 
-window.clearFullCart = function() {
-    if (confirm("Видалити всі товари з кошика?")) {
-        saveCart([]);
-        updateCartUI();
-        closeCheckout();
+    } catch (error) {
+        console.error("Помилка додавання:", error);
     }
 };
 

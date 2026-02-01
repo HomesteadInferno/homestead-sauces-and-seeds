@@ -169,7 +169,7 @@
 
                     <div style="display: flex; gap: 15px; margin-top: 30px;">
                         <input type="number" id="p-qty" value="1" min="1" style="width: 60px; background: #1a120e; border: 1px solid #44332a; color: white; text-align: center;">
-                        <button class="add-btn" onclick="pushToCart()">Додати у кошик</button>
+                        <button class="add-btn" onclick="addToCartDirectly(new URLSearchParams(window.location.search).get('id'), this)">Додати у кошик</button>
                     </div>
 
                     <div class="product-meta" style="margin-top: 25px; border-top: 1px dashed #443; padding-top: 15px;">
