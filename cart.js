@@ -85,27 +85,18 @@ function updateCartUI() {
         if (cart.length === 0) {
             container.innerHTML = '<p style="text-align: center; opacity: 0.5; padding: 10px; color: #eaddcf;">Кошик порожній</p>';
         } else {
-            container.innerHTML = cart.map((item, index) => {
-    // ДОДАЄМО ЦЕЙ РЯДОК:
-    // Якщо item.name це ключ (н-р 'dominica'), беремо 'Habanero Dominica Red'. 
-    // Якщо ні — лишаємо як є.
-    const displayName = (typeof allProducts !== 'undefined' && allProducts[item.name]) 
-                        ? allProducts[item.name].name 
-                        : item.name;
-
-    return `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #eaddcf;">
-            <div style="flex: 1;">
-                <div style="font-size: 14px; font-weight: bold;">${displayName}</div>
-                <div style="font-size: 11px; opacity: 0.7;">${item.qty} шт. x ${item.price} ₴</div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-weight: bold; font-size: 14px;">${(item.price * item.qty).toFixed(2)} ₴</span>
-                <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 18px;">&times;</button>
-            </div>
-        </div>
-    `;
-}).join('');
+            container.innerHTML = cart.map((item, index) => `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #eaddcf;">
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: bold;">${item.name}</div>
+                        <div style="font-size: 11px; opacity: 0.7;">${item.qty} шт. x ${item.price} ₴</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-weight: bold; font-size: 14px;">${(item.price * item.qty).toFixed(2)} ₴</span>
+                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 18px;">&times;</button>
+                    </div>
+                </div>
+            `).join('');
         }
     });
 
