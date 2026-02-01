@@ -280,6 +280,15 @@ body {
     }
 }
 
+/* Реки зліва */
+.side-rec-card:hover img {
+    border-color: var(--primary-orange) !important;
+    transform: translateY(-3px);
+}
+.side-rec-card:hover h4 {
+    color: var(--primary-orange);
+}
+
 
 /* --- ФУТЕР --- */
         footer {

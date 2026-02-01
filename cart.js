@@ -227,17 +227,35 @@ window.clearFullCart = function() {
 
 // === 4. ВІДПРАВКА ЗАМОВЛЕННЯ ===
 window.submitOrder = async function() {
-    const fieldIds = ['cust-name', 'cust-phone', 'cust-city', 'cust-branch'];
-    let hasError = false;
-    fieldIds.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            if (!input.value.trim()) { input.classList.add('input-error'); hasError = true; } 
-            else input.classList.remove('input-error');
-        }
-    });
-    if (hasError) { alert("Заповніть поля доставки!"); return; }
+    // 1. Отримуємо посилання на поля
+    const fields = {
+        name: document.getElementById('cust-name'),
+        phone: document.getElementById('cust-phone'),
+        city: document.getElementById('cust-city'),
+        branch: document.getElementById('cust-branch')
+    };
 
+    let hasError = false;
+
+    // 2. Очищаємо попередні помилки
+    Object.values(fields).forEach(el => el && el.classList.remove('input-error'));
+
+    // 3. Перевірка на порожнечу
+    for (let key in fields) {
+        if (!fields[key] || !fields[key].value.trim()) {
+            fields[key]?.classList.add('input-error');
+            hasError = true;
+        }
+    }
+
+    // 4. СПЕЦІАЛЬНА ПЕРЕВІРКА ТЕЛЕФОНУ
+    // Формат: +380 або 0, далі 9 цифр
+    const phoneRegex = /^(?:\+38)?0\d{9}$/;
+    if (fields.phone && !phoneRegex.test(fields.phone.value.trim().replace(/\s/g, ''))) {
+        alert("Будь ласка, введіть коректний номер телефону (наприклад: 0951234567)");
+        fields.phone.classList.add('input-error');
+        hasError = true;
+    }
     const name = document.getElementById('cust-name')?.value.trim();
     const phone = document.getElementById('cust-phone')?.value.trim();
     const city = document.getElementById('cust-city')?.value.trim();
@@ -245,12 +263,12 @@ window.submitOrder = async function() {
     const email = document.getElementById('email')?.value.trim();
     const comment = document.getElementById('cust-comment')?.value.trim() || "";
 
-    localStorage.setItem('saved_name', name);
-    localStorage.setItem('saved_phone', phone);
-    localStorage.setItem('saved_city', city);
-    localStorage.setItem('saved_branch', branch);
-    if (email) localStorage.setItem('saved_email', email);
+    if (hasError) {
+        alert("Будь ласка, заповніть всі обов'язкові поля коректно!");
+        return;
+    }
 
+    // --- Далі йде ваш код відправки (він робочий) ---
     const submitBtn = document.querySelector('.summary-side .add-btn');
     const originalText = submitBtn.innerHTML;
     
@@ -261,6 +279,27 @@ window.submitOrder = async function() {
 
     submitBtn.disabled = true;
     submitBtn.innerHTML = `Відправляємо...`;
+
+    // Збір даних
+    const orderData = {
+        name: fields.name.value.trim(),
+        phone: fields.phone.value.trim(),
+        city: fields.city.value.trim(),
+        branch: fields.branch.value.trim(),
+        email: document.getElementById('email')?.value.trim() || "-",
+        comment: document.getElementById('cust-comment')?.value.trim() || ""
+    };
+
+    // Зберігаємо в пам'ять для наступного разу
+    localStorage.setItem('saved_name', orderData.name);
+    localStorage.setItem('saved_phone', orderData.phone);
+    localStorage.setItem('saved_city', orderData.city);
+    localStorage.setItem('saved_branch', orderData.branch);
+
+    // Формуємо текст повідомлення
+    let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n👤 ${orderData.name}\n📞 ${orderData.phone}\n📍 ${orderData.city}, ${orderData.branch}\n📧 ${orderData.email}\n💬 ${orderData.comment}\n\n🛒 Товари:\n`;
+    orderText += cart.map(i => `- ${i.name} (${i.price} ₴) x ${i.qty}`).join("\n");
+    orderText += `\n\n💰 РАЗОМ: ${totalSum.toFixed(2)} ₴`;
 
     // ФОРМУЄМО ТЕКСТ
     let orderText = "📦 ЗАМОВЛЕННЯ №" + currentNum + "\n";
@@ -281,6 +320,26 @@ window.submitOrder = async function() {
             method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: orderText })
         });
+        
+        // Показ успіху
+        document.getElementById('modal-main-content').style.display = 'none';
+        const successMsg = document.getElementById('success-msg');
+        successMsg.style.display = 'block';
+        successMsg.innerHTML = `
+            <div style="padding: 40px 20px; text-align: center;">
+                <h2 style="color: #6ba86b;">🌿 Замовлення №${currentNum} прийнято!</h2>
+                <p>Дякуємо, ми скоро зв'яжемося з Вами.</p>
+                <button class="add-btn" onclick="location.reload()" style="margin-top:20px;">На головну</button>
+            </div>`;
+        
+        saveCart([]);
+        updateCartUI();
+    } catch (e) {
+        alert("Помилка відправки. Спробуйте ще раз або напишіть нам у месенджер.");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
     } catch (e) { console.log("Sent"); }
 
     const mainContent = document.getElementById('modal-main-content');
@@ -304,6 +363,7 @@ window.submitOrder = async function() {
     if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
 };
 
+
 // === ГАЛЕРЕЯ ТА ЗАПУСК ===
 let currentImgIndex = 0; // Додаємо індекс для відстеження фото
 
@@ -324,6 +384,34 @@ window.changeImage = function(dir) {
         currentImgIndex = (currentImgIndex + dir + thumbs.length) % thumbs.length;
         // Оновлюємо головне фото
         updateView(thumbs[currentImgIndex]);
+    }
+};
+
+// === 5. ВІДПРАВКА ВІДГУКУ (НОВЕ) ===
+window.sendReview = async function() {
+    const author = document.getElementById('rev-author')?.value.trim();
+    const text = document.getElementById('rev-text')?.value.trim();
+    const prodName = document.getElementById('p-name')?.innerText;
+
+    if (!author || !text) {
+        alert("Заповніть, будь ласка, ім'я та текст відгуку ✍️");
+        return;
+    }
+
+    const reviewText = `💬 НОВИЙ ВІДГУК!\n📦 Товар: ${prodName}\n👤 Автор: ${author}\n📝 Текст: ${text}`;
+
+    try {
+        // Використовуємо те саме посилання, що й для замовлень
+        await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
+            method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: reviewText })
+        });
+        
+        alert("Дякуємо! Відгук надіслано на модерацію. 😊");
+        document.getElementById('rev-author').value = '';
+        document.getElementById('rev-text').value = '';
+    } catch (e) {
+        alert("Помилка відправки. Напишіть нам у Telegram!");
     }
 };
 

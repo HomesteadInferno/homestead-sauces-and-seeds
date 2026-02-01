@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="meta-title">Купити насіння гострих перців, супер-гострі соуси  - Homestead</title> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="description" id="meta-description" content="Купити насіння гострих перців та соуси в магазині Homestead">
+<meta property="og:title" id="og-title" content="Товар Homestead">
+<meta property="og:description" id="og-description" content="Найкраще насіння та соуси">
+<meta property="og:image" id="og-image" content="">
+    <link rel="stylesheet" href="style.css"> 
+    <script type="application/ld+json" id="product-schema"></script>
+    
+    <style>
+        /* Весь твій CSS код залишається без змін */
+        :root { --primary-orange: #d6603a; --text-color: #eaddcf; --sidebar-bg: rgba(20, 15, 10, 0.9); --cart-bg: #2a1f18; --modal-overlay: rgba(0, 0, 0, 0.9); }
+        body { margin: 0; font-family: 'Roboto Slab', serif; color: var(--text-color); background: #1a100a no-repeat center center fixed; background-size: cover; }
+        .overlay { background: linear-gradient(to bottom, rgba(30,18,10,0.96), rgba(40,25,15,0.85)); min-height: 100vh; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        header { padding: 25px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 40px; position: relative; z-index: 100; }
+        .logo-small { max-width: 180px; height: auto; }
+        .cart-wrapper { position: relative; }
+        .cart-icon-btn { background: none; border: none; cursor: pointer; padding: 10px; position: relative; }
+        .cart-icon-svg { width: 30px; height: 30px; fill: var(--primary-orange); transition: 0.3s; }
+        .cart-badge { position: absolute; top: 0; right: 0; background: #d64520; color: white; font-size: 11px; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .cart-dropdown { position: absolute; top: 100%; right: 0; width: 320px; background: var(--cart-bg); border: 1px solid var(--primary-orange); padding: 20px; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .cart-wrapper:hover .cart-dropdown { display: block; }
+        .cart-items-list { max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
+        .main-grid { display: grid; grid-template-columns: 240px 1fr; gap: 60px; }
+        .sidebar h3 { font-family: 'Playfair Display', serif; color: var(--primary-orange); text-transform: uppercase; border-bottom: 1px solid #44332a; padding-bottom: 10px; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar li { margin-bottom: 15px; }
+        .sidebar a { text-decoration: none; color: var(--text-color); font-size: 14px; text-transform: uppercase; transition: 0.3s; opacity: 0.8; }
+        .sidebar a:hover { color: var(--primary-orange); opacity: 1; padding-left: 5px; }
+        .product-page { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .main-img-wrap img { width: 100%; height: 450px; object-fit: cover; border: 1px solid #33251e; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .thumbs-grid { display: flex; gap: 10px; margin-top: 15px; }
+        .thumb-img { width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.3s; }
+        .thumb-img.active { border-color: var(--primary-orange); opacity: 1; }
+        .product-info h1 { font-family: 'Playfair Display', serif; font-size: 42px; margin: 0 0 10px; }
+        .price-big { font-size: 32px; font-weight: bold; margin: 20px 0; color: #fff; }
+        .heat-tag { color: var(--primary-orange); font-weight: bold; margin-bottom: 20px; display: block; text-transform: uppercase; }
+        .add-btn { background: var(--primary-orange); color: white; border: none; width: 100%; padding: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; font-size: 16px; }
+        .add-btn:hover { background: #f0744a; transform: translateY(-2px); }
+        .main-img-wrap { position: relative; }
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.4); color: white; border: none; padding: 20px 10px; cursor: pointer; font-size: 24px; transition: 0.3s; z-index: 5; display: flex; align-items: center; justify-content: center; }
+        .nav-arrow:hover { background: var(--primary-orange); }
+        .nav-arrow.left { left: 0; border-radius: 0 4px 4px 0; }
+        .nav-arrow.right { right: 0; border-radius: 4px 0 0 4px; }
+        .modal { display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; background: var(--modal-overlay); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .modal-box { background: #231a14; width: 95%; max-width: 900px; padding: 40px; border: 1px solid var(--primary-orange); position: relative; display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #888; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; background: #1a120e; border: 1px solid #44332a; color: white; padding: 12px; border-radius: 4px; transition: border-color 0.3s, box-shadow 0.3s; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary-orange); box-shadow: 0 0 8px rgba(214, 96, 58, 0.3); outline: none; }
+        .form-side h2 { border-bottom: 2px solid var(--primary-orange); display: inline-block; margin-bottom: 25px; padding-bottom: 5px; }
+        .order-summary { background: rgba(0,0,0,0.3); padding: 20px; border: 1px dashed #44332a; }
+        #success-msg { text-align: center; grid-column: span 2; display: none; padding: 40px 0; }
+        @media (max-width: 900px) { .main-grid, .product-page, .modal-box { grid-template-columns: 1fr; } .sidebar { display: none; } }
+        .floating-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary-orange); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; transition: transform 0.3s ease; cursor: pointer; }
+        .floating-cart:hover { transform: scale(1.1); }
+        .cart-icon { font-size: 28px; }
+        /* Твій CSS кінець */
+    </style>
+</head>
+<body>
+
+<div class="overlay">
+    <div class="container">
+        <header>
+             <a href="index.html">
+                 <img src="homesteadlogo.png" alt="Homestead Logo" class="logo-small">
+             </a>
+            <div class="cart-wrapper">
+                <button class="cart-icon-btn">
+                    <svg class="cart-icon-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <div class="cart-badge" id="cart-count">0</div>
+                </button>
+                <div class="cart-dropdown">
+                    <div id="cart-items-list" class="cart-items-list cart-items-container">
+                        <p style="text-align: center; opacity: 0.5;">Кошик порожній</p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
+                        <span>Разом:</span> 
+                        <span id="cart-total" class="total-price-display">0.00</span>
+                    </div>
+                    <button class="add-btn" style="padding: 12px;" onclick="openCheckout()">Оформити</button>
+                </div>
+            </div>
+        </header>
+
+        <button class="back-btn" onclick="goBack()">
+            <svg style="width:20px" viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
+            Назад до каталогу
+        </button>
+
+        <div class="main-grid">
+            <aside class="sidebar">
+                <h3>Категорії</h3>
+                <ul>
+                    <li><a href="seedsandseedlings.html">🌶️Насіння супер-хотів</a></li>
+                    <li><a href="sauses.html">🔥 Крафтові Соуси</a></li>
+                    <li><a href="otherseeds.html">🌱 Інше насіння</a></li>
+                </ul>
+                <div class="sidebar-rec-wrapper" style="margin-top: 50px;">
+        <h3 style="font-size: 16px; margin-bottom: 20px;">🔥 Рекомендуємо</h3>
+        <div id="sidebar-rec-grid">
+            </div>
+            <div id="review-form-section" style="margin-top: 50px; padding: 25px; background: rgba(255,255,255,0.03); border: 1px solid #33251e;">
+    <h4 style="color: var(--primary-orange); margin-top: 0;">Залишити відгук про цей сорт</h4>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+        <input type="text" id="rev-author" placeholder="Ваше ім'я" 
+               style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px;">
+        
+        <textarea id="rev-text" rows="3" placeholder="Напишіть ваші враження..." 
+                  style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px; resize: none;"></textarea>
+        
+        <button class="add-btn" style="width: auto; padding: 10px 25px;" onclick="sendReview()">
+            Надіслати на модерацію
+        </button>
+    </div>
+</div>
+        </button>
+            </aside>
+
+
+            <main class="product-page">
+                <div class="gallery-col">
+                    <div class="main-img-wrap">
+                        <button class="nav-arrow left" onclick="changeImage(-1)">&#10094;</button>
+                        <img id="main-view" src="" alt="Фото товару">
+                        <button class="nav-arrow right" onclick="changeImage(1)">&#10095;</button>
+                    </div>
+                    
+                    <div class="thumbs-grid" id="gallery-thumbs"></div>
+
+                    <div class="product-specs" style="margin-top: 20px; border-top: 1px solid rgba(214, 96, 58, 0.3); padding-top: 15px;">
+                        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 8px 0; opacity: 0.7;">Термін дозрівання:</td>
+                                <td style="padding: 8px 0; text-align: right;" id="spec-maturity"></td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 8px 0; opacity: 0.7;">Висота рослини:</td>
+                                <td style="padding: 8px 0; text-align: right;" id="spec-height"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; opacity: 0.7;">Вид:</td>
+                                <td style="padding: 8px 0; text-align: right; color: #ff4d00;" id="spec-species"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <p id="product-tips" style="font-size: 13px; color: #888; display: none;">
+                        <i></i>
+                    </p>
+                </div>
+
+                <div class="info-col">
+                    <span class="heat-tag" id="product-heat"></span>
+                    
+                    <h1 id="p-name">Завантаження...</h1>
+                    
+                    <div id="p-desc" style="line-height: 1.8; opacity: 0.8; margin-bottom: 20px;"></div>
+
+                    <div class="price-big" id="p-price" data-val="0" data-allow-sale="true">
+                        0.00 <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>
+                    </div>    
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <input type="number" id="p-qty" value="1" min="1" style="width: 60px; background: #1a120e; border: 1px solid #44332a; color: white; text-align: center;">
+                        <button class="add-btn" onclick="pushToCart()">Додати у кошик</button>
+                    </div>
+
+                    <div class="product-meta" style="margin-top: 25px; border-top: 1px dashed #443; padding-top: 15px;">
+                        <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
+                            <strong>Кількість:</strong> <span id="meta-count"></span>
+                        </p>
+                        <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
+                            <strong>Пакування:</strong> <span id="meta-pack"></span>
+                        </p>
+                        <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
+                            <strong>Рік збору:</strong> <span id="meta-year"></span>
+                        </p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<a href="#" class="floating-cart" onclick="openCheckout(); return false;">
+    <span class="cart-icon">🛒</span>
+    <span id="cart-count">0</span>
+</a>
+
+<div id="checkoutModal" class="modal">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeCheckout()">&times;</span>
+            
+            <div id="modal-main-content" style="display: grid; grid-template-columns: 1fr 300px; gap: 40px; width: 100%;">
+                <div class="form-side">
+                    <h2 style="color: var(--primary-orange); margin-top:0;">Оформлення</h2>
+                    <div class="form-group">
+                        <label>Прізвище Ім'я По-батькові</label>
+                        <input type="text" id="cust-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="cust-phone" placeholder="+38XXXXXXXXXX" maxlength="13">
+                    </div>
+                    <div class="form-group">
+                        <label>Спосіб доставки</label>
+                        <select id="cust-delivery">
+                            <option value="Відділення НП">Нова Пошта (Відділення)</option>
+                            <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
+                            <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Місто</label>
+                        <input type="text" id="cust-city" placeholder="Київ">
+                        <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Відділення № або Адреса</label>
+                        <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
+                    </div>
+                    <div class="form-group">
+                        <label>Електронна пошта</label>
+                        <input type="text" id="email" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Коментар</label>
+                        <textarea id="cust-comment"></textarea>
+                    </div>
+                </div>
+
+                <div class="summary-side">
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                        <h4 style="margin-top:0;">ВАШІ ТОВАРИ:</h4>
+                        <div id="final-list"></div> 
+                        <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right;">
+                            Разом: <span id="final-price">0.00</span>
+                        </div>
+                    </div>
+                    <button class="add-btn" style="margin-top:20px; background:#6ba86b;" onclick="submitOrder()">Замовити</button>
+                </div>
+            </div>
+
+            <div id="success-msg" style="display:none; text-align: center; width: 100%;">
+                <h2>🌿 Замовлення прийнято!</h2>
+                <p>Дякуємо, ми скоро зв'яжемося з вами.</p>
+                <button class="add-btn" onclick="closeCheckout()">Закрити</button>
+            </div>
+        </div>
+    </div>
+
+<script src="products.js"></script>
+
+<script src="cart.js"></script> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Отримуємо ?id=... з URL
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        const product = allProducts[productId];
+
+        if (product) {
+            // --- СЕКЦІЯ SEO (ДЛЯ GOOGLE ТА СОЦМЕРЕЖ) ---
+            document.title = `${product.name} — купити в Homestead`;
+            // Оновлюємо мета-теги, якщо вони є в HTML
+            const metaDesc = document.getElementById('meta-description');
+            if (metaDesc) metaDesc.content = product.description.replace(/<[^>]*>/g, '').substring(0, 160);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.content = product.name;
+            // Формуємо JSON-LD для Google (структуровані дані)
+            const schemaData = {
+                "@context": "https://schema.org/",
+                "@type": "Product",
+                "name": product.name,
+                "image": product.images,
+                "description": product.description.replace(/<[^>]*>/g, ''),
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "UAH",
+                    "price": product.price,
+                    "availability": "https://schema.org/InStock"}
+            };
+            const schemaScript = document.createElement('script');
+            schemaScript.type = 'application/ld+json';
+            schemaScript.textContent = JSON.stringify(schemaData);
+            document.head.appendChild(schemaScript);
+            // --- ЗАПОВНЮЄМО ТЕКСТИ НА СТОРІНЦІ ---
+            document.getElementById('p-name').innerText = product.name;
+            document.getElementById('p-desc').innerHTML = product.description; // innerHTML дозволяє теги <br>
+            document.getElementById('product-heat').innerText = product.heatLevel;
+            
+            // -- ЗАПОВНЮЄМО ЦІНУ (ВАЖЛИВО ДЛЯ ДВИГУНА) --
+            const priceEl = document.getElementById('p-price');
+            // Встановлюємо атрибут data-val, який читає функція pushToCart
+            priceEl.setAttribute('data-val', product.price);
+            // Встановлюємо відображення
+            priceEl.innerHTML = `${product.price.toFixed(2)} ₴ <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>`;
+
+            // -- СПЕЦИФІКАЦІЇ --
+            if (product.specs) {
+                document.getElementById('spec-maturity').innerText = product.specs.maturity || "-";
+                document.getElementById('spec-height').innerText = product.specs.height || "-";
+                document.getElementById('spec-species').innerText = product.specs.species || "-";
+            }
+            // --- МЕТА ДАНІ (ПАКУВАННЯ ТА РІК) ---
+           if (product.meta) {
+                document.getElementById('meta-count').innerText = product.meta.count || "5 шт.";
+                document.getElementById('meta-pack').innerText = product.meta.pack || "Zip-lock";
+                document.getElementById('meta-year').innerText = product.meta.year || "2024";
+            }
+            // -- ПРИМІТКА (ЯКЩО Є) --
+            const tipsEl = document.getElementById('product-tips');
+            if (product.growTip) {
+                tipsEl.style.display = 'block';
+                tipsEl.querySelector('i').innerText = `* ${product.growTip}`;
+            }
+
+            // -- ГАЛЕРЕЯ --
+            const mainImg = document.getElementById('main-view');
+            const thumbsContainer = document.getElementById('gallery-thumbs');
+            
+            if (product.images && product.images.length > 0) {
+                // Головне фото
+                mainImg.src = product.images[0];
+                mainImg.alt = product.name;
+
+                // Генеруємо мініатюри
+                thumbsContainer.innerHTML = product.images.map((imgSrc, index) => `
+                    <img src="${imgSrc}" 
+                         alt="${product.name} ${index}" 
+                         class="thumb-img ${index === 0 ? 'active' : ''}" 
+                         onclick="updateView(this); currentImgIndex = ${index};"
+                    >
+                `).join('');
+            }
+
+            // -- ЗАПУСК АКЦІЙ (ПЕКЕЛЬНИЙ ТИЖДЕНЬ) --
+            // Оскільки ми змінили ціну динамічно, треба перезапустити перевірку знижок
+            if (typeof applyGlobalSale === 'function') {
+                applyGlobalSale();
+                // --- ЛОГІКА РЕКОМЕНДАЦІЙ У САЙДБАРІ (Прямо тут!) ---
+            const sideRecGrid = document.getElementById('sidebar-rec-grid');
+            if (sideRecGrid) {
+                const allIds = Object.keys(allProducts);
+                const otherIds = allIds.filter(id => id !== productId);
+                const randomIds = otherIds.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+                sideRecGrid.innerHTML = randomIds.map(id => {
+                    const item = allProducts[id];
+                    return `
+                        <a href="product.html?id=${id}" style="text-decoration: none; color: inherit; display: block; margin-bottom: 25px;">
+                            <div class="side-rec-card">
+                                <img src="${item.images[0]}" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #33251e; margin-bottom: 8px;">
+                                <h4 style="margin: 0; font-size: 13px; line-height: 1.2; opacity: 0.9;">${item.name}</h4>
+                                <div style="color: var(--primary-orange); font-weight: bold; font-size: 14px; margin-top: 4px;">${item.price.toFixed(2)} ₴</div>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            }
+            }
+            // --- ЛОГІКА ВІДГУКІВ У САЙДБАРІ ---
+            const sideReviewsList = document.getElementById('sidebar-reviews-list');
+            if (sideReviewsList && product.reviews) {
+                if (product.reviews.length > 0) {
+                    sideReviewsList.innerHTML = product.reviews.map(rev => `
+                        <div style="margin-bottom: 15px; background: rgba(255,255,255,0.02); padding: 10px; border-left: 2px solid var(--primary-orange);">
+                            <div style="font-size: 12px; font-weight: bold; color: #eaddcf;">${rev.author}</div>
+                            <p style="margin: 5px 0 0 0; font-size: 13px; font-style: italic; opacity: 0.7; line-height: 1.3;">
+                                "${rev.text}"
+                            </p>
+                        </div>
+                    `).join('');
+                } else {
+                    sideReviewsList.innerHTML = '<p style="font-size: 12px; opacity: 0.5;">Поки немає відгуків. Будьте першим!</p>';
+                }
+            }
+      
+        } else {
+            // Якщо ID неправильний або його немає
+            document.querySelector('.product-page').innerHTML = 
+                '<h2 style="grid-column: span 2; text-align: center; padding: 50px;">Товар не знайдено 😕 <br><a href="index.html" class="add-btn" style="display:inline-block; width:auto; margin-top:20px;">Повернутися в каталог</a></h2>';
+            }
+    });
+
+   
+
+    // Функція оновлення головного фото (викликається з onclick мініатюр)
+    function updateView(el) {
+        const mainImg = document.getElementById('main-view');
+        mainImg.src = el.src;
+        document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
