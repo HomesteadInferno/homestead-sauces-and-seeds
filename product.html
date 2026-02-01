@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Купити насіння - Homestead</title> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+    <title id="meta-title">Купити насіння гострих перців, супер-гострі соуси  - Homestead</title> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="description" id="meta-description" content="Купити насіння гострих перців та соуси в магазині Homestead">
+<meta property="og:title" id="og-title" content="Товар Homestead">
+<meta property="og:description" id="og-description" content="Найкраще насіння та соуси">
+<meta property="og:image" id="og-image" content="">
     <link rel="stylesheet" href="style.css"> 
+    <script type="application/ld+json" id="product-schema"></script>
+    
     <style>
         /* Весь твій CSS код залишається без змін */
         :root { --primary-orange: #d6603a; --text-color: #eaddcf; --sidebar-bg: rgba(20, 15, 10, 0.9); --cart-bg: #2a1f18; --modal-overlay: rgba(0, 0, 0, 0.9); }
-        body { margin: 0; font-family: 'Roboto Slab', serif; color: var(--text-color); background: #1a100a url('https://images.unsplash.com/photo-1591586566735-a9b0c034336c?q=80&w=1920') no-repeat center center fixed; background-size: cover; }
+        body { margin: 0; font-family: 'Roboto Slab', serif; color: var(--text-color); background: #1a100a no-repeat center center fixed; background-size: cover; }
         .overlay { background: linear-gradient(to bottom, rgba(30,18,10,0.96), rgba(40,25,15,0.85)); min-height: 100vh; }
         .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
         header { padding: 25px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 40px; position: relative; z-index: 100; }
@@ -95,7 +101,28 @@
                     <li><a href="sauses.html">🔥 Крафтові Соуси</a></li>
                     <li><a href="otherseeds.html">🌱 Інше насіння</a></li>
                 </ul>
+                <div class="sidebar-rec-wrapper" style="margin-top: 50px;">
+        <h3 style="font-size: 16px; margin-bottom: 20px;">🔥 Рекомендуємо</h3>
+        <div id="sidebar-rec-grid">
+            </div>
+            <div id="review-form-section" style="margin-top: 50px; padding: 25px; background: rgba(255,255,255,0.03); border: 1px solid #33251e;">
+    <h4 style="color: var(--primary-orange); margin-top: 0;">Залишити відгук про цей сорт</h4>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+        <input type="text" id="rev-author" placeholder="Ваше ім'я" 
+               style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px;">
+        
+        <textarea id="rev-text" rows="3" placeholder="Напишіть ваші враження..." 
+                  style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px; resize: none;"></textarea>
+        
+        <button class="add-btn" style="width: auto; padding: 10px 25px;" onclick="sendReview()">
+            Надіслати на модерацію
+        </button>
+    </div>
+</div>
+        </button>
             </aside>
+
 
             <main class="product-page">
                 <div class="gallery-col">
@@ -168,32 +195,68 @@
 </a>
 
 <div id="checkoutModal" class="modal">
-    <div class="modal-box">
-        <span class="close-btn" onclick="closeCheckout()">&times;</span>
-        <div id="modal-main-content">
-            <div class="form-side">
-                <h2 style="color: var(--primary-orange); margin-top:0;">Оформлення</h2>
-                <div class="form-group"><label>ПІБ</label><input type="text" id="cust-name"></div>
-                <div class="form-group"><label>Телефон</label><input type="tel" id="cust-phone"></div>
-                <div class="form-group"><label>Місто</label><input type="text" id="cust-city"></div>
-                <div class="form-group"><label>Відділення НП</label><input type="text" id="cust-branch"></div>
-                <div class="form-group"><label>Email (необов'язково)</label><input type="email" id="email"></div>
-                <div class="form-group"><label>Коментар</label><textarea id="cust-comment" rows="3"></textarea></div>
-            </div>
-            <div class="summary-side">
-                <h2 style="color: var(--primary-orange); margin-top:0;">Ваше замовлення</h2>
-                <div class="order-summary">
-                    <div id="final-list"></div>
-                    <div style="border-top: 1px solid #555; margin-top: 15px; padding-top: 15px; font-weight: bold; font-size: 18px; text-align: right;">
-                        Разом: <span id="final-price">0.00 ₴</span>
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeCheckout()">&times;</span>
+            
+            <div id="modal-main-content" style="display: grid; grid-template-columns: 1fr 300px; gap: 40px; width: 100%;">
+                <div class="form-side">
+                    <h2 style="color: var(--primary-orange); margin-top:0;">Оформлення</h2>
+                    <div class="form-group">
+                        <label>Прізвище Ім'я По-батькові</label>
+                        <input type="text" id="cust-name">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="cust-phone" placeholder="+38XXXXXXXXXX" maxlength="13">
+                    </div>
+                    <div class="form-group">
+                        <label>Спосіб доставки</label>
+                        <select id="cust-delivery">
+                            <option value="Відділення НП">Нова Пошта (Відділення)</option>
+                            <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
+                            <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Місто</label>
+                        <input type="text" id="cust-city" placeholder="Київ">
+                        <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Відділення № або Адреса</label>
+                        <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
+                    </div>
+                    <div class="form-group">
+                        <label>Електронна пошта</label>
+                        <input type="text" id="email" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label>Коментар</label>
+                        <textarea id="cust-comment"></textarea>
                     </div>
                 </div>
-                <button class="add-btn" style="margin-top: 20px;" onclick="submitOrder()">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
+
+                <div class="summary-side">
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                        <h4 style="margin-top:0;">ВАШІ ТОВАРИ:</h4>
+                        <div id="final-list"></div> 
+                        <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right;">
+                            Разом: <span id="final-price">0.00</span>
+                        </div>
+                    </div>
+                    <button class="add-btn" style="margin-top:20px; background:#6ba86b;" onclick="submitOrder()">Замовити</button>
+                </div>
+            </div>
+
+            <div id="success-msg" style="display:none; text-align: center; width: 100%;">
+                <h2>🌿 Замовлення прийнято!</h2>
+                <p>Дякуємо, ми скоро зв'яжемося з вами.</p>
+                <button class="add-btn" onclick="closeCheckout()">Закрити</button>
             </div>
         </div>
-        <div id="success-msg"></div>
     </div>
-</div>
 
 <script src="products.js"></script>
 
@@ -207,8 +270,31 @@
         const product = allProducts[productId];
 
         if (product) {
-            // -- ЗАПОВНЮЄМО ТЕКСТИ --
+            // --- СЕКЦІЯ SEO (ДЛЯ GOOGLE ТА СОЦМЕРЕЖ) ---
             document.title = `${product.name} — купити в Homestead`;
+            // Оновлюємо мета-теги, якщо вони є в HTML
+            const metaDesc = document.getElementById('meta-description');
+            if (metaDesc) metaDesc.content = product.description.replace(/<[^>]*>/g, '').substring(0, 160);
+            const ogTitle = document.getElementById('og-title');
+            if (ogTitle) ogTitle.content = product.name;
+            // Формуємо JSON-LD для Google (структуровані дані)
+            const schemaData = {
+                "@context": "https://schema.org/",
+                "@type": "Product",
+                "name": product.name,
+                "image": product.images,
+                "description": product.description.replace(/<[^>]*>/g, ''),
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "UAH",
+                    "price": product.price,
+                    "availability": "https://schema.org/InStock"}
+            };
+            const schemaScript = document.createElement('script');
+            schemaScript.type = 'application/ld+json';
+            schemaScript.textContent = JSON.stringify(schemaData);
+            document.head.appendChild(schemaScript);
+            // --- ЗАПОВНЮЄМО ТЕКСТИ НА СТОРІНЦІ ---
             document.getElementById('p-name').innerText = product.name;
             document.getElementById('p-desc').innerHTML = product.description; // innerHTML дозволяє теги <br>
             document.getElementById('product-heat').innerText = product.heatLevel;
@@ -221,15 +307,17 @@
             priceEl.innerHTML = `${product.price.toFixed(2)} ₴ <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>`;
 
             // -- СПЕЦИФІКАЦІЇ --
-            document.getElementById('spec-maturity').innerText = product.specs.maturity;
-            document.getElementById('spec-height').innerText = product.specs.height;
-            document.getElementById('spec-species').innerText = product.specs.species;
-
-            // -- МЕТА ДАНІ --
-            document.getElementById('meta-count').innerText = product.meta.count;
-            document.getElementById('meta-pack').innerText = product.meta.pack;
-            document.getElementById('meta-year').innerText = product.meta.year;
-
+            if (product.specs) {
+                document.getElementById('spec-maturity').innerText = product.specs.maturity || "-";
+                document.getElementById('spec-height').innerText = product.specs.height || "-";
+                document.getElementById('spec-species').innerText = product.specs.species || "-";
+            }
+            // --- МЕТА ДАНІ (ПАКУВАННЯ ТА РІК) ---
+           if (product.meta) {
+                document.getElementById('meta-count').innerText = product.meta.count || "5 шт.";
+                document.getElementById('meta-pack').innerText = product.meta.pack || "Zip-lock";
+                document.getElementById('meta-year').innerText = product.meta.year || "2024";
+            }
             // -- ПРИМІТКА (ЯКЩО Є) --
             const tipsEl = document.getElementById('product-tips');
             if (product.growTip) {
@@ -260,14 +348,60 @@
             // Оскільки ми змінили ціну динамічно, треба перезапустити перевірку знижок
             if (typeof applyGlobalSale === 'function') {
                 applyGlobalSale();
-            }
+                // --- ЛОГІКА РЕКОМЕНДАЦІЙ У САЙДБАРІ (Прямо тут!) ---
+            const sideRecGrid = document.getElementById('sidebar-rec-grid');
+            if (sideRecGrid) {
+                const allIds = Object.keys(allProducts);
+                const otherIds = allIds.filter(id => id !== productId);
+                const randomIds = otherIds.sort(() => 0.5 - Math.random()).slice(0, 3);
 
+                sideRecGrid.innerHTML = randomIds.map(id => {
+                    const item = allProducts[id];
+                    return `
+                        <a href="product.html?id=${id}" style="text-decoration: none; color: inherit; display: block; margin-bottom: 25px;">
+                            <div class="side-rec-card">
+                                <img src="${item.images[0]}" style="width: 100%; height: 120px; object-fit: cover; border: 1px solid #33251e; margin-bottom: 8px;">
+                                <h4 style="margin: 0; font-size: 13px; line-height: 1.2; opacity: 0.9;">${item.name}</h4>
+                                <div style="color: var(--primary-orange); font-weight: bold; font-size: 14px; margin-top: 4px;">${item.price.toFixed(2)} ₴</div>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            }
+            }
+            // --- ЛОГІКА ВІДГУКІВ У САЙДБАРІ ---
+            const sideReviewsList = document.getElementById('sidebar-reviews-list');
+            if (sideReviewsList && product.reviews) {
+                if (product.reviews.length > 0) {
+                    sideReviewsList.innerHTML = product.reviews.map(rev => `
+                        <div style="margin-bottom: 15px; background: rgba(255,255,255,0.02); padding: 10px; border-left: 2px solid var(--primary-orange);">
+                            <div style="font-size: 12px; font-weight: bold; color: #eaddcf;">${rev.author}</div>
+                            <p style="margin: 5px 0 0 0; font-size: 13px; font-style: italic; opacity: 0.7; line-height: 1.3;">
+                                "${rev.text}"
+                            </p>
+                        </div>
+                    `).join('');
+                } else {
+                    sideReviewsList.innerHTML = '<p style="font-size: 12px; opacity: 0.5;">Поки немає відгуків. Будьте першим!</p>';
+                }
+            }
+      
         } else {
             // Якщо ID неправильний або його немає
             document.querySelector('.product-page').innerHTML = 
                 '<h2 style="grid-column: span 2; text-align: center; padding: 50px;">Товар не знайдено 😕 <br><a href="index.html" class="add-btn" style="display:inline-block; width:auto; margin-top:20px;">Повернутися в каталог</a></h2>';
-        }
+            }
     });
+
+   
+
+    // Функція оновлення головного фото (викликається з onclick мініатюр)
+    function updateView(el) {
+        const mainImg = document.getElementById('main-view');
+        mainImg.src = el.src;
+        document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+    }
 </script>
 
 </body>

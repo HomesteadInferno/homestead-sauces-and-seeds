@@ -1,7 +1,7 @@
 
 //БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
-    isSaleActive: true, 
+    isSaleActive: false, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
     promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10%!"
@@ -320,6 +320,7 @@ window.submitOrder = async function() {
     }
 };
 
+
 // === ГАЛЕРЕЯ ТА ЗАПУСК ===
 let currentImgIndex = 0; // Додаємо індекс для відстеження фото
 
@@ -340,6 +341,34 @@ window.changeImage = function(dir) {
         currentImgIndex = (currentImgIndex + dir + thumbs.length) % thumbs.length;
         // Оновлюємо головне фото
         updateView(thumbs[currentImgIndex]);
+    }
+};
+
+// === 5. ВІДПРАВКА ВІДГУКУ (НОВЕ) ===
+window.sendReview = async function() {
+    const author = document.getElementById('rev-author')?.value.trim();
+    const text = document.getElementById('rev-text')?.value.trim();
+    const prodName = document.getElementById('p-name')?.innerText;
+
+    if (!author || !text) {
+        alert("Заповніть, будь ласка, ім'я та текст відгуку ✍️");
+        return;
+    }
+
+    const reviewText = `💬 НОВИЙ ВІДГУК!\n📦 Товар: ${prodName}\n👤 Автор: ${author}\n📝 Текст: ${text}`;
+
+    try {
+        // Використовуємо те саме посилання, що й для замовлень
+        await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
+            method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: reviewText })
+        });
+        
+        alert("Дякуємо! Відгук надіслано на модерацію. 😊");
+        document.getElementById('rev-author').value = '';
+        document.getElementById('rev-text').value = '';
+    } catch (e) {
+        alert("Помилка відправки. Напишіть нам у Telegram!");
     }
 };
 
