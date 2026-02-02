@@ -38,30 +38,33 @@ function applyGlobalSale() {
     });
 
     const mainPriceContainer = document.getElementById('p-price');
-const mainAddToCartBtn = document.querySelector('.add-btn');
-
 if (mainPriceContainer) {
-    const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
-    
-    // Отримуємо категорію товару (вона має бути доступна в об'єкті product на цій сторінці)
-    // Якщо змінна product недоступна, ми можемо взяти її з allProducts за ID з URL
+    // 1. Беремо ID товару з посилання (наприклад: ?id=fire-dragon-sauce)
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
-    const product = allProducts[productId];
     
-    // Визначаємо підпис (шт чи мл/пляшка)
-    const unitLabel = (product && product.category === 'seeds') ? '/ 5 шт.' : '/ шт.';
+    // 2. Дістаємо дані саме цього товару з нашої бази
+    const currentProduct = allProducts[productId];
+    
+    // 3. Визначаємо, що писати після ціни. 
+    // Якщо в мета є count — пишемо його, якщо ні — стандартно "/ шт."
+    const unitLabel = (currentProduct && currentProduct.meta && currentProduct.meta.count) 
+                      ? `/ ${currentProduct.meta.count}` 
+                      : `/ шт.`;
 
+    const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
     if (isSaleAllowed) {
         const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val'));
         const newPrice = Math.round(basePrice * (1 - discount / 100));
+        
         mainPriceContainer.innerHTML = `
             <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.8em; margin-right: 10px; color: white;">${basePrice.toFixed(2)} ₴</span>
             <span style="color: #ffeb3b; font-weight: bold;">${newPrice.toFixed(2)} ₴</span>
-            <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">${unitLabel}</span>
+            <span style="font-size: 16px; opacity: 0.6; font-weight: normal;"> ${unitLabel}</span>
         `;
     }
 }
+
 
             if (mainAddToCartBtn) mainAddToCartBtn.setAttribute('data-price', newPrice);
         } else if (mainAddToCartBtn) {
