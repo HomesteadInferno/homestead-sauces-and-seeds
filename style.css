@@ -505,4 +505,18 @@ body {
         font-size: 13px;
     }
 }
+@media (max-width: 1000px) {
+    /* Це переверне порядок: main (товари) буде зверху, sidebar (реки) — знизу */
+    .main-layout {
+        display: flex;
+        flex-direction: column-reverse; 
+    }
+
+    /* Щоб меню категорій все одно було зручним, додамо відступ */
+    .sidebar {
+        margin-top: 40px; 
+        padding-top: 20px;
+        border-top: 1px solid rgba(214, 96, 58, 0.2);
+    }
+}
 
