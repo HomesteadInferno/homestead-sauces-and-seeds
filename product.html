@@ -55,7 +55,9 @@
         .form-side h2 { border-bottom: 2px solid var(--primary-orange); display: inline-block; margin-bottom: 25px; padding-bottom: 5px; }
         .order-summary { background: rgba(0,0,0,0.3); padding: 20px; border: 1px dashed #44332a; }
         #success-msg { text-align: center; grid-column: span 2; display: none; padding: 40px 0; }
-        @media (max-width: 900px) { .main-grid, .product-page, .modal-box { grid-template-columns: 1fr; } .sidebar { display: none; } }
+        @media (max-width: 900px) { .main-grid, .product-page, .modal-box { grid-template-columns: 1fr; } .sidebar {
+        display: block !important; /* Переконайся, що він видимий */
+    } }
         .floating-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary-orange); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; transition: transform 0.3s ease; cursor: pointer; }
         .floating-cart:hover { transform: scale(1.1); }
         .cart-icon { font-size: 28px; }
