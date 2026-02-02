@@ -36,7 +36,36 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
+/* --- ПРАВИЛЬНИЙ ХЕДЕР --- */
+header {
+    display: flex;
+    flex-direction: column; /* Елементи один під одним */
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+}
 
+/* На мобілках і десктопах порядок буде однаковий */
+.top-nav {
+    order: 1; /* Плашки йдуть першими (зверху) */
+}
+
+.logo-image, .logo-small {
+    order: 2; /* Логотип йде другим (знизу) */
+}
+
+/* Якщо у тебе є кошик у хедері, він теж має бути на своєму місці */
+.cart-wrapper {
+    order: 3; 
+}
+
+/* Виправляємо main-grid для мобілок, щоб товари були НАД сайдбаром */
+@media (max-width: 1000px) {
+    .main-grid {
+        display: flex !important;
+        flex-direction: column-reverse; /* Товари (main) зверху, категорії (sidebar) знизу */
+    }
+}
 /* 3. ПЛАВАЮЧА КНОПКА КОРЗИНИ */
 .floating-cart {
     position: fixed;
@@ -563,12 +592,7 @@ body {
         .order-summary { background: rgba(0,0,0,0.3); padding: 20px; border: 1px dashed #44332a; }
         #success-msg { text-align: center; grid-column: span 2; display: none; padding: 40px 0; }
         @media (max-width: 900px) {
-    /* Робимо основну сітку гнучкою для перевороту */
-    .main-grid {
-        display: flex !important;
-        flex-direction: column-reverse; /* Товари (main) стануть ПЕРШИМИ, сайдбар — ДРУГИМ */
-        gap: 30px;
-    }
+    /* 1. Повертаємо Header до нормального стану (Лого зверху, плашки під ним) */
 
     /* Сайдбар на мобілці */
     .sidebar {
@@ -601,4 +625,199 @@ body {
         .floating-cart { position: fixed; bottom: 30px; right: 30px; background: var(--primary-orange); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; transition: transform 0.3s ease; cursor: pointer; }
         .floating-cart:hover { transform: scale(1.1); }
         .cart-icon { font-size: 28px; }
+
+ /* --- ОСНОВНІ СТИЛІ --- */
+        :root {
+            --primary-orange: #d6603a;
+            --text-color: #eaddcf;
+            --bg-overlay: rgba(30, 20, 10, 0.85);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto Slab', serif;
+            color: var(--text-color);
+            background-color: #1a100a;
+            background-image: url('peppers-bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overlay {
+            background: linear-gradient(to bottom, rgba(40, 25, 15, 0.9), rgba(40, 25, 15, 0.6), rgba(40, 25, 15, 0.9));
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* --- ХЕДЕР --- */
+        header {
+            padding-top: 20px;
+            text-align: center;
+        }
+
+       /*СТИЛЬ ДЛЯ НАВІГАЦІЇ */
+        .top-nav {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            position: relative;
+            height: 20px;
+            overflow: hidden;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .top-nav span {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: textSlide 9s infinite ease-in-out;
+        }
+
+        .top-nav span:nth-child(1) { animation-delay: 0s; }
+        .top-nav span:nth-child(2) { animation-delay: 3s; }
+        .top-nav span:nth-child(3) { animation-delay: 6s; }
+
+        @keyframes textSlide {
+            0% { opacity: 0; transform: translateY(10px); }
+            5% { opacity: 1; transform: translateY(0); }
+            28% { opacity: 1; transform: translateY(0); }
+            33% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+
+        .logo-image {
+            max-width: 350px;
+            width: 100%;
+            height: auto;
+            margin: 0;
+        }
+
+        /* --- ГОЛОВНА СЕКЦІЯ (ТЕКСТ) --- */
+        .hero-text {
+            margin-top: 40px;
+            margin-bottom: 60px;
+        }
+
+        .sub-header {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+
+        .green-text { color: #6ba86b; }
+        .fire-text { color: #d64520; font-weight: bold; font-style: italic;}
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 850px;
+            margin: 0 auto;
+            text-transform: uppercase;
+        }
+
+        .pepper-icon {
+            display: inline-block;
+            height: 24px;
+            width: auto;
+            vertical-align: middle;
+            margin-top: -4px;
+            margin-left: 2px;
+            margin-right: 2px;
+            background-color: transparent; 
+        }
+
+        /* --- КАРТКИ-КНОПКИ --- */
+        .cards-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 100px;
+            position: relative;
+        }
+
+        .card-link {
+            display: block;
+            width: 250px;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .card-link:hover {
+            transform: translateY(-10px);
+            filter: brightness(1.1);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .card-label {
+            background-color: var(--primary-orange);
+            color: #fff;
+            padding: 15px 10px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-top: -5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (min-width: 900px) {
+            .cards-section {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 50px;
+                margin-top: 20px;
+            }
+
+            .card-link:nth-child(1),
+            .card-link:nth-child(3) {
+                margin-top: 80px;
+            }
+
+            .card-link:nth-child(2) {
+                margin-top: 0; 
+            }
+        }
 
