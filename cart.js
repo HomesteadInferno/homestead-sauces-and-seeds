@@ -1,6 +1,5 @@
 
 //БЛОК КЕРУВАННЯ АКЦІЯМИ.
-// 1. НАЛАШТУВАННЯ
 const GLOBAL_SETTINGS = {
     isSaleActive: false, 
     discountPercent: 10, 
@@ -8,154 +7,360 @@ const GLOBAL_SETTINGS = {
     promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10%!"
 };
 
-// 2. ЦІНИ ТА АКЦІЇ
 function applyGlobalSale() {
-    const discount = GLOBAL_SETTINGS.isSaleActive ? GLOBAL_SETTINGS.discountPercent : 0;
+    if (!GLOBAL_SETTINGS || !GLOBAL_SETTINGS.isSaleActive) return;
+    const discount = GLOBAL_SETTINGS.discountPercent;
 
-    // Картки в каталозі
-    document.querySelectorAll('.card-price').forEach(el => {
+    const cardPrices = document.querySelectorAll('.card-price');
+    cardPrices.forEach(el => {
         const isSaleAllowed = el.getAttribute('data-allow-sale') === 'true';
-        const basePrice = parseFloat(el.getAttribute('data-base-price'));
-        if (!basePrice) return;
-
-        if (GLOBAL_SETTINGS.isSaleActive && isSaleAllowed) {
+        if (isSaleAllowed) {
+            const basePrice = parseFloat(el.getAttribute('data-base-price'));
+            if (!basePrice) return;
             const newPrice = Math.round(basePrice * (1 - discount / 100));
-            el.innerHTML = `<span style="text-decoration: line-through; opacity: 0.5;">${basePrice} ₴</span> <span style="color: #ffeb3b; font-weight: bold; margin-left: 8px;">${newPrice} ₴</span>`;
-            const card = el.closest('.product-card');
+            el.innerHTML = `
+                <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.85em;">${basePrice} ₴</span> 
+                <span style="color: #ffeb3b; font-weight: bold; margin-left: 8px;">${newPrice} ₴</span>
+            `;
+            const card = el.closest('.product-card'); 
             if (card) {
-                const cardBtn = card.querySelector('.quick-add-btn');
+                const cardBtn = card.querySelector('.add-btn');
                 if (cardBtn) cardBtn.setAttribute('data-price', newPrice);
+                if (!card.querySelector('.sale-badge')) {
+                    const badge = document.createElement('div');
+                    badge.className = 'sale-badge';
+                    badge.innerText = 'АКЦІЯ';
+                    card.style.position = 'relative';
+                    card.appendChild(badge);
+                }
             }
         }
     });
 
-    // Ціна на сторінці товару
     const mainPriceContainer = document.getElementById('p-price');
-    if (mainPriceContainer) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
-        const currentProduct = (typeof allProducts !== 'undefined') ? allProducts[productId] : null;
-        const unitLabel = (currentProduct && currentProduct.meta && currentProduct.meta.count) ? `/ ${currentProduct.meta.count}` : `/ шт.`;
-        
-        const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val')) || 0;
-        const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
 
-        if (GLOBAL_SETTINGS.isSaleActive && isSaleAllowed) {
-            const newPrice = Math.round(basePrice * (1 - discount / 100));
-            mainPriceContainer.innerHTML = `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.8em; margin-right: 10px; color: white;">${basePrice.toFixed(2)} ₴</span><span style="color: #ffeb3b; font-weight: bold;">${newPrice.toFixed(2)} ₴</span><span style="font-size: 16px; opacity: 0.6;"> ${unitLabel}</span>`;
-            const addBtn = document.querySelector('.add-btn');
-            if (addBtn) addBtn.setAttribute('data-price', newPrice);
-        } else {
-            mainPriceContainer.innerHTML = `<span style="color: #ffeb3b; font-weight: bold;">${basePrice.toFixed(2)} ₴</span><span style="font-size: 16px; opacity: 0.6;"> ${unitLabel}</span>`;
+if (mainPriceContainer) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    const currentProduct = allProducts[productId];
+    
+    // Визначаємо підпис (шт чи мл)
+    const unitLabel = (currentProduct && currentProduct.meta && currentProduct.meta.count) 
+                      ? `/ ${currentProduct.meta.count}` 
+                      : `/ шт.`;
+
+    const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
+    
+    if (isSaleAllowed) {
+        const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val'));
+        const newPrice = Math.round(basePrice * (1 - discount / 100));
+        
+        mainPriceContainer.innerHTML = `
+            <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.8em; margin-right: 10px; color: white;">${basePrice.toFixed(2)} ₴</span>
+            <span style="color: #ffeb3b; font-weight: bold;">${newPrice.toFixed(2)} ₴</span>
+            <span style="font-size: 16px; opacity: 0.6; font-weight: normal;"> ${unitLabel}</span>
+        `;
+    } else {
+        // ЯКЩО ЗНИЖКИ НЕМАЄ — виводимо просто ціну, але з правильним підписом
+        const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val')) || 0;
+        mainPriceContainer.innerHTML = `
+            <span style="color: #ffeb3b; font-weight: bold;">${basePrice.toFixed(2)} ₴</span>
+            <span style="font-size: 16px; opacity: 0.6; font-weight: normal;"> ${unitLabel}</span>
+        `;
+    } 
+} // Закриваємо if (mainPriceContainer)
+
+
+
+            if (mainAddToCartBtn) mainAddToCartBtn.setAttribute('data-price', newPrice);
+        } else if (mainAddToCartBtn) {
+            mainAddToCartBtn.setAttribute('data-price', mainPriceContainer.getAttribute('data-val'));
         }
+    }
+
+    if (GLOBAL_SETTINGS.promoText && !document.getElementById('sale-banner')) {
+        const banner = document.createElement('div');
+        banner.id = "sale-banner";
+        banner.style.cssText = "background: #e74c3c; color: white; text-align: center; padding: 10px; font-weight: bold; position: sticky; top: 0; z-index: 1000; font-family: sans-serif;";
+        banner.innerText = GLOBAL_SETTINGS.promoText;
+        document.body.prepend(banner);
     }
 }
 document.addEventListener('DOMContentLoaded', applyGlobalSale);
 
-// 3. КОШИК
-function getFreshCart() { try { return JSON.parse(localStorage.getItem('homestead_cart')) || []; } catch (e) { return []; } }
+// === 1. РОБОТА З ПАМ'ЯТТЮ ===
+function getFreshCart() {
+    try { return JSON.parse(localStorage.getItem('homestead_cart')) || []; } 
+    catch (e) { return []; }
+}
 function saveCart(cart) { localStorage.setItem('homestead_cart', JSON.stringify(cart)); }
 
+// === 2. ОНОВЛЕННЯ ІНТЕРФЕЙСУ ===
 function updateCartUI() {
     const cart = getFreshCart(); 
+    const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
     const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    document.querySelectorAll('.cart-count, #cart-count').forEach(c => { c.innerText = cart.reduce((a, b) => a + b.qty, 0); });
-    
-    const container = document.getElementById('final-list') || document.querySelector('.cart-items-container');
-    if (container) {
-        container.innerHTML = cart.length === 0 ? '<p>Порожньо</p>' : cart.map((item, idx) => `
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:#eaddcf; border-bottom:1px solid #333;">
-                <div><b>${item.name}</b><br><small>${item.qty} x ${item.price} ₴</small></div>
-                <button onclick="removeFromCart(${idx})" style="background:none; border:none; color:red; cursor:pointer;">&times;</button>
-            </div>`).join('');
-    }
-    document.querySelectorAll('#final-price, #cart-total').forEach(el => el.innerText = `${totalSum.toFixed(2)} ₴`);
+
+    document.querySelectorAll('.cart-count, #cart-count, .cart-badge').forEach(c => { c.innerText = totalQty; });
+
+    const listContainers = document.querySelectorAll('#final-list, .cart-items-container');
+    listContainers.forEach(container => {
+        if (cart.length === 0) {
+            container.innerHTML = '<p style="text-align: center; opacity: 0.5; padding: 10px; color: #eaddcf;">Кошик порожній</p>';
+        } else {
+            container.innerHTML = cart.map((item, index) => `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); color: #eaddcf;">
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: bold;">${item.name}</div>
+                        <div style="font-size: 11px; opacity: 0.7;">${item.qty} шт. x ${item.price} ₴</div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-weight: bold; font-size: 14px;">${(item.price * item.qty).toFixed(2)} ₴</span>
+                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 18px;">&times;</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    });
+
+    document.querySelectorAll('#final-price, .total-price-display, #cart-total').forEach(priceEl => {
+        priceEl.innerText = `${totalSum.toFixed(2)} ₴`;
+    });
+
+    // Ховаємо кнопку замовлення, якщо порожньо
+    const orderBtn = document.querySelector('.summary-side .add-btn');
+    if (orderBtn) orderBtn.style.display = (cart.length === 0) ? 'none' : 'block';
 }
 
-window.addToCartDirectly = function(id, btn) {
-    const product = allProducts[id];
-    if (!product) return;
-    let cart = getFreshCart();
-    const price = btn.hasAttribute('data-price') ? parseFloat(btn.getAttribute('data-price')) : product.price;
-    const existing = cart.find(i => i.name === product.name);
-    if (existing) { existing.qty += 1; } else { cart.push({ name: product.name, price: price, qty: 1 }); }
-    saveCart(cart); updateCartUI(); alert(`🌶️ ${product.name} додано!`);
+// === 3. КЕРУВАННЯ КОШИКОМ ===
+window.openCheckout = function() {
+    const cart = getFreshCart();
+    if (cart.length === 0) {
+        alert("Ваш кошик ще порожній! 🌶️");
+        return;
+    }
+    const modal = document.getElementById('checkoutModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('modal-main-content').style.display = 'grid';
+        document.getElementById('success-msg').style.display = 'none';
+        
+        // Автозаповнення [cite: 2026-01-26]
+        const fields = ['name', 'phone', 'city', 'branch', 'email'];
+        fields.forEach(f => {
+            const val = localStorage.getItem('saved_' + f);
+            const el = document.getElementById(f === 'email' ? 'email' : 'cust-' + f);
+            if (val && el) el.value = val;
+        });
+        updateCartUI();
+    }
+};
+
+window.closeCheckout = function() {
+    const modal = document.getElementById('checkoutModal');
+    if (modal) modal.style.display = 'none';
 };
 
 window.removeFromCart = function(index) {
-    let cart = getFreshCart(); cart.splice(index, 1);
-    saveCart(cart); updateCartUI();
+    let cart = getFreshCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    updateCartUI();
+    if (cart.length === 0) closeCheckout();
 };
 
-window.openCheckout = function() { 
-    document.getElementById('checkoutModal').style.display = 'flex'; 
-    updateCartUI(); 
-};
-window.closeCheckout = function() { document.getElementById('checkoutModal').style.display = 'none'; };
+// Універсальна функція додавання
+window.addToCart = function(productId, price, name, qty = 1) {
+    let cart = getFreshCart();
+    
+    // 1. Шукаємо товар за ID (це найнадійніше)
+    // Якщо ID немає, використовуємо назву, приведену до нижнього регістру
+    const existing = cart.find(item => {
+        if (productId) return item.productId === productId;
+        return item.name.toLowerCase().trim() === name.toLowerCase().trim();
+    });
 
-// 4. ВІДПРАВКА ЗАМОВЛЕННЯ (ОНОВЛЕНО: ОПЛАТА ТУТ)
+    if (existing) {
+        existing.qty += qty;
+        existing.price = price; 
+    } else {
+        // Додаємо productId в об'єкт, щоб наступного разу знайти за ним
+        cart.push({ 
+            productId: productId, 
+            name: name.trim(), 
+            price: price, 
+            qty: qty 
+        });
+    }
+    
+    saveCart(cart);
+    updateCartUI();
+};
+
+// 1. Для сторінки товару (product.html)
+window.pushToCart = function() {
+    const nameEl = document.getElementById('p-name');
+    const priceContainer = document.getElementById('p-price');
+    const addBtn = document.querySelector('.add-btn');
+    const qtyEl = document.getElementById('p-qty');
+
+    if (!nameEl || !priceContainer) return;
+
+    const isAllowed = priceContainer.getAttribute('data-allow-sale') === 'true';
+    const price = isAllowed && addBtn.hasAttribute('data-price') 
+                  ? parseFloat(addBtn.getAttribute('data-price')) 
+                  : parseFloat(priceContainer.getAttribute('data-val'));
+    
+    const qty = parseInt(qtyEl.value) || 1;
+    const name = nameEl.innerText;
+
+    addToCart(null, price, name, qty);
+    alert("Додано у кошик! 🌶️");
+};
+
+window.addToCartDirectly = function(productId, buttonElement) {
+    try {
+        const card = buttonElement.closest('.product-card');
+        if (!card) throw new Error("Картку товару не знайдено");
+
+        // 1. БЕРЕМО НАЗВУ З БАЗИ (products.js)
+        // Якщо переданий ID існує в базі, беремо ім'я звідти. 
+        // Якщо ні — використовуємо те, що передали (як запасний варіант).
+        let actualName = (typeof allProducts !== 'undefined' && allProducts[productId]) 
+                         ? allProducts[productId].name 
+                         : productId;
+
+        // 2. ШУКАЄМО ЦІНУ НА КАРТЦІ (щоб врахувати акцію)
+        const priceElement = card.querySelector('.card-price');
+        if (!priceElement) throw new Error("Ціну на картці не знайдено");
+
+        const rawText = priceElement.innerText;
+        const numbers = rawText.match(/\d+/g); 
+        const cleanPrice = numbers ? parseFloat(numbers[numbers.length - 1]) : 0;
+
+        if (isNaN(cleanPrice)) throw new Error("Не вдалося розпізнати ціну");
+
+        // 3. ЛОГІКА КОШИКА
+        let cart = getFreshCart();
+        
+        // Тепер порівняння буде ідеальним, бо назва береться з одного джерела
+        const existing = cart.find(i => i.name.trim() === actualName.trim());
+        
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ 
+                name: actualName, 
+                price: cleanPrice, 
+                qty: 1 
+            });
+        }
+        
+        saveCart(cart);
+        updateCartUI();
+        
+        alert(`🌶️ ${actualName} додано!`);
+
+    } catch (error) {
+        console.error("Помилка додавання:", error.message);
+    }
+};
+
+window.clearFullCart = function() {
+    if (confirm("Видалити всі товари з кошика?")) {
+        saveCart([]);
+        updateCartUI();
+        closeCheckout();
+    }
+};
+
+// === 4. ВІДПРАВКА ЗАМОВЛЕННЯ ===
 window.submitOrder = async function() {
-    const cart = getFreshCart();
-    if (cart.length === 0) {
-        alert("Кошик порожній!");
+    // 1. Отримуємо посилання на поля
+    const fields = {
+        name: document.getElementById('cust-name'),
+        phone: document.getElementById('cust-phone'),
+        city: document.getElementById('cust-city'),
+        branch: document.getElementById('cust-branch')
+    };
+
+    let hasError = false;
+
+    // 2. Очищаємо попередні помилки
+    Object.values(fields).forEach(el => el && el.classList.remove('input-error'));
+
+    // 3. Перевірка на порожнечу
+    for (let key in fields) {
+        if (!fields[key] || !fields[key].value.trim()) {
+            fields[key]?.classList.add('input-error');
+            hasError = true;
+        }
+    }
+
+    // 4. СПЕЦІАЛЬНА ПЕРЕВІРКА ТЕЛЕФОНУ
+    // Формат: +380 або 0, далі 9 цифр
+    const phoneRegex = /^(?:\+38)?0\d{9}$/;
+    if (fields.phone && !phoneRegex.test(fields.phone.value.trim().replace(/\s/g, ''))) {
+        alert("Будь ласка, введіть коректний номер телефону (наприклад: 0951234567)");
+        fields.phone.classList.add('input-error');
+        hasError = true;
+    }
+
+    if (hasError) {
+        alert("Будь ласка, заповніть всі обов'язкові поля коректно!");
         return;
     }
 
-    // 1. Отримуємо дані з полів (включаючи оплату)
-    const data = {
-        name: document.getElementById('cust-name').value.trim(),
-        phone: document.getElementById('cust-phone').value.trim(),
-        city: document.getElementById('cust-city').value.trim(),
-        branch: document.getElementById('cust-branch').value.trim(),
-        payment: document.getElementById('cust-payment')?.value || "Не вказано",
-        comment: document.getElementById('cust-comment')?.value.trim() || "-"
-    };
-
-    // 2. Перевірка обов'язкових полів
-    if (!data.name || !data.phone || !data.city) { 
-        alert("Будь ласка, заповніть дані доставки!"); 
-        return; 
-    }
-
-    const submitBtn = document.querySelector('#checkoutModal .add-btn');
+    // --- Далі йде ваш код відправки (він робочий) ---
+    const submitBtn = document.querySelector('.summary-side .add-btn');
     const originalText = submitBtn.innerHTML;
+    const cart = getFreshCart();
     const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-    
-    // ГЕНЕРУЄМО НОМЕР ЗАМОВЛЕННЯ (ось він!)
     const currentNum = Date.now().toString().slice(-6);
 
     submitBtn.disabled = true;
-    submitBtn.innerText = "Відправляємо...";
+    submitBtn.innerHTML = `Відправляємо...`;
 
-    // 3. Формуємо текст для Telegram/Google Sheets
-    let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n👤 ${data.name}\n📞 ${data.phone}\n📍 ${data.city}, ${data.branch}\n💳 ОПЛАТА: ${data.payment}\n💬 Коментар: ${data.comment}\n\n🛒 Товари:\n`;
+    // Збір даних
+    const orderData = {
+        name: fields.name.value.trim(),
+        phone: fields.phone.value.trim(),
+        city: fields.city.value.trim(),
+        branch: fields.branch.value.trim(),
+        email: document.getElementById('email')?.value.trim() || "-",
+        comment: document.getElementById('cust-comment')?.value.trim() || ""
+    };
+
+    // Зберігаємо в пам'ять для наступного разу
+    localStorage.setItem('saved_name', orderData.name);
+    localStorage.setItem('saved_phone', orderData.phone);
+    localStorage.setItem('saved_city', orderData.city);
+    localStorage.setItem('saved_branch', orderData.branch);
+
+    // Формуємо текст повідомлення
+    let orderText = `📦 ЗАМОВЛЕННЯ №${currentNum}\n👤 ${orderData.name}\n📞 ${orderData.phone}\n📍 ${orderData.city}, ${orderData.branch}\n📧 ${orderData.email}\n💬 ${orderData.comment}\n\n🛒 Товари:\n`;
     orderText += cart.map(i => `- ${i.name} (${i.price} ₴) x ${i.qty}`).join("\n");
     orderText += `\n\n💰 РАЗОМ: ${totalSum.toFixed(2)} ₴`;
 
     try {
-        // 4. Відправка
         await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
-            method: "POST", 
-            mode: "no-cors", 
-            headers: { "Content-Type": "application/json" },
+            method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: orderText })
         });
         
-        // 5. ПОКАЗУЄМО УСПІХ (Твоя гарна кінцівка)
+        // Показ успіху
         document.getElementById('modal-main-content').style.display = 'none';
         const successMsg = document.getElementById('success-msg');
         successMsg.style.display = 'block';
         successMsg.innerHTML = `
             <div style="padding: 40px 20px; text-align: center;">
                 <h2 style="color: #6ba86b;">🌿 Замовлення №${currentNum} прийнято!</h2>
-                <p>Дякуємо, ми скоро зв'яжемося з Вами для підтвердження.</p>
+                <p>Дякуємо, ми скоро зв'яжемося з Вами.</p>
                 <button class="add-btn" onclick="location.reload()" style="margin-top:20px;">На головну</button>
             </div>`;
         
-        // Очищення
         saveCart([]);
         updateCartUI();
-
     } catch (e) {
         alert("Помилка відправки. Спробуйте ще раз або напишіть нам у месенджер.");
     } finally {
@@ -164,55 +369,172 @@ window.submitOrder = async function() {
     }
 };
 
-// === 5. ВІДПРАВКА ВІДГУКУ ===
+// скрипт для динамічної сторінки товарів
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('catalog-container');
+    const mainGrid = document.querySelector('.products-grid');
+    if (!container || typeof allProducts === 'undefined') return;
+
+    // Дізнаємося, яку категорію хоче ця сторінка
+    const pageCategory = mainGrid ? mainGrid.getAttribute('data-category') : null; 
+
+    container.innerHTML = '';
+
+    Object.keys(allProducts).forEach(id => {
+        const product = allProducts[id];
+
+        // ЛОГІКА ФІЛЬТРАЦІЇ:
+        // Показуємо товар, якщо:
+        // 1. У сторінки немає категорії (pageCategory === null) — показуємо все
+        // 2. АБО категорія товару збігається з категорією сторінки
+        if (!pageCategory || product.category === pageCategory) {
+            
+            // Тут твій код створення cardHTML...
+            const cardHTML = `...`; 
+
+            container.insertAdjacentHTML('beforeend', cardHTML);
+        }
+    });
+});
+
+
+// ТЕГИ ДОДАЙ if (product.НАЗВАТЕГУ
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('catalog-container');
+    if (!container || typeof allProducts === 'undefined') return;
+
+    container.innerHTML = '';
+
+    Object.keys(allProducts).forEach(id => {
+        const product = allProducts[id];
+
+        // 1. Створюємо змінну для тегів
+        let tagsHTML = '';
+        
+        // Перевіряємо, чи є в об'єкті властивість isNew
+        if (product.isNew) {
+            tagsHTML += `<span class="product-tag" style="background: #4caf50; color: white;">NEW</span>`;
+        }
+        
+        // Можна додати ще умов, наприклад для гостроти
+        if (product.isHot) {
+            tagsHTML += `<span class="product-tag" style="background: #ff5722; color: white;">🔥 HOT</span>`;
+        }
+
+        if (product.isCitrus) {
+            tagsHTML += `<span class="product-tag" style="background: #ff5722; color: white;">🍋 Цитрусові нотки</span>`;
+        }
+
+        const cardHTML = `
+            <a href="product.html?id=${id}" class="product-card" data-id="${id}">
+                <div class="product-tags">
+                    ${tagsHTML}
+                </div>
+                <div class="img-container">
+                    <img src="${product.images[0]}" alt="${product.name}">
+                </div>
+                <div class="product-label">
+                    <h3 class="p-name">${product.name}</h3>
+                    <div class="price-row">
+                        <p class="card-price">${product.price} ₴</p>
+                        <button class="quick-add-btn" 
+                                onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('${id}', this); return false;">
+                            🛒
+                        </button>
+                    </div>
+                </div>
+            </a>
+        `;
+
+        container.insertAdjacentHTML('beforeend', cardHTML);
+    });
+});
+
+// === ГАЛЕРЕЯ ТА ЗАПУСК ===
+let currentImgIndex = 0; // Додаємо індекс для відстеження фото
+
+function updateView(img) {
+    const mainView = document.getElementById('main-view');
+    if (mainView) {
+        mainView.src = img.src;
+        document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+        img.classList.add('active');
+    }
+}
+
+// ОСЬ ЦЯ ФУНКЦІЯ ПОВЕРНУЛАСЯ ДЛЯ СТРІЛОЧОК:
+window.changeImage = function(dir) {
+    const thumbs = document.querySelectorAll('.thumb-img');
+    if (thumbs.length > 0) {
+        // Рахуємо наступний або попередній індекс
+        currentImgIndex = (currentImgIndex + dir + thumbs.length) % thumbs.length;
+        // Оновлюємо головне фото
+        updateView(thumbs[currentImgIndex]);
+    }
+};
+
+// === 5. ВІДПРАВКА ВІДГУКУ (НОВЕ) ===
 window.sendReview = async function() {
-    const authorEl = document.getElementById('rev-author');
-    const textEl = document.getElementById('rev-text');
+    // 1. Знаходимо кнопку та дані
     const btn = document.querySelector('#review-form-section .add-btn');
-    const prodName = document.getElementById('p-name')?.innerText || "Товар";
+    const author = document.getElementById('rev-author')?.value.trim();
+    const text = document.getElementById('rev-text')?.value.trim();
+    const prodName = document.getElementById('p-name')?.innerText || "Невідомий товар";
 
-    const author = authorEl?.value.trim();
-    const text = textEl?.value.trim();
-
+    // Перевірка
     if (!author || !text) {
         alert("Заповніть, будь ласка, ім'я та текст відгуку ✍️");
         return;
     }
 
-    // Блокуємо кнопку
+    // 2. Візуальне блокування кнопки
     const originalText = btn.innerText;
     btn.disabled = true;
     btn.innerText = "Надсилаємо...";
     btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
 
-    const reviewMessage = `💬 НОВИЙ ВІДГУК!\n📦 Товар: ${prodName}\n👤 Автор: ${author}\n📝 Текст: ${text}`;
+    const reviewText = `💬 НОВИЙ ВІДГУК!\n📦 Товар: ${prodName}\n👤 Автор: ${author}\n📝 Текст: ${text}`;
 
     try {
+        // 3. Реальна відправка
         await fetch("https://script.google.com/macros/s/AKfycbzk1Yeg_GjGZ52KZCnmP2yf_i6jpR3AfwL2BxWT4HoE4VTkn1x_ksg9LuEm8PDS7GmH/exec", {
             method: "POST", 
             mode: "no-cors", 
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: reviewMessage })
+            body: JSON.stringify({ message: reviewText })
         });
 
-        // Успіх
+        // 4. Успіх: міняємо вигляд кнопки
         btn.innerText = "Дякуємо! Надіслано 😊";
         btn.style.background = "#325e34"; 
         btn.style.opacity = "1";
 
         // Очищаємо поля
-        authorEl.value = "";
-        textEl.value = "";
+        document.getElementById('rev-author').value = '';
+        document.getElementById('rev-text').value = '';
 
+        // 5. Повертаємо кнопку в норму через 5 секунд
         setTimeout(() => {
             btn.disabled = false;
             btn.innerText = originalText;
             btn.style.background = ""; 
+            btn.style.cursor = "pointer";
         }, 5000);
 
     } catch (e) {
-        alert("Помилка відправки відгуку. Спробуйте пізніше.");
+        alert("Помилка відправки. Напишіть нам у Telegram!");
         btn.disabled = false;
         btn.innerText = originalText;
+        btn.style.opacity = "1";
     }
 };
+
+document.addEventListener('DOMContentLoaded', updateCartUI);
+window.addEventListener('pageshow', updateCartUI);
+
+window.goBack = function() {
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = 'index.html';
+};
+
