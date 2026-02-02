@@ -683,31 +683,32 @@ hero-banner .video-container {
 
 /* =========================================
  /* =========================================
-   ФІКС МОБІЛЬНОЇ ВЕРСТКИ (КАТЕГОРІЇ ТА ФОН)
+   /* =========================================
+   ФІКС МОБІЛЬНОЇ ВЕРСТКИ ТА ФОНУ
    ========================================= */
 
-/* 1. Глобальний захист від вильоту контенту */
+/* Загальні налаштування для всіх сторінок */
 html, body {
     overflow-x: hidden !important;
     width: 100% !important;
-    position: relative;
     margin: 0;
     padding: 0;
+    background-color: #1a100a; /* Базовий колір, щоб не було білих плям */
 }
 
-/* 2. Виправляємо фон-оверлей (щоб не було білих швів) */
-.overlay {
-    width: 100% !important;
-    min-height: 100vh;
-    /* Використовуємо фіксований колір, щоб градієнт не "рвався" при скролі */
-    background: #1a100a !important; 
-    position: relative;
-    display: flex;
-    flex-direction: column;
+/* 1. Тільки для ГОЛОВНОЇ (з картинкою) */
+body.homepage .overlay {
+    background: linear-gradient(to bottom, rgba(40, 25, 15, 0.9), rgba(40, 25, 15, 0.6), rgba(40, 25, 15, 0.9)) !important;
+}
+
+/* 2. Для ВСІХ ІНШИХ сторінок (з градієнтом) */
+/* (використовуємо :not, щоб цей стиль не чіпав головну) */
+body:not(.homepage) .overlay {
     background: linear-gradient(180deg, #23150e 0%, #1a100a 100%) !important;
+    min-height: 100vh;
 }
 
-/* 3. Адаптуємо контейнери та сітку */
+/* Адаптація контенту (щоб не було швів) */
 .container {
     max-width: 100vw !important;
     padding-left: 15px !important;
@@ -715,45 +716,15 @@ html, body {
     box-sizing: border-box !important;
 }
 
-.main-grid {
-    width: 100% !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
-}
-
-/* 4. Сайдбар (Категорії) на мобільних */
 @media (max-width: 1000px) {
-    .sidebar {
+    .main-grid {
+        display: flex !important;
+        flex-direction: column-reverse;
         width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 20px 10px !important;
-        overflow: hidden !important; /* Щоб назви не вилазили */
-    }
-    
-    .sidebar ul {
-        width: 100% !important;
-        padding: 0 !important;
         margin: 0 !important;
     }
-
-    /* Щоб довгі назви категорій не штовхали екран */
-    .sidebar a {
-        display: block;
-        white-space: normal !important; 
-        word-wrap: break-word;
-    }
-}
-
-/* 5. Виправлення для дуже маленьких екранів */
-@media (max-width: 480px) {
-    h1, .description {
-        font-size: 1.4rem !important;
-        word-wrap: break-word !important;
-    }
-    
-    .product-grid {
-        grid-template-columns: 1fr !important; /* Один товар в ряд, якщо телефон зовсім малий */
-        gap: 20px !important;
+    .sidebar {
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 }
