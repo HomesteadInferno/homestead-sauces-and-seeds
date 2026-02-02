@@ -250,17 +250,11 @@
             document.getElementById('product-heat').innerText = product.heatLevel;
             
             // -- ЗАПОВНЮЄМО ЦІНУ (ВАЖЛИВО ДЛЯ ДВИГУНА) --
-const priceEl = document.getElementById('p-price');
-
-// Встановлюємо атрибут data-val, який читає функція pushToCart
-priceEl.setAttribute('data-val', product.price);
-
-// Динамічно визначаємо підпис: якщо є meta.count — беремо його, якщо ні — "/ шт."
-const displayUnit = (product.meta && product.meta.count) ? product.meta.count : "1 шт.";
-
-// Встановлюємо відображення
-priceEl.innerHTML = `${product.price.toFixed(2)} ₴ <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ ${displayUnit}</span>`;
-}
+            const priceEl = document.getElementById('p-price');
+            // Встановлюємо атрибут data-val, який читає функція pushToCart
+            priceEl.setAttribute('data-val', product.price);
+            // Встановлюємо відображення
+            priceEl.innerHTML = `${product.price.toFixed(2)} ₴ <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>`;
 
             // -- СПЕЦИФІКАЦІЇ --
             if (product.specs) {
