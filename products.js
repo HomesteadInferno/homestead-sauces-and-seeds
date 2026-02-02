@@ -32,6 +32,7 @@ const allProducts = {
             count: "5 насінин (+ бонус від ферми)",
             pack: "Zip-пакет з маркуванням",
             year: "2026"
+
         },
 
 
@@ -124,5 +125,10 @@ const allProducts = {
         price: 250,
         images: ["sauce1.jpg"],
         description: "Дуже гострий ферментований соус..."
+    }
+meta: { 
+        count: "1 пляшка (200 мл)", // ОСЬ ТУТ твоя магія
+pack: "Пет-Бутилочка", 
+        year: "2026" 
     }
 };
