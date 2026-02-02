@@ -324,65 +324,47 @@
                 <main class="products-grid">
                     <h1 class="page-title">Насіння гострих перців (Superhots)</h1>
 
-                    <a href="product.html?id=habaneroredsavina" class="product-card product-habanero">
-                        <div class="product-thumb">
-                            <div class="img-container">
-                                <img src="HabaneroRedSavinaCard.jpg" alt="Насіння перцю Habanero Red Savina">
-                            </div>
-                        </div>
-                        <div class="product-tags">
-                        </div>
-                        <div class="product-label">
-                            Habanero Red Savina
-                            <div class="price-row">
-                                <p class="card-price" data-base-price="50" data-allow-sale="true">50 ₴</p>
-                                <button class="quick-add-btn" 
-                                        onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('habaneroredsavina', this); return false;">
-                                   🛒
-                                </button>
-                            </div>
-                        </div>
-                    </a>
+                    <a href="product.html?id=habaneroredsavina" class="product-card" data-id="habaneroredsavina">
+    <div class="img-container">
+        <img src="HabaneroRedSavinaCard.jpg" alt="">
+    </div>
+    <div class="product-label">
+        <h3 class="p-name">Завантаження...</h3> <div class="price-row">
+            <p class="card-price">-- ₴</p> <button class="quick-add-btn" 
+                    onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('habaneroredsavina', this); return false;">
+                🛒
+            </button>
+        </div>
+    </div>
+</a>
 
-                    <a href="product.html?id=reaper" class="product-card product-habanero">
-                        <div class="product-thumb">
-                            <div class="img-container">
-                                <img src="reaper.png" alt="Насіння перцю Carolina Reaper">
-                            </div>
-                        </div>
-                        <div class="product-tags">
-                        </div>
-                        <div class="product-label">
-                           Carolina Reaper
-                            <div class="price-row">
-                                <p class="card-price" data-base-price="70">70 ₴</p>
-                                <button class="quick-add-btn" 
-                                        onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('reaper', this); return false;">
-                                   🛒
-                                </button>
-                            </div>
-                        </div>
-                    </a>
+                    <a href="product.html?id=reaper" class="product-card" data-id="habaneroredsavina">
+    <div class="img-container">
+        <img src="1.jpg" alt="">
+    </div>
+    <div class="product-label">
+        <h3 class="p-name">Завантаження...</h3> <div class="price-row">
+            <p class="card-price">-- ₴</p> <button class="quick-add-btn" 
+                    onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('habaneroredsavina', this); return false;">
+                🛒
+            </button>
+        </div>
+    </div>
+</a>
 
-                     <a href="product.html?id=habanerodominicared" class="product-card product-habanero">
-                        <div class="product-thumb">
-                            <div class="img-container">
-                                <img src="HabaneroDominicaRedCard.png" alt="Насіння перцю Habanero Dominica Red">
-                            </div>
-                        </div>
-                        <div class="product-tags">
-                        </div>
-                        <div class="product-label">
-                           Habanero Dominica Red
-                            <div class="price-row">
-                                <p class="card-price" data-base-price="45">45 ₴</p>
-                                <button class="quick-add-btn" 
-                                        onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('habanerodominicared', this); return false;">
-                                   🛒
-                                </button>
-                            </div>
-                        </div>
-                    </a>
+                    <a href="product.html?id=habanerodominicared" class="product-card" data-id="habaneroredsavina">
+    <div class="img-container">
+        <img src="HabaneroDominicaRedCard.png" alt="">
+    </div>
+    <div class="product-label">
+        <h3 class="p-name">Завантаження...</h3> <div class="price-row">
+            <p class="card-price">-- ₴</p> <button class="quick-add-btn" 
+                    onclick="event.stopPropagation(); event.preventDefault(); addToCartDirectly('habaneroredsavina', this); return false;">
+                🛒
+            </button>
+        </div>
+    </div>
+</a>
                 </main>
             </div>
         </div>
@@ -480,6 +462,38 @@
         function goBack() {
             window.history.back();
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+    if (typeof allProducts === 'undefined') return;
+
+    // Шукаємо всі картки на сторінці
+    document.querySelectorAll('.product-card').forEach(card => {
+        const productId = card.getAttribute('data-id');
+        const data = allProducts[productId];
+
+        if (data) {
+            // Оновлюємо назву
+            const nameEl = card.querySelector('.p-name');
+            if (nameEl) nameEl.innerText = data.name;
+
+            // Оновлюємо ціну
+            const priceEl = card.querySelector('.card-price');
+            if (priceEl) {
+                priceEl.innerText = `${data.price} ₴`;
+                priceEl.setAttribute('data-val', data.price); // для логіки кошика
+            }
+
+            // Оновлюємо картинку (опціонально, якщо хочете і її брати з бази)
+            const imgEl = card.querySelector('.img-container img');
+            if (imgEl && data.images && data.images[0]) {
+                imgEl.src = data.images[0];
+                imgEl.alt = data.name;
+            }
+        }
+    });
+});
     </script>
+
+    <script src="products.js"></script>
 </body>
 </html>
