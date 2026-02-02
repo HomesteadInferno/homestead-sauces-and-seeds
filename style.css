@@ -108,11 +108,13 @@ header {
 /* ВИПРАВЛЕННЯ КОШИКА */
 .cart-wrapper {
     order: 3;
-    position: absolute; /* Жорстко фіксуємо праворуч */
-    top: 30px;
+    position: absolute; 
+    top: 50%;           /* Центруємо вертикально відносно хедера */
+    transform: translateY(-50%); /* Точне вирівнювання по центру */
     right: 20px;
     z-index: 10;
 }
+
 
 /* Кнопка кошика без рамок і фону */
 .cart-icon-btn {
@@ -144,13 +146,31 @@ header {
     padding: 20px; display: none; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
     z-index: 1000;
 }
+
 .cart-wrapper:hover .cart-dropdown { display: block; }
 .cart-items-list { max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
 
-/* Адаптація кошика для телефонів */
-@media (max-width: 600px) {
-    .cart-wrapper { top: 20px; right: 15px; }
-    .cart-icon-svg { width: 24px; height: 24px; }
+/* Спеціально для мобільних, щоб вони розійшлися */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 0;
+        /* Даємо більше місця всередині хедера, щоб лого не тиснуло на краї */
+    }
+
+.logo-image {
+        max-width: 220px; /* Трохи зменшуємо лого на маленьких екранах */
+        margin-right: 40px; /* Робимо "буферну зону" для кошика */
+    }
+.cart-wrapper {
+        top: 50%; /* Тримаємо по центру лінії логотипа */
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-image {
+        max-width: 180px; /* Ще трохи менше для зовсім вузьких екранів */
+    }
 }
 
 /* =========================================
