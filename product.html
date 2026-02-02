@@ -247,20 +247,27 @@
             // --- ЗАПОВНЮЄМО ТЕКСТИ НА СТОРІНЦІ ---
             document.getElementById('p-name').innerText = product.name;
             document.getElementById('p-desc').innerHTML = product.description; // innerHTML дозволяє теги <br>
-            document.getElementById('product-heat').innerText = product.heatLevel;
+            document.getElementById('product-heat').innerText = product.heatLevel ||"Не вказано";
             
             // -- ЗАПОВНЮЄМО ЦІНУ (ВАЖЛИВО ДЛЯ ДВИГУНА) --
             const priceEl = document.getElementById('p-price');
             // Встановлюємо атрибут data-val, який читає функція pushToCart
             priceEl.setAttribute('data-val', product.price);
             // Встановлюємо відображення
-            priceEl.innerHTML = `${product.price.toFixed(2)} ₴ <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>`;
+            priceEl.innerHTML = `${product.price.toFixed(2)} ₴ <span style="font-size: 16px; opacity: 0.6; font-weight: normal;"></span>`;
 
             // -- СПЕЦИФІКАЦІЇ --
-            if (product.specs) {
-                document.getElementById('spec-maturity').innerText = product.specs.maturity || "-";
-                document.getElementById('spec-height').innerText = product.specs.height || "-";
-                document.getElementById('spec-species').innerText = product.specs.species || "-";
+            // -- СПЕЦИФІКАЦІЇ --
+const specsBlock = document.getElementById('specs-section'); // ID твоєї таблиці/блоку
+if (product.specs) {
+    if (specsBlock) specsBlock.style.display = 'block'; // Показуємо, якщо є дані
+    document.getElementById('spec-maturity').innerText = product.specs.maturity || "-";
+    document.getElementById('spec-height').innerText = product.specs.height || "-";
+    document.getElementById('spec-species').innerText = product.specs.species || "-";
+} else {
+    if (specsBlock) specsBlock.style.display = 'none'; // Повністю ховаємо для соусів
+}
+
             }
             // --- МЕТА ДАНІ (ПАКУВАННЯ ТА РІК) ---
            if (product.meta) {
