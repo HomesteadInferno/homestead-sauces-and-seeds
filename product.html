@@ -84,7 +84,7 @@
                     
                     <div class="thumbs-grid" id="gallery-thumbs"></div>
 
-                    <div class="product-specs" style="margin-top: 20px; border-top: 1px solid rgba(214, 96, 58, 0.3); padding-top: 15px;">
+                    <div id="specs-section" class="product-specs" style="margin-top: 20px; border-top: 1px solid rgba(214, 96, 58, 0.3); padding-top: 15px;">
                         <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
                                 <td style="padding: 8px 0; opacity: 0.7;">Термін дозрівання:</td>
@@ -247,7 +247,10 @@
             // --- ЗАПОВНЮЄМО ТЕКСТИ НА СТОРІНЦІ ---
             document.getElementById('p-name').innerText = product.name;
             document.getElementById('p-desc').innerHTML = product.description; // innerHTML дозволяє теги <br>
-            document.getElementById('product-heat').innerText = product.heatLevel ||"Не вказано";
+            document.getElementById('product-heat');
+if (heatEl) {
+    heatEl.innerText = product.heatLevel || "Помірна"; 
+}
             
             // -- ЗАПОВНЮЄМО ЦІНУ (ВАЖЛИВО ДЛЯ ДВИГУНА) --
             const priceEl = document.getElementById('p-price');
@@ -258,23 +261,25 @@
 
             // -- СПЕЦИФІКАЦІЇ --
             // -- СПЕЦИФІКАЦІЇ --
-const specsBlock = document.getElementById('specs-section'); // ID твоєї таблиці/блоку
-if (product.specs) {
-    if (specsBlock) specsBlock.style.display = 'block'; // Показуємо, якщо є дані
-    document.getElementById('spec-maturity').innerText = product.specs.maturity || "-";
-    document.getElementById('spec-height').innerText = product.specs.height || "-";
-    document.getElementById('spec-species').innerText = product.specs.species || "-";
+// 2. Логіка для специфікацій (насіння vs соуси)
+const specsTable = document.querySelector('.product-specs'); // або твій ID
+if (product.category === 'seeds' && product.specs) {
+    specsTable.style.display = 'table'; // або 'block'
+    document.getElementById('spec-maturity').innerText = product.specs.maturity;
+    document.getElementById('spec-height').innerText = product.specs.height;
+    document.getElementById('spec-species').innerText = product.specs.species;
 } else {
-    if (specsBlock) specsBlock.style.display = 'none'; // Повністю ховаємо для соусів
+    // Якщо це соус — просто ховаємо таблицю характеристик насіння
+    if (specsTable) specsTable.style.display = 'none';
 }
-
-            }
-            // --- МЕТА ДАНІ (ПАКУВАННЯ ТА РІК) ---
-           if (product.meta) {
-                document.getElementById('meta-count').innerText = product.meta.count || "5 шт.";
-                document.getElementById('meta-pack').innerText = product.meta.pack || "Zip-lock";
-                document.getElementById('meta-year').innerText = product.meta.year || "2024";
-            }
+// 3. Мета-дані (Пакування/Рік) - працюють для всіх
+if (product.meta) {
+    const countLabel = document.getElementById('meta-count');
+    if (countLabel) countLabel.innerText = product.meta.count || "";
+    
+    const packLabel = document.getElementById('meta-pack');
+    if (packLabel) packLabel.innerText = product.meta.pack || "";
+}
             // -- ПРИМІТКА (ЯКЩО Є) --
             const tipsEl = document.getElementById('product-tips');
             if (product.growTip) {
