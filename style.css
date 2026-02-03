@@ -680,3 +680,60 @@ hero-banner .video-container {
     .hero-banner { height: 50vh; }
     .hero-content h1 { font-size: 2rem; }
 }
+
+/* =========================================
+ /* =========================================
+   /* =========================================
+   ФІКС МОБІЛЬНОЇ ВЕРСТКИ ТА ФОНУ
+   ========================================= */
+
+/* Загальні налаштування для всіх сторінок */
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    background-color: #1a100a; /* Базовий колір, щоб не було білих плям */
+}
+
+/* 1. Тільки для ГОЛОВНОЇ (з картинкою) */
+body.homepage .overlay {
+    background: linear-gradient(to bottom, rgba(40, 25, 15, 0.9), rgba(40, 25, 15, 0.6), rgba(40, 25, 15, 0.9)) !important;
+}
+
+/* 2. СПЕЦІАЛЬНИЙ ФОН ДЛЯ ГОЛОВНОЇ */
+body.homepage {
+    background-image: url('peppers-bg.jpg'); /* ОСЬ ТУТ ПРОПИСУЄТЬСЯ ШЛЯХ */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+
+/* 2. Для ВСІХ ІНШИХ сторінок (з градієнтом) */
+/* (використовуємо :not, щоб цей стиль не чіпав головну) */
+body:not(.homepage) .overlay {
+    background: linear-gradient(180deg, #23150e 0%, #1a100a 100%) !important;
+    min-height: 100vh;
+}
+
+/* Адаптація контенту (щоб не було швів) */
+.container {
+    max-width: 100vw !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    box-sizing: border-box !important;
+}
+
+@media (max-width: 1000px) {
+    .main-grid {
+        display: flex !important;
+        flex-direction: column-reverse;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    .sidebar {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
