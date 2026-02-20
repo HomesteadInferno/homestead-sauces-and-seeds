@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Головна сторінка -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/index.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Сторінка насіння -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/seedsandseedlings.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Сторінка соусів -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/sauces.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+<!-- Сторінка соусів -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/otherseeds.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  
+  <!-- FAQ -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/faq.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/privacy.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- Сторінки товарів -->
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/product.html?id=habaneroredsavina</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/product.html?id=reaper</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/product.html?id=habanerodominicared</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://homesteadinferno.github.io/homestead-sauces-and-seeds/product.html?id=fire-dragon-sauce</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
+
+<!-- 
+ВАЖЛИВО: 
+1. Замініть "ВАШ-ДОМЕН" на ваш реальний домен GitHub Pages
+2. Додавайте нові товари в цей файл коли створюєте їх
+3. Оновлюйте <lastmod> дату коли змінюєте сторінки
+-->
