@@ -74,6 +74,26 @@
                             <li><a href="otherseeds.html">🌱 Інше насіння</a></li>
                         </ul>
                     </nav>
+                    <div class="scoville-thermometer-widget">
+    <h3 class="widget-title">Термометр вогню</h3>
+    
+    <div class="thermometer-container">
+        <input type="range" min="1" max="5" step="1" value="1" id="scoville-slider" orient="vertical">
+        
+        <div class="thermometer-display" id="thermometer-display" style="border-color: #4C9900;">
+            <div class="display-content">
+                <span id="pepper-name">Ancho Poblano</span>
+                <span id="pepper-shu">1,000 - 2,000 SHU</span>
+                <div id="heat-status">Рівень: Пряний аромат 🌿</div>
+            </div>
+        </div>
+    </div>
+    
+    <p class="scoville-disclaimer">Тягни вгору, давай знайомитися!</p>
+    <button id="reset-scoville" class="reset-btn">
+    🔄 Скинути фільтр
+</button>
+</div>
                 </aside>
 
                 <main class="products-grid" data-category="seeds">
