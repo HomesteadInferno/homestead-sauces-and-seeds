@@ -3,23 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="meta-title">Купити насіння гострих перців, супер-гострі соуси  - Homestead</title> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
+   <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self'; 
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+    font-src 'self' https://fonts.gstatic.com; 
+    script-src 'self' 'unsafe-inline' https://script.google.com; 
+    connect-src 'self' https://script.google.com https://script.googleusercontent.com; 
+    img-src 'self' data:;">
+
+    <title id="meta-title">Купити насіння гострих перців, супер-гострі соуси  - Homestead</title>
     <meta name="description" id="meta-description" content="Купити насіння гострих перців та соуси в магазині Homestead">
 <meta property="og:title" id="og-title" content="Товар Homestead">
 <meta property="og:description" id="og-description" content="Найкраще насіння та соуси">
 <meta property="og:image" id="og-image" content="">
     <link rel="stylesheet" href="style.css"> 
+    <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
     <script type="application/ld+json" id="product-schema"></script>
     
 </head>
-<body>
-
+<body class="product-page-layout">
 <div class="overlay">
     <div class="container">
         <header>
-             <a href="index.html">
-                 <img src="homesteadlogo.png" alt="Homestead Logo" class="logo-small">
-             </a>
+           <a href="index.html" class="main-logo-link">
+                <img src="logoround.png" alt="Homestead Logo" class="logo-round">
+                <img src="homesteadlogo.png" alt="Homestead - Магазин гострого насіння та соусів" class="logo-image">
+                </a>
+            <div class="search-container" style="margin: 15px 0;">
+                <input type="text" id="search-input" placeholder="Шукати товари..." autocomplete="off">
+                <span class="search-icon">🔍</span>
+                <div id="search-results"></div>
+            </div>
+            
             <div class="cart-wrapper">
                 <button class="cart-icon-btn">
                     <svg class="cart-icon-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
@@ -40,39 +71,35 @@
 
         <button class="back-btn" onclick="goBack()">
             <svg style="width:20px" viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg>
-            Назад до каталогу
+            Назад
         </button>
 
         <div class="main-grid">
+            
             <aside class="sidebar">
+                <div class="sidebar">
                 <h3>Категорії</h3>
                 <ul>
-                    <li><a href="seedsandseedlings.html">🌶️Насіння супер-хотів</a></li>
+                    <li><a href="seedsandseedlings.html">🌶️ Насіння суперхотів</a></li>
                     <li><a href="sauces.html">🔥 Крафтові Соуси</a></li>
                     <li><a href="otherseeds.html">🌱 Інше насіння</a></li>
                 </ul>
-                <div class="sidebar-rec-wrapper" style="margin-top: 50px;">
-        <h3 style="font-size: 16px; margin-bottom: 20px;">🔥 Рекомендуємо</h3>
-        <div id="sidebar-rec-grid">
-            </div>
-            <div id="review-form-section" style="margin-top: 50px; padding: 25px; background: rgba(255,255,255,0.03); border: 1px solid #33251e;">
-    <h4 style="color: var(--primary-orange); margin-top: 0;">Залишити відгук про цей сорт</h4>
-    
-    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-        <input type="text" id="rev-author" placeholder="Ваше ім'я" 
-               style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px;">
-        
-        <textarea id="rev-text" rows="3" placeholder="Напишіть ваші враження..." 
-                  style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px; resize: none;"></textarea>
-        
-        <button class="add-btn" style="width: auto; padding: 10px 25px;" onclick="sendReview()">
-            Надіслати на модерацію
-        </button>
-    </div>
-</div>
-        </button>
-            </aside>
+                </div>
+                <div class="sidebar-rec-wrapper" style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                    <h3 style=" margin-bottom: 20px;">🔥 Рекомендуємо</h3>
+                    <div id="sidebar-rec-grid" style="display: flex; flex-direction: column; gap: 15px;">
+                        </div>
+                </div>
 
+                <div id="review-form-section" style="margin-top: 50px; padding: 20px; background: rgba(255,255,255,0.03); border: 1px solid #33251e; border-radius: 8px;">
+                    <h4 style="color: var(--primary-orange); margin-top: 0;">Залишити відгук</h4>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                        <input type="text" id="rev-author" placeholder="Ваше ім'я" style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px; border-radius: 4px;">
+                        <textarea id="rev-text" rows="3" placeholder="Враження..." style="background: #1a100a; border: 1px solid #44332a; color: white; padding: 10px; resize: none; border-radius: 4px;"></textarea>
+                        <button class="add-btn-aside" style="width: 100%; padding: 10px;" onclick="sendReview()">Надіслати</button>
+                    </div>
+                </div>
+            </aside>
 
             <main class="product-page">
                 <div class="gallery-col">
@@ -81,62 +108,111 @@
                         <img id="main-view" src="" alt="Фото товару">
                         <button class="nav-arrow right" onclick="changeImage(1)">&#10095;</button>
                     </div>
-                    
                     <div class="thumbs-grid" id="gallery-thumbs"></div>
 
                     <div class="product-specs" style="margin-top: 20px; border-top: 1px solid rgba(214, 96, 58, 0.3); padding-top: 15px;">
-                        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                        <table style="width: 100%; border-collapse: collapse;">
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 8px 0; opacity: 0.7;">Термін дозрівання:</td>
+                                <td style="padding: 8px 0; opacity: 0.9;">Термін дозрівання:</td>
                                 <td style="padding: 8px 0; text-align: right;" id="spec-maturity"></td>
                             </tr>
+                              <tr>
+                                <td style="padding: 8px 0; opacity: 0.9;">Врожайність:</td>
+                                <td id="spec-yield">-</td>
+                            </tr>
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 8px 0; opacity: 0.7;">Висота рослини:</td>
+                                <td style="padding: 8px 0; opacity: 0.9;">Висота рослини:</td>
                                 <td style="padding: 8px 0; text-align: right;" id="spec-height"></td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; opacity: 0.7;">Вид:</td>
-                                <td style="padding: 8px 0; text-align: right; color: #ff4d00;" id="spec-species"></td>
+                                <td style="padding: 8px 0; opacity: 0.9;">Вид:</td>
+                                <td style="padding: 8px 0; text-align: right;" id="spec-species"></td>
                             </tr>
                         </table>
                     </div>
-
-                    <p id="product-tips" style="font-size: 13px; color: #888; display: none;">
-                        <i></i>
-                    </p>
+                    
                 </div>
 
-                <div class="info-col">
-                    <span class="heat-tag" id="product-heat"></span>
-                    
-                    <h1 id="p-name">Завантаження...</h1>
-                    
-                    <div id="p-desc" style="line-height: 1.8; opacity: 0.8; margin-bottom: 20px;"></div>
+               <div class="info-col">
+    <span class="heat-tag" id="product-heat"></span>
+    <h1 id="p-name">Завантаження...</h1>
+    <div id="p-desc"></div>
+    <p id="product-tips" style="display: none;"><i></i></p>
+    <div id="extreme-warning-zone" style="display: none;"></div>
+    <div class="price-big" id="p-price" data-val="0" data-allow-sale="true">
+        0.00 <span style="font-size: 16px; opacity: 0.6; font-weight: normal;"></span>
+    </div>    
 
-                    <div class="price-big" id="p-price" data-val="0" data-allow-sale="true">
-                        0.00 <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>
-                    </div>    
+    <div id="cart-action-zone">
+        <div style="display: flex; gap: 15px; margin-top: 30px; align-items: center;">
+            
+            <div class="qty-stepper">
+                <button type="button" class="step-btn" 
+                    onclick="this.parentNode.querySelector('#p-qty').stepDown(); this.parentNode.querySelector('#p-qty').dispatchEvent(new Event('change'))">
+                    &minus;
+                </button>
+                
+                <input type="number" id="p-qty" value="1" min="1" max="100" readonly>
+                
+                <button type="button" class="step-btn" 
+                    onclick="this.parentNode.querySelector('#p-qty').stepUp(); this.parentNode.querySelector('#p-qty').dispatchEvent(new Event('change'))">
+                    &plus;
+                </button>
+            </div>
 
-                    <div style="display: flex; gap: 15px; margin-top: 30px;">
-                        <input type="number" id="p-qty" value="1" min="1" style="width: 60px; background: #1a120e; border: 1px solid #44332a; color: white; text-align: center;">
-                        <button class="add-btn" onclick="pushToCart()">Додати у кошик</button>
-                    </div>
-
-                    <div class="product-meta" style="margin-top: 25px; border-top: 1px dashed #443; padding-top: 15px;">
-                        <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
-                            <strong>Кількість:</strong> <span id="meta-count"></span>
-                        </p>
-                        <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
-                            <strong>Пакування:</strong> <span id="meta-pack"></span>
-                        </p>
-                        <p style="margin: 5px 0; font-size: 14px; opacity: 0.8;">
-                            <strong>Рік збору:</strong> <span id="meta-year"></span>
-                        </p>
-                    </div>
-                </div>
-            </main>
+            <button class="add-btn" onclick="pushToCart()">Додати у кошик</button>
         </div>
     </div>
+
+    <div class="product-meta" style="margin-top: 25px; border-top: 1px dashed #443; padding-top: 15px;">
+        <p style="margin: 5px 0; opacity: 0.8;"><strong>Кількість:</strong> <span id="meta-count"></span></p>
+        <p style="margin: 5px 0; opacity: 0.8;"><strong>Пакування:</strong> <span id="meta-pack"></span></p>
+        <p style="margin: 5px 0; opacity: 0.8;"><strong>Рік збору:</strong> <span id="meta-year"></span></p>
+    </div>
+</div>
+                </div>
+            </main>
+        
+        </div> </div>
+</div>
+    <footer>
+    <div class="container footer-content">
+        <div class="footer-brand">
+            <img src="homesteadlogo.png" alt="Homestead Logo" class="footer-logo-img">
+            <p class="footer-tagline">Справжня гострота вирощується тут. <br>Від насіння до вогняних соусів.</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Клієнтам</h4>
+            <div class="footer-links">
+                <a href="faq.html">Питання та відповіді (FAQ)</a>
+                <a href="shipping.html">Доставка та оплата</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Зв'язок</h4>
+            <div class="footer-contacts">
+                <span>+00000000000</span>
+                <a href="mailto:example@mail.com">inferno@homestead.com</a>
+                <div class="footer-socials">
+                   </div>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Інфо</h4>
+            <div class="footer-pp">
+                <a href="privacy.html">Конфіденційність</a>
+                <a href="terms.html">Публічна оферта</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom container">
+        <p>&copy; 2026 Homestead Inferno. Обережно, викликає залежність від гострого. 🔥</p>
+    </div>
+</footer>
 </div>
 
 <a href="#" class="floating-cart" onclick="openCheckout(); return false;">
@@ -144,74 +220,13 @@
     <span id="cart-count">0</span>
 </a>
 
-<div id="checkoutModal" class="modal">
-        <div class="modal-box">
-            <span class="close-btn" onclick="closeCheckout()">&times;</span>
-            
-            <div id="modal-main-content" style="display: grid; grid-template-columns: 1fr 300px; gap: 40px; width: 100%;">
-                <div class="form-side">
-                    <h2 style="color: var(--primary-orange); margin-top:0;">Оформлення</h2>
-                    <div class="form-group">
-                        <label>Прізвище Ім'я По-батькові</label>
-                        <input type="text" id="cust-name">
-                    </div>
-                    <div class="form-group">
-                        <label>Телефон</label>
-                        <input type="tel" id="cust-phone" placeholder="+38XXXXXXXXXX" maxlength="13">
-                    </div>
-                    <div class="form-group">
-                        <label>Спосіб доставки</label>
-                        <select id="cust-delivery">
-                            <option value="Відділення НП">Нова Пошта (Відділення)</option>
-                            <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
-                            <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Місто</label>
-                        <input type="text" id="cust-city" placeholder="Київ">
-                        <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Відділення № або Адреса</label>
-                        <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
-                    </div>
-                    <div class="form-group">
-                        <label>Електронна пошта</label>
-                        <input type="text" id="email" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label>Коментар</label>
-                        <textarea id="cust-comment"></textarea>
-                    </div>
-                </div>
-
-                <div class="summary-side">
-                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-top:0;">ВАШІ ТОВАРИ:</h4>
-                        <div id="final-list"></div> 
-                        <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right;">
-                            Разом: <span id="final-price">0.00</span>
-                        </div>
-                    </div>
-                    <button class="add-btn" style="margin-top:20px; background:#6ba86b;" onclick="submitOrder()">Замовити</button>
-                </div>
-            </div>
-
-            <div id="success-msg" style="display:none; text-align: center; width: 100%;">
-                <h2>🌿 Замовлення прийнято!</h2>
-                <p>Дякуємо, ми скоро зв'яжемося з вами.</p>
-                <button class="add-btn" onclick="closeCheckout()">Закрити</button>
-            </div>
-        </div>
-    </div>
 
  <script src="products.js"></script>
-    <script src="cart.js"></script>
-    <script src="catalog.js"></script>
+ <script src="search.js"></script>
+ <script src="modal-init.js"></script>
+<script src="cart.js"></script>
 <script src="product-page.js"></script>
-
+<script src="theme-switcher.js"></script>
 </body>
+
 </html>

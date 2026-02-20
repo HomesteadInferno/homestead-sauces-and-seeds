@@ -1,0 +1,23 @@
+# robots.txt для Homestead
+
+User-agent: *
+Allow: /
+
+# Дозволяємо індексувати всі сторінки
+Allow: /index.html
+Allow: /product.html
+Allow: /sauces.html
+Allow: /seedsandseedlings.html
+Allow: /otherseeds.html
+Allow: /faq.html
+Allow: /privacy.html
+
+# Не індексуємо 404
+Disallow: /404.html
+
+# Посилання на sitemap
+Sitemap: https://homesteadinferno.github.io/homestead-sauces-and-seeds/sitemap.xml
+
+# Примітка: Замініть "ВАШ-ДОМЕН" на ваш реальний домен!
+# Наприклад: https://homestead-farm.github.io/sitemap.xml
+

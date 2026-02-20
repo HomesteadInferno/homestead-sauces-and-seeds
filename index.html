@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self'; 
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+    font-src 'self' https://fonts.gstatic.com; 
+    script-src 'self' 'unsafe-inline' https://script.google.com; 
+    connect-src 'self' https://script.google.com https://script.googleusercontent.com; 
+    img-src 'self' data:;">
     <title>Homestead - Купити насіння гострих перців та крафтові соуси</title>
     <meta name="description" content="Магазин 'Homestead': насіння надгострих перців (Habanero, Carolina Reaper, Scorpion), ексклюзивна розсада та авторські гострі соуси Inferno. Вирощуйте пекло вдома!">
     <meta name="keywords" content="гострий перець, насіння хабанеро, купити розсаду перцю, гострі соуси, Homestead, вирощування перцю">
-
     <meta property="og:title" content="Homestead - Вирощуйте Пекло на власному городі">
     <meta property="og:description" content="Насіння найгостріших перців світу та соуси Inferno. Замовляй зараз!">
     <meta property="og:image" content="peppers-bg.jpg"> <meta property="og:type" content="website">
     <meta property="og:url" content="https://vash-site.com"> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
@@ -33,21 +36,56 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
-
+<meta name="google-site-verification" content="ZHWp3dDyPfgW63HqbmKizw4DOSzIvlCrq7mUrW8wDro" />
 </head>
 <body class="homepage">
 
+    <div class="fire-wrapper">
+        <div class="ember" style="--left:15%; --duration:7s; --delay:0s; --size:4px; --color:#ff4500;"></div>
+        <div class="ember" style="--left:35%; --duration:9s; --delay:2s; --size:2px; --color:#ffd700;"></div>
+        <div class="ember" style="--left:55%; --duration:6s; --delay:4s; --size:5px; --color:#ff8c00;"></div>
+        <div class="ember" style="--left:75%; --duration:8s; --delay:1s; --size:3px; --color:#ff4500;"></div>
+        <div class="ember" style="--left:90%; --duration:10s; --delay:5s; --size:4px; --color:#ffd700;"></div>
+    </div>
+
     <div class="overlay">
         <div class="container">
-            <header>
-                <div class="top-nav">
-                    <span>ШВИДКЕ ВІДПРАВЛЕННЯ</span>
-                    <span>ПІСЛЯПЛАТА</span>
-                    <span>БЕЗ МІНІМАЛЬНОЇ СУМИ ЗАМОВЛЕННЯ</span>
-                </div>
-                <img src="homesteadlogo.png" alt="Homestead - Магазин гострого насіння та соусів" class="logo-image">
-            </header>
+            <header style="position: relative; overflow: hidden;">
+    
+    <div class="fire-wrapper">
+        <div class="ember" style="--left:10%; --duration:5s; --delay:0s; --size:3px; --color:#ff4500;"></div>
+        <div class="ember" style="--left:25%; --duration:7s; --delay:2s; --size:2px; --color:#ffd700;"></div>
+        <div class="ember" style="--left:45%; --duration:6s; --delay:1s; --size:4px; --color:#ff8c00;"></div>
+        <div class="ember" style="--left:65%; --duration:8s; --delay:3s; --size:2px; --color:#ff4500;"></div>
+        <div class="ember" style="--left:85%; --duration:6s; --delay:0s; --size:3px; --color:#ffd700;"></div>
+    </div>
+
+    <div class="top-nav" style="position: relative; z-index: 5;">
+        <span>ШВИДКЕ ВІДПРАВЛЕННЯ</span>
+        <span>ПІСЛЯПЛАТА</span>
+        <span>БЕЗ МІНІМАЛЬНОЇ СУМИ ЗАМОВЛЕННЯ</span>
+    </div>
+
+    <div class="logo-wrapper" style="position: relative; z-index: 10; margin-top: 20px;">
+    <a href="index.html" class="main-logo-link">
+        <img src="logoround.png" alt="Homestead Logo" class="logo-round" style="filter: drop-shadow(0 0 15px rgba(255,69,0,0.4));">
+        <img src="homesteadlogo.png" alt="Homestead" class="logo-image">
+    </a>
+</div>
+</header>
             
+             <!-- 🔍 БЛОК ПОШУКУ -->
+    <div class="search-container" style="margin-top: 20px;">
+        <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Шукати товари..."
+            autocomplete="off"
+        >
+        <span class="search-icon">🔍</span>
+        <div id="search-results"></div>
+    </div>
+
            
             <section class="hero-text">
                 <div class="sub-header">
@@ -83,7 +121,7 @@
                 </a>
 
                 <a href="seedsandseedlings.html" class="card-link">
-                    <img src="1.PNG" alt="Замовити розсаду та насіння перцю" class="card-image">
+                    <img src="Habanerochocolate.png" alt="Замовити розсаду та насіння перцю" class="card-image">
                     <div class="card-label">Насіння<br>та розсада</div>
                 </a>
 
@@ -105,99 +143,77 @@
         </div>
     </div>
 </section>
-
-        <footer>
-            <div class="container footer-content">
-                <div class="footer-logo">
-                    <img src="homesteadlogo.png" alt="Homestead Logo" class="footer-logo-img">
-                </div>
-                
-                <div class="footer-links">
-                    <a href="faq.html">FAQ</a>
-                </div>
-                <div class="footer-contacts">
-                    <span>+00000000000</span>
-                    <a href="mailto:example@mail.com">Email</a>
-                    <a href="faq.html">Інфо</a>
-                </div>
-            </div>
-        </footer>
+<section class="features-grid container">
+    <div class="feature-item">
+        <div class="feature-icon">🌿</div>
+        <h3>100% Натуральний цикл</h3>
+        <p>Ми не купуємо сировину на базах. Все, що потрапляє у ваші руки, виросло на нашому городі під сонцем. Ніяких консервантів, стабілізаторів чи підсилювачів смаку — тільки перець, вогонь та натуральні інгредієнти.</p>
     </div>
+    <div class="feature-item">
+        <div class="feature-icon">🔍</div>
+        <h3>Відбір найкращого </h3>
+        <p>Ми не лабораторія, але ми фанати. Вручну відбираємо найсильніші плоди, щоб ви отримали справжній характер сорту.</p>
+    </div>
+    <div class="feature-item">
+    <div class="feature-icon">🤝</div>
+    <h3>Гарантія чесності</h3>
+    <p>Якщо з насінням щось пішло не так або виріс не той сорт — ми замінимо його або повернемо гроші. Нам важливий ваш врожай, а не просто продаж.</p>
+</div>
+</section>
+<p style="text-align: center; margin-top: 20px; font-size: 14px; opacity: 0.7;">
+    Детальніше про наші принципи роботи та <a href="faq.html#guarantee" style="color: var(--primary-orange); text-decoration: underline;">умови гарантії читайте тут</a>
+</p>
+        <footer>
+    <div class="container footer-content">
+        <div class="footer-brand">
+            <img src="homesteadlogo.png" alt="Homestead Logo" class="footer-logo-img">
+            <p class="footer-tagline">Справжня гострота вирощується тут. <br>Від насіння до вогняних соусів.</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Клієнтам</h4>
+            <div class="footer-links">
+                <a href="faq.html">Питання та відповіді (FAQ)</a>
+                <a href="shipping.html">Доставка та оплата</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Зв'язок</h4>
+            <div class="footer-contacts">
+                <span>+00000000000</span>
+                <a href="mailto:example@mail.com">inferno@homestead.com</a>
+                <div class="footer-socials">
+                   </div>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Інфо</h4>
+            <div class="footer-pp">
+                <a href="privacy.html">Конфіденційність</a>
+                <a href="terms.html">Публічна оферта</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom container">
+        <p>&copy; 2026 Homestead Inferno. Обережно, викликає залежність від гострого. 🔥</p>
+    </div>
+</footer>
+</div>
 
 <a href="#" class="floating-cart" onclick="openCheckout(); return false;">
     <span class="cart-icon">🛒</span>
     <span id="cart-count">0</span>
 </a>
 
-<div id="checkoutModal" class="modal">
-    <div class="modal-box">
-        <span class="close-btn" onclick="closeCheckout()">&times;</span>
-        
-        <div id="modal-main-content" style="display: grid; grid-template-columns: 1fr 300px; gap: 40px; width: 100%;">
-            <div class="form-side">
-                <h2 style="color: var(--primary-orange); margin-top:0;">Оформлення</h2>
-                <div class="form-group">
-                    <label>Прізвище Ім'я По-батькові</label>
-                    <input type="text" id="cust-name">
-                </div>
-                <div class="form-group">
-                    <label>Телефон</label>
-                    <input type="tel" id="cust-phone" placeholder="+38XXXXXXXXXX" maxlength="13">
-                </div>
-                <div class="form-group">
-                    <label>Спосіб доставки</label>
-                    <select id="cust-delivery">
-                        <option value="Відділення НП">Нова Пошта (Відділення)</option>
-                        <option value="Поштомат НП">Нова Пошта (Поштомат)</option>
-                        <option value="Кур'єр НП">Нова Пошта (Адресна доставка)</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label>Місто</label>
-                    <input type="text" id="cust-city" placeholder="Київ">
-                    <small style="opacity: 0.5; font-size: 10px;">Тільки населені пункти України</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Відділення № або Адреса</label>
-                    <input type="text" id="cust-branch" placeholder="Наприклад: Відділення №10 або вул. Садова, 5">
-                </div>
-                <div class="form-group">
-                    <label>Електронна пошта</label>
-                    <input type="text" id="email" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label>Коментар</label>
-                    <textarea id="cust-comment"></textarea>
-                </div>
-            </div>
-
-            <div class="summary-side">
-                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-                    <h4 style="margin-top:0;">ВАШІ ТОВАРИ:</h4>
-                    <div id="final-list"></div> 
-                    
-                    <div style="font-size: 20px; font-weight: bold; border-top: 1px solid #443; padding-top: 10px; text-align: right; margin-top: 10px;">
-                        Разом: <span id="final-price">0.00</span> 
-                    </div>
-                </div>
-                <button class="add-btn" style="margin-top:20px; background:#6ba86b;" onclick="submitOrder()">Замовити</button>
-            </div>
-        </div>
-
-        <div id="success-msg" style="display:none; text-align: center; width: 100%;">
-            <h2>🌿 Замовлення прийнято!</h2>
-            <p>Дякуємо, ми скоро зв'яжемося з вами.</p>
-            <button class="add-btn" onclick="closeCheckout()">Закрити</button>
-        </div>
-    </div>
-</div>
 
 <script src="products.js"></script>
-    <script src="cart.js"></script>
-    <script src="catalog.js"></script>
-    <script src="product-page.js"></script>
+<script src="search.js"></script>
+<script src="modal-init.js"></script>
+<script src="cart.js"></script>
 
 </body>
 </html>
