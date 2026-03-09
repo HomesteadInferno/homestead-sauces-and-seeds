@@ -400,6 +400,13 @@
         .ember:nth-child(4) { left: 60%; animation-delay: 1s; animation-duration: 6s; }
         .ember:nth-child(5) { left: 80%; animation-delay: 3s; animation-duration: 7.5s; }
         .ember:nth-child(6) { left: 90%; animation-delay: 5s; animation-duration: 8.5s; }
+        .logo-image {
+    width: 400px;
+    max-width: 90vw;
+    height: auto;
+    filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.2));
+    align-items: center;
+}
     </style>
 </head>
 <body>
@@ -419,7 +426,11 @@
         <div class="cert-header">
             <div class="seal">HEAT<br>SURVIVOR<br></div>
             <div class="flame-icon">🔥</div>
-            <h1 class="cert-title">HOMESTEAD<br>INFERNO</h1>
+            <div class="logo-wrapper" style="position: relative; z-index: 10; margin-top: 20px;">
+    <a href="index.html" class="main-logo-link">
+        <img src="homesteadlogo.svg" alt="Homestead" class="logo-image">
+    </a>
+</div>
             <p class="cert-subtitle">Certified Heat Warrior</p>
         </div>
 

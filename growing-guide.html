@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌶️ Інструкція з вирощування — Homestead Inferno</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --flame-red: #ff4500;
+            --deep-red: #a30000;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --border-warm: rgba(214, 96, 58, 0.3);
+            --text-primary: #eaddcf;
+            --text-secondary: #a89584;
+            --accent-green: #81c995;
+            --accent-orange: #d6603a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f0a 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 10px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--flame-red) 0%, var(--deep-red) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 69, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        .pepper-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Zilla Slab', serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* SPECIES SELECTOR */
+        .species-selector {
+            background: var(--card-bg);
+            border: 1px solid var(--border-warm);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .selector-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .species-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .species-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--border-warm);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .species-btn:hover {
+            background: rgba(214, 96, 58, 0.1);
+            border-color: var(--accent-orange);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .species-btn.active {
+            background: linear-gradient(135deg, var(--flame-red), var(--deep-red));
+            border-color: var(--flame-red);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(255, 69, 0, 0.3);
+        }
+
+        /* SPECIES CONTENT */
+        .species-content {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .species-content.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SPECIES INFO */
+        .species-info {
+            background: var(--card-bg);
+            border: 1px solid var(--border-warm);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .species-name {
+            font-family: 'Zilla Slab', serif;
+            font-size: 24px;
+            color: var(--accent-orange);
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .species-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .species-examples {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .examples-label {
+            font-size: 12px;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .examples-list {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* CHARACTERISTICS */
+        .characteristics {
+            background: var(--card-bg);
+            border: 1px solid var(--border-warm);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .char-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(214, 96, 58, 0.2);
+        }
+
+        .char-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .char-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-family: 'Zilla Slab', serif;
+            font-size: 20px;
+            color: var(--accent-orange);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-warm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* STEPS */
+        .step {
+            background: var(--card-bg);
+            border: 1px solid var(--border-warm);
+            border-left: 4px solid var(--accent-orange);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+            border-left-width: 6px;
+            box-shadow: 0 4px 16px rgba(214, 96, 58, 0.2);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--flame-red), var(--deep-red));
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(255, 69, 0, 0.3);
+        }
+
+        .step-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .step-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 44px;
+        }
+
+        /* TIPS/WARNING BOXES */
+        .info-box {
+            border-radius: 10px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+
+        .info-box.tips {
+            background: rgba(129, 201, 149, 0.1);
+            border: 1px solid var(--accent-green);
+        }
+
+        .info-box.warning {
+            background: rgba(255, 69, 0, 0.1);
+            border: 1px solid var(--flame-red);
+        }
+
+        .info-box-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .info-box.tips .info-box-title {
+            color: var(--accent-green);
+        }
+
+        .info-box.warning .info-box-title {
+            color: var(--flame-red);
+        }
+
+        .info-box-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            border: 1px solid var(--border-warm);
+        }
+
+        .footer-brand {
+            font-family: 'Zilla Slab', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            h1 { font-size: 24px; }
+            .pepper-icon { font-size: 48px; }
+            .species-buttons { grid-template-columns: 1fr; }
+            .step-content { padding-left: 0; margin-top: 8px; }
+            .char-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- HEADER -->
+        <div class="header">
+            <div class="pepper-icon">🌶️</div>
+            <h1>Інструкція з вирощування</h1>
+            <div class="subtitle">Homestead Inferno</div>
+        </div>
+
+        <!-- SPECIES SELECTOR -->
+        <div class="species-selector">
+            <div class="selector-label">🔬 Оберіть вид вашого перцю</div>
+            <div class="species-buttons">
+                <button class="species-btn active" data-species="chinense">
+                    Capsicum<br><em>Chinense</em>
+                </button>
+                <button class="species-btn" data-species="annuum">
+                    Capsicum<br><em>Annuum</em>
+                </button>
+                <button class="species-btn" data-species="baccatum">
+                    Capsicum<br><em>Baccatum</em>
+                </button>
+                <button class="species-btn" data-species="pubescens">
+                    Capsicum<br><em>Pubescens</em>
+                </button>
+                <button class="species-btn" data-species="frutescens">
+                    Capsicum<br><em>Frutescens</em>
+                </button>
+            </div>
+        </div>
+
+        <!-- CHINENSE CONTENT -->
+        <div class="species-content active" data-species="chinense">
+            
+            <div class="species-info">
+                <div class="species-name">Capsicum Chinense</div>
+                <div class="species-description">
+                    Найгостріша група перців у світі! Походить з Амазонії та Карибського басейну. Має характерний фруктово-цитрусовий аромат і екстремальну концентрацію капсаїцину. Рослини високі, розлогі, з морщинистими листками.
+                </div>
+                <div class="species-examples">
+                    <div class="examples-label">Приклади сортів:</div>
+                    <div class="examples-list">
+                        Carolina Reaper, Trinidad Scorpion, Ghost Pepper (Bhut Jolokia), Habanero, Scotch Bonnet, 7 Pot, Chocolate Bhutlah
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics">
+                <div class="char-grid">
+                    <div class="char-item">
+                        <div class="char-label">Гострота</div>
+                        <div class="char-value">100k - 2.2M+ SHU</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Дозрівання</div>
+                        <div class="char-value">90-120 днів</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Температура проростання</div>
+                        <div class="char-value">26-30°C</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Висота</div>
+                        <div class="char-value">80-150 см</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">🌱 Покрокова інструкція</div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Підготовка насіння (січень-лютий)</div>
+                </div>
+                <div class="step-content">
+                    Замочіть на 24 години у теплій воді (25°C) з крапелькою перекису. Chinense проростає повільно — потрібне тепло і терпіння! Використовуйте грілку або роутер для підігріву.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Посів (глибина 0.5-1 см)</div>
+                </div>
+                <div class="step-content">
+                    Легкий ґрунт: торф + перліт (2:1). Температура 26-30°C — критично важлива! Накрийте плівкою. Сходи: 7-21 день (у Chinense найдовше серед усіх видів).
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Розсада (16+ годин світла)</div>
+                </div>
+                <div class="step-content">
+                    Після сходів — максимум світла! Фітолампа 16-18 год/день. Поливайте помірно. Пікіруйте при 2-4 листках у горщики 1-2 л. Chinense любить простір для коріння!
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Висадка (після заморозків, травень)</div>
+                </div>
+                <div class="step-content">
+                    Відстань 70-80 см (рослини великі!). Місце: максимум сонця, захист від вітру. Додайте компост + доломітове борошно. pH ґрунту: 6.0-6.8.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Підживлення (NPK 5-10-10)</div>
+                </div>
+                <div class="step-content">
+                    Перші 2 місяці — азот для зелені. Під час цвітіння — калій і фосфор! Підживлюйте кожні 2 тижні. Підв'яжіть стебло — рослина висока і важка від плодів.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Збір врожаю (серпень-жовтень)</div>
+                </div>
+                <div class="step-content">
+                    Плоди готові коли повністю змінюють колір і стають м'якими. ОБОВ'ЯЗКОВО рукавички! За 2 тижні до збору зменште полив — гострота зросте на 20-30%.
+                </div>
+            </div>
+
+            <div class="info-box tips">
+                <div class="info-box-title">💡 Секрети для Chinense</div>
+                <div class="info-box-content">
+                    <strong>Калійний стрес:</strong> За 10-14 днів до збору врожаю почніть поливати рідше. Це змусить рослину виробляти більше капсаїцину для захисту.<br><br>
+                    <strong>Епсомська сіль:</strong> 1 ч.л. на 1л води, обприскати листя раз на місяць. Магній покращує фотосинтез — плоди будуть більші.<br><br>
+                    <strong>Перший плід — видаліть!</strong> Перший плід забирає багато сил. Видаліть його, щоб рослина дала більше плодів потім.
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <div class="info-box-title">⚠️ Важливо для Chinense</div>
+                <div class="info-box-content">
+                    Це найгостріші перці у світі (до 2.2М+ SHU)! Завжди використовуйте рукавички. Олія капсаїцину може проступати краплями на плодах ("сльози диявола"). Не торкайтесь обличчя!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ANNUUM CONTENT -->
+        <div class="species-content" data-species="annuum">
+            
+            <div class="species-info">
+                <div class="species-name">Capsicum Annuum</div>
+                <div class="species-description">
+                    Найпоширеніший вид перців! Швидкий, невибагливий, ідеальний для початківців. Походить з Мексики та Центральної Америки. Включає як солодкі болгарські перці, так і гострі халапеньо.
+                </div>
+                <div class="species-examples">
+                    <div class="examples-label">Приклади сортів:</div>
+                    <div class="examples-list">
+                        Jalapeño, Serrano, Cayenne, Hungarian Wax, Shishito, Padrón, Болгарський перець, Poblano/Ancho
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics">
+                <div class="char-grid">
+                    <div class="char-item">
+                        <div class="char-label">Гострота</div>
+                        <div class="char-value">0 - 50k SHU</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Дозрівання</div>
+                        <div class="char-value">60-85 днів</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Температура проростання</div>
+                        <div class="char-value">22-28°C</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Висота</div>
+                        <div class="char-value">40-90 см</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">🌱 Покрокова інструкція</div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Підготовка (лютий-березень)</div>
+                </div>
+                <div class="step-content">
+                    Замочіть на 12 годин у теплій воді. Annuum проростає швидко — часто без замочування! Але замочування збільшує відсоток схожості до 95%.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Посів (глибина 0.5 см)</div>
+                </div>
+                <div class="step-content">
+                    Універсальний ґрунт для розсади. Температура 22-28°C. Накрийте склом або плівкою. Сходи: 5-10 днів (найшвидше серед усіх видів!).
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Розсада (14+ годин світла)</div>
+                </div>
+                <div class="step-content">
+                    Світло на підвіконні або фітолампа. Поливайте коли верхній шар підсохне. Пікіруйте при 2 листках у горщики 0.5-1л. Компактні — не потрібно багато місця.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Висадка (середина травня)</div>
+                </div>
+                <div class="step-content">
+                    Відстань 40-50 см. Невибагливі до ґрунту, але люблять сонце. Можна вирощувати у горщиках на балконі! pH: 6.0-7.0.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Підживлення (NPK 10-10-10)</div>
+                </div>
+                <div class="step-content">
+                    Універсальне добриво кожні 2-3 тижні. Під час плодоношення — додайте калій. Регулярний полив — ключ до великих плодів!
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Збір врожаю (липень-вересень)</div>
+                </div>
+                <div class="step-content">
+                    Швидко дозрівають! Jalapeño можна збирати зеленим. Cayenne — червоним. Чим довше на рослині — тим гостріші. Плодоносить до заморозків!
+                </div>
+            </div>
+
+            <div class="info-box tips">
+                <div class="info-box-title">💡 Секрети для Annuum</div>
+                <div class="info-box-content">
+                    <strong>Балконне вирощування:</strong> Annuum ідеальні для горщиків! Jalapeño, Serrano, Shishito чудово ростуть у 5-10л контейнерах.<br><br>
+                    <strong>Збір зеленим:</strong> Jalapeño можна збирати зеленим (м'якша гострота) або червоним (гостріший, солодший).
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BACCATUM CONTENT -->
+        <div class="species-content" data-species="baccatum">
+            
+            <div class="species-info">
+                <div class="species-name">Capsicum Baccatum</div>
+                <div class="species-description">
+                    "Перуанські перці" — група з унікальним фруктово-цитрусовим смаком! Походять з Південної Америки (Перу, Болівія). Квіти часто мають жовті або зелені плями всередині — характерна ознака виду.
+                </div>
+                <div class="species-examples">
+                    <div class="examples-label">Приклади сортів:</div>
+                    <div class="examples-list">
+                        Aji Amarillo, Aji Lemon Drop, Aji Panca, Aji Crystal, Aji Charapita, Bishop's Crown, Peppadew
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics">
+                <div class="char-grid">
+                    <div class="char-item">
+                        <div class="char-label">Гострота</div>
+                        <div class="char-value">500 - 50k SHU</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Дозрівання</div>
+                        <div class="char-value">75-100 днів</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Температура проростання</div>
+                        <div class="char-value">24-28°C</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Висота</div>
+                        <div class="char-value">80-120 см</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">🌱 Покрокова інструкція</div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Підготовка (лютий)</div>
+                </div>
+                <div class="step-content">
+                    Замочіть на 12-24 години. Baccatum має тверду оболонку — замочування обов'язкове! Можна злегка потерти наждачкою (скарифікація).
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Посів (глибина 0.5-1 см)</div>
+                </div>
+                <div class="step-content">
+                    Легкий ґрунт, 24-28°C, висока вологість. Накрийте плівкою щільно! Сходи: 10-18 днів. Терплячість потрібна — Baccatum не поспішає.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Розсада (16 годин світла)</div>
+                </div>
+                <div class="step-content">
+                    Багато світла! Baccatum витягуються у тіні. Фітолампа обов'язкова. Пікіруйте у горщики 1-2л. Ростуть швидко після пікірування.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Висадка (кінець травня)</div>
+                </div>
+                <div class="step-content">
+                    Відстань 60-70 см. Люблять тепло і сонце (походять з Анд!). Додайте органіку — Baccatum цінують родючий ґрунт. pH: 6.0-6.5.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Підживлення (NPK 5-10-10)</div>
+                </div>
+                <div class="step-content">
+                    Помірне підживлення. Калій під час плодоношення підкреслює цитрусовий смак! Полив регулярний, але без застою води.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Збір врожаю (серпень-вересень)</div>
+                </div>
+                <div class="step-content">
+                    Плоди готові коли набувають характерного кольору (жовтий, помаранчевий, червоний).
+                </div>
+            </div>
+
+            <div class="info-box tips">
+                <div class="info-box-title">💡 Секрети для Baccatum</div>
+                <div class="info-box-content">
+                    <strong>Цитрусовий смак:</strong> Унікальна риса Baccatum — лимонно-фруктовий аромат. Для максимального смаку збирайте повністю дозрілими.<br><br>
+                    <strong>Заморожування:</strong> Aji Amarillo і Lemon Drop чудово зберігаються замороженими — смак не втрачається!<br><br>
+                    <strong>Зимівля:</strong> У теплих регіонах Baccatum може рости кілька років. Внесіть у дім на зиму — продовжить плодоносити!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PUBESCENS CONTENT -->
+        <div class="species-content" data-species="pubescens">
+            
+            <div class="species-info">
+                <div class="species-name">Capsicum Pubescens</div>
+                <div class="species-description">
+                    "Гірські перці" з Анд! Єдиний вид перців з чорним насінням і опушеними (волохатими) листками та стеблами. Стійкі до холоду — ростуть на висоті 2000-3000м у горах! Рокото та Манзано — легенди латиноамериканської кухні.
+                </div>
+                <div class="species-examples">
+                    <div class="examples-label">Приклади сортів:</div>
+                    <div class="examples-list">
+                        Rocoto (Перу), Manzano (Мексика), Locoto (Болівія), Canario (жовтий Rocoto)
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics">
+                <div class="char-grid">
+                    <div class="char-item">
+                        <div class="char-label">Гострота</div>
+                        <div class="char-value">30k - 100k SHU</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Дозрівання</div>
+                        <div class="char-value">120-150 днів</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Температура проростання</div>
+                        <div class="char-value">18-24°C (холодніше!)</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Висота</div>
+                        <div class="char-value">100-200 см</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">🌱 Покрокова інструкція</div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Підготовка (січень)</div>
+                </div>
+                <div class="step-content">
+                    Замочіть на 48 годин (довше ніж інші види!). Змінюйте воду кожні 12 годин. Pubescens проростає ДУЖЕ довго — запасіться терпінням!
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Посів (глибина 1 см)</div>
+                </div>
+                <div class="step-content">
+                    УВАГА: Pubescens НЕ любить високу температуру! 18-24°C — ідеально. При 28°C+ насіння може загинути! Сходи: 21-45 днів (!). Найдовше серед усіх перців.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Розсада (14+ годин світла)</div>
+                </div>
+                <div class="step-content">
+                    Багато світла, помірна температура 18-22°C. Росте повільно! Пікіруйте у великі горщики 3-5л — коріння потужне. Волохаті листки — нормально!
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Висадка (травень)</div>
+                </div>
+                <div class="step-content">
+                    Відстань 80-100 см (великі рослини!). Можуть рости у прохолодному кліматі. Навіть виживають при +5°C! Не люблять спеку 30°C+. pH: 6.0-6.5.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Підживлення (NPK 10-10-10)</div>
+                </div>
+                <div class="step-content">
+                    Багато органіки! Компост, перегній. Pubescens — багаторічні рослини у природі, тому люблять поживний ґрунт. Полив регулярний.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Збір врожаю (вересень-жовтень)</div>
+                </div>
+                <div class="step-content">
+                    Дозрівають ДУЖЕ довго (120-150 днів). Плоди товстостінні, м'ясисті, соковиті — схожі на яблука! Червоні або жовті. Можуть зимувати у прохолодному приміщенні.
+                </div>
+            </div>
+
+            <div class="info-box tips">
+                <div class="info-box-title">💡 Секрети для Pubescens</div>
+                <div class="info-box-content">
+                    <strong>НЕ перегрівайте!</strong> Це єдиний вид перців, який НЕ любить спеку. При 30°C+ ростуть погано. Ідеальна температура: 18-25°C.<br><br>
+                    <strong>Багаторічник:</strong> Можна тримати у великому горщику і заносити на зиму в прохолодне місце (+10-15°C). Житиме кілька років!<br><br>
+                    <strong>Чорне насіння:</strong> Якщо насіння не чорне — це не Pubescens! Перевіряйте при купівлі.
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <div class="info-box-title">⚠️ Важливо для Pubescens</div>
+                <div class="info-box-content">
+                    Найскладніший вид для вирощування! Довго проростає (до 45 днів), довго дозріває (150 днів), не любить спеку. Але результат варті того — унікальний смак і стійкість до холоду!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FRUTESCENS CONTENT -->
+        <div class="species-content" data-species="frutescens">
+            
+            <div class="species-info">
+                <div class="species-name">Capsicum Frutescens</div>
+                <div class="species-description">
+                    Компактні, дуже врожайні перці з Латинської Америки! Рослини невеликі, але всипані дрібними гострими плодами. Плоди ростуть ВЕРТИКАЛЬНО вгору (характерна ознака виду). Основа для знаменитого соусу Tabasco!
+                </div>
+                <div class="species-examples">
+                    <div class="examples-label">Приклади сортів:</div>
+                    <div class="examples-list">
+                        Tabasco, Thai Chili (Prik Kee Noo), African Bird's Eye, Malagueta, Piri Piri
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics">
+                <div class="char-grid">
+                    <div class="char-item">
+                        <div class="char-label">Гострота</div>
+                        <div class="char-value">30k - 100k SHU</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Дозрівання</div>
+                        <div class="char-value">70-95 днів</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Температура проростання</div>
+                        <div class="char-value">24-28°C</div>
+                    </div>
+                    <div class="char-item">
+                        <div class="char-label">Висота</div>
+                        <div class="char-value">50-100 см</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">🌱 Покрокова інструкція</div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Підготовка (березень)</div>
+                </div>
+                <div class="step-content">
+                    Замочіть на 12 годин. Frutescens проростає добре і без замочування, але це підвищує схожість до 90%.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Посів (глибина 0.5 см)</div>
+                </div>
+                <div class="step-content">
+                    Легкий ґрунт, 24-28°C, плівка. Сходи: 7-14 днів. Проростає швидше за Chinense, але повільніше за Annuum.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Розсада (14 годин світла)</div>
+                </div>
+                <div class="step-content">
+                    Компактна розсада, не витягується. Багато світла. Пікіруйте у невеликі горщики 0.5-1л — рослини невеликі. Можна вирощувати на підвіконні!
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Висадка (травень)</div>
+                </div>
+                <div class="step-content">
+                    Відстань 40-50 см (компактні). Ідеальні для горщиків 5-10л на балконі! Люблять сонце і тепло. pH: 6.0-6.5.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Підживлення (NPK 5-10-10)</div>
+                </div>
+                <div class="step-content">
+                    Помірне підживлення кожні 2 тижні. Багато калію — плодів буде більше! Регулярний полив, але без перезволоження.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Збір врожаю (липень-жовтень)</div>
+                </div>
+                <div class="step-content">
+                    ДУЖЕ врожайні! Одна рослина дає 100+ дрібних плодів. Плоди легко відриваються від куща. Зрівають від зеленого через жовтий до червоного. Можна збирати на будь-якій стадії!
+                </div>
+            </div>
+
+            <div class="info-box tips">
+                <div class="info-box-title">💡 Секрети для Frutescens</div>
+                <div class="info-box-content">
+                    <strong>Контейнерне вирощування:</strong> Frutescens ідеальні для горщиків! Thai Chili, Tabasco чудово ростуть на балконі чи підвіконні.<br><br>
+                    <strong>Багаторічник:</strong> Можна заносити на зиму в дім — житиме кілька років і плодоносить цілий рік!<br><br>
+                    <strong>Декоративність:</strong> Плоди ростуть вертикально вгору — виглядає дуже ефектно. Червоні, жовті, зелені одночасно на одному кущі!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-brand">🌶️ HOMESTEAD INFERNO</div>
+            <div class="footer-text">
+                Крафтові соуси • Насіння суперхотів<br>
+                Вирощено з любов'ю та вогнем 🔥<br><br>
+                <strong>Потрібна допомога?</strong> Напишіть нам:<br>
+                📧 homestead.inferno@gmail.com<br>
+              <!--  📱 @homesteadinferno-->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Перемикання між видами
+        const speciesButtons = document.querySelectorAll('.species-btn');
+        const speciesContents = document.querySelectorAll('.species-content');
+
+        speciesButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const species = btn.getAttribute('data-species');
+                
+                // Оновлюємо кнопки
+                speciesButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Оновлюємо контент
+                speciesContents.forEach(content => {
+                    if (content.getAttribute('data-species') === species) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+
+                // Плавний скрол до контенту
+                setTimeout(() => {
+                    document.querySelector('.species-content.active').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 100);
+            });
+        });
+
+        // Легка анімація при скролі
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.step, .info-box, .characteristics').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

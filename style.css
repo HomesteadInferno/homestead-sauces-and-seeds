@@ -247,8 +247,7 @@ header {
     gap: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     position: relative;
-    overflow: hidden;
-    z-index: 100;
+    z-index: 1000;
 }
 
 /* Анімований рядок-підказка */
@@ -446,7 +445,7 @@ header {
     border: 1px solid var(--primary-color);
     border-radius: var(--radius-md);
     padding: 18px;
-    z-index: 1001;
+    z-index: 9999 !important;
     box-shadow: 0 14px 40px rgba(0,0,0,0.5);
     opacity: 0;
     visibility: hidden;
@@ -457,6 +456,7 @@ header {
 .cart-wrapper:hover .cart-dropdown {
     opacity: 1; visibility: visible; transform: translateY(0);
     transition-delay: 0s;
+    z-index: 1000;
 }
 
 /* Невидимий міст між кнопкою і dropdown */
@@ -476,6 +476,7 @@ header {
     border-left: 1px solid var(--primary-color);
     border-top:  1px solid var(--primary-color);
     transform: rotate(45deg);
+    z-index: 1000;
 }
 
 .cart-items-container { max-height: 280px; overflow-y: auto; margin-bottom: 12px; }
@@ -966,11 +967,107 @@ header {
         0 0 40px var(--card-glow, rgba(200,90,42,0.08));
 }
 
+/* Контейнер для зображення (базовий для оверлею) */
+.img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Оверлей зі шкалою Сковілла */
+.scoville-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Темний фон при ховері */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 15px;
+    z-index: 2;
+}
+
+.product-card:hover .scoville-overlay {
+    opacity: 1;
+}
+
+/* Текст SHU */
+.shu-value {
+    color: var(--primary-color);
+    font-family: 'Monaco', monospace;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+/* Смужка прогресу */
+.scoville-bar-container {
+    width: 80%;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.scoville-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease-out;
+    background: #555; /* Дефолтний колір, якщо рівень невідомий */
+}
+
+.scoville-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #aaa;
+    margin-top: 5px;
+}
+/* === КОЛЬОРИ ЗА РІВНЯМИ === */
+
+/* Рівень 1 (Низька): Зелено-жовтий 🌿 */
+.scoville-overlay.heat-1 .scoville-bar-fill {
+    background: linear-gradient(90deg, #4CAF50, #CDDC39); /* Green to Lime */
+}
+.scoville-overlay.heat-1 .shu-value {
+    color: #CDDC39;
+    text-shadow: 0 0 10px rgba(205, 220, 57, 0.5);
+}
+
+/* Рівень 2 (Середня): Жовто-помаранчевий 🔥 */
+.scoville-overlay.heat-2 .scoville-bar-fill {
+    background: linear-gradient(90deg, #FFEB3B, #FF9800); /* Yellow to Orange */
+}
+.scoville-overlay.heat-2 .shu-value {
+    color: #FF9800;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+}
+
+/* Рівень 3 (Висока): Помаранчево-червона 🔥🔥 */
+.scoville-overlay.heat-3 .scoville-bar-fill {
+    background: linear-gradient(90deg, #FF9800, #F44336); /* Orange to Red */
+}
+.scoville-overlay.heat-3 .shu-value {
+    color: #F44336;
+    text-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+}
+
+/* Рівень 4 (Екстремальна): Червоно-кривава (як і було) ☠️ */
+.scoville-overlay.heat-4 .scoville-bar-fill {
+    background: linear-gradient(90deg, #F44336, #8B0000); /* Red to Dark Red */
+}
+.scoville-overlay.heat-4 .shu-value {
+    color: #8B0000;
+    text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+}
+
 /* ── Теги (HOT, NEW, FLAVOR) ── */
 .product-tags {
     position: absolute;
     top: 12px; left: 12px;
-    z-index: 10;
+    z-index: 100;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -2352,6 +2449,26 @@ footer {
     line-height: 1.6;
     margin: 0;
 }
+/* Адаптація плашки "Тимчасово відсутній" */
+@media (max-width: 600px) {
+    .out-of-stock-container { /* Заміни на свій назву класу */
+        display: flex !important;
+        flex-direction: column !important; /* Ставимо елементи в стовпчик */
+        align-items: center !important;    /* Центруємо іконку та заголовок */
+        text-align: center !important;     /* Центруємо текст */
+        padding: 20px !important;
+    }
+
+    .out-of-stock-container .out-of-stock-text { /* Клас для правої частини з текстом */
+        margin-left: 0 !important;
+        margin-top: 15px !important;       /* Робимо відступ зверху замість лівого */
+        width: 100% !important;
+    }
+
+    .out-of-stock-container h3 {
+        font-size: 1.2rem !important;      /* Трохи зменшуємо заголовок, щоб вліз */
+    }
+}
 
 /* Контейнер попередження про гостроту */
 .extreme-heat-warning {
@@ -2873,10 +2990,10 @@ body.otherseeds-page header::after {
 }
 /* Адаптивність для мобілок */
 @media (max-width: 768px) {
-    .scoville-thermometer-widget {
-        padding: 10px;
-        margin-top: 20px;
+    .scoville-thermometer-widget { /* або той ID/клас, що у тебе для шкали */
+        display: none !important;
     }
+}
 
     .thermometer-container {
         height: 180px; /* Трохи нижче на мобільних */
@@ -2895,7 +3012,7 @@ body.otherseeds-page header::after {
 
     #pepper-name { font-size: 0.8rem; }
     #pepper-shu { font-size: 0.7rem; }
-}
+
 .reset-btn {
     margin-top: 15px;
     background: transparent;

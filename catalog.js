@@ -8,7 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = ''; 
 
         Object.keys(allProducts).forEach(id => {
-            const product = allProducts[id];
+           const product = allProducts[id];
+const heatLevels = {
+    "1": { shu: "1k-50k", width: "25%" },
+    "2": { shu: "50k-500k", width: "50%" },
+    "3": { shu: "500k-1M", width: "75%" },
+    "4": { shu: "1M-2.2M+", width: "100%" }
+};
+const currentHeat = heatLevels[product.heatScore] || { shu: "Unknown", width: "0%" };
+
             if (!pageCategory || product.category === pageCategory) {
                 let tagsHTML = '';
                 if (product.isNew) tagsHTML += '<span class="product-tag">NEW</span>';
@@ -17,17 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const isInStock = product.inStock !== false; 
 
-                const cardHTML = `
-                    <a href="product.html?id=${id}" 
-                       class="product-card ${isInStock ? '' : 'out-of-stock'}" 
-                       data-id="${id}">
-                        <div class="product-tags">${tagsHTML}</div>
-                        <div class="img-container">
-                            <img src="${product.images[0]}" alt="${product.name}" 
-                                 style="${isInStock ? '' : 'filter: grayscale(0.8); opacity: 0.7;'}">
-                        </div>
-                        <div class="product-label">
-                            <h3 class="p-name">${product.name}</h3>
+               // Оновлений блок зображення в cardHTML:
+// === ОНОВЛЕНИЙ БЛОК ЗОБРАЖЕННЯ В cardHTML ===
+const cardHTML = `
+    <a href="product.html?id=${id}" class="product-card ${isInStock ? '' : 'out-of-stock'}" data-id="${id}">
+        <div class="product-tags">${tagsHTML}</div>
+        <div class="img-container">
+            <img src="${product.images[0]}" alt="${product.name}" 
+                 style="${isInStock ? '' : 'filter: grayscale(0.8); opacity: 0.7;'}">
+            
+            <div class="scoville-overlay heat-${product.heatScore || 'unknown'}">
+                <div class="shu-value">${currentHeat.shu}</div>
+                <div class="scoville-bar-container">
+                    <div class="scoville-bar-fill" style="width: ${currentHeat.width}"></div>
+                </div>
+                <div class="scoville-label">Scoville Units</div>
+            </div>
+        </div>
+        <div class="product-label">
+            <h3 class="p-name">${product.name}</h3>
                             <div class="price-row">
                                 <p class="card-price" data-base-price="${product.price}" 
                                    data-allow-sale="${product.allowSale === true ? 'true' : 'false'}"
@@ -96,32 +112,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slider) {
            const scovilleData = {
     "1": { 
-        name: "Ancho Poblano", 
-        shu: "~1,000", 
+        name: "Ancho, Aji Melocoton", 
+        shu: "~1,000-50,000", 
         status: "Пряний аромат 🌿", 
         color: "#4C9900" // Темно-зелений (колір Анчо)
     },
     "2": { 
-        name: "Monkey Face / Zebrange", 
-        shu: "5,000 - 10,000", 
-        status: "Легке поколювання 🌱", 
-        color: "#99cc33" // Салатовий
-    },
-    "3": { 
-        name: "Habanero Dominica", 
-        shu: "350,000+", 
+        name: "Sugar Rush, Habanero Dominica", 
+        shu: "50,000-577,000", 
         status: "Серйозний виклик! 🔥", 
         color: "#ffcc00" // Жовтий
     },
-    "4": { 
-        name: "Ghost Pepper", 
-        shu: "1,000,000+", 
+    "3": { 
+        name: "Ghost, 7 Pot", 
+        shu: "577,000-1,000,000+", 
         status: "Палаючий привид! 🔥🔥", 
         color: "#ff4d00" // Помаранчево-червоний
     },
-    "5": { 
-        name: "Carolina Reaper", 
-        shu: "2,200,000+", 
+    "4": { 
+        name: "Scorpion, Carolina Reaper", 
+        shu: "1,000,000-2,200,000+", 
         status: "ПОВНА АНІГІЛЯЦІЯ ☠️", 
         color: "#8b0000" // Криваво-червоний
     }
