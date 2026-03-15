@@ -10,6 +10,14 @@
 body.blog-article-page {
     --primary-color: #d6603a;
     --primary-hover: #b8502f;
+    --bg-dark: #0f0f0f;      /* Глибокий чорний */
+    --card-dark: #1a1a1a;    /* Темно-сірий для блоків */
+    --text-light: #e0e0e0;   /* Світлий текст */
+    --text-muted: #a0a0a0;   /* Приглушений текст */
+    --border-warm: #33221a;  /* Коричнева межа */
+    
+    background-color: var(--bg-dark);
+    color: var(--text-light);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
