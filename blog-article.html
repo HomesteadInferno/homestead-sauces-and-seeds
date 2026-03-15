@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self'; 
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
     font-src 'self' https://fonts.gstatic.com; 
-    script-src 'self' 'unsafe-inline'; 
-    img-src 'self' data:;">
+    script-src 'self' 'unsafe-inline' https://www.gstatic.com; 
+    img-src 'self' data:;
+    connect-src 'self' https://*.firebasedatabase.app https://*.googleapis.com;
+">
     
     <title id="article-title">Стаття — Homestead Inferno</title>
     <meta name="description" id="article-description" content="Стаття з блогу Homestead Inferno">
