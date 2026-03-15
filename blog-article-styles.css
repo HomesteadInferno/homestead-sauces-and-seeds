@@ -482,6 +482,47 @@ body.blog-article-page {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.5);
 }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   реакції
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.article-reactions {
+    margin-top: 50px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    text-align: center;
+    border: 1px dashed var(--border-warm);
+}
+
+.reaction-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.react-btn {
+    background: #252525;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.2rem;
+}
+
+.react-btn:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-color);
+}
+
+.react-btn.reacted {
+    background: var(--primary-color);
+    border-color: white;
+}
+
+
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ERROR MESSAGE
