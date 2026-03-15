@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+    font-src 'self' https://fonts.gstatic.com; 
+    script-src 'self' 'unsafe-inline'; 
+    img-src 'self' data:;">
+    
+    <title id="article-title">Стаття — Homestead Inferno</title>
+    <meta name="description" id="article-description" content="Стаття з блогу Homestead Inferno">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="blog-article-styles.css">
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a100a">
+</head>
+
+<body class="blog-article-page">
+    
+<div class="overlay">
+    <div class="container">
+        
+        <!-- HEADER -->
+        <header>
+            <a href="index.html" class="main-logo-link">
+                <img src="homesteadlogo.svg" alt="Homestead Inferno" class="logo-image">
+            </a>
+            
+            <nav class="article-breadcrumbs">
+                <a href="index.html">Головна</a> → 
+                <a href="blog.html">Блог</a> → 
+                <span id="breadcrumb-category"></span>
+            </nav>
+        </header>
+
+        <!-- ARTICLE CONTAINER -->
+        <div class="gazette-container">
+            
+            <!-- ARTICLE HEADER -->
+            <div class="gazette-header" id="article-header">
+                <!-- Заповнюється JS -->
+            </div>
+
+            <!-- ARTICLE CONTENT -->
+            <article class="article-content-full" id="article-main">
+                <!-- Заповнюється JS -->
+            </article>
+
+            <!-- ARTICLE FOOTER -->
+            <div class="article-footer">
+                <div class="article-tags" id="article-tags">
+                    <!-- Заповнюється JS -->
+                </div>
+                
+                <div class="article-share">
+                    <h4>Поділитися:</h4>
+                    <div class="share-buttons">
+                        <button class="share-btn telegram" onclick="shareToTelegram()">
+                            📱 Telegram
+                        </button>
+                        <button class="share-btn facebook" onclick="shareToFacebook()">
+                            📘 Facebook
+                        </button>
+                        <button class="share-btn copy" onclick="copyLink()">
+                            🔗 Копіювати посилання
+                        </button>
+                    </div>
+                </div>
+
+                <div class="article-navigation">
+                    <button class="nav-btn prev" id="prev-article">
+                        ← Попередня стаття
+                    </button>
+                    <a href="blog.html" class="back-to-blog">
+                        Назад до блогу
+                    </a>
+                    <button class="nav-btn next" id="next-article">
+                        Наступна стаття →
+                    </button>
+                </div>
+            </div>
+
+            <!-- RELATED POSTS -->
+            <div class="related-posts">
+                <h3>📚 Читайте також:</h3>
+                <div class="related-grid" id="related-posts">
+                    <!-- Заповнюється JS -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container footer-content">
+        <div class="footer-brand">
+            <img src="homesteadlogo.svg" alt="Homestead Logo" class="footer-logo-img">
+            <p class="footer-tagline">Справжня гострота вирощується тут.<br>Від насіння до вогняних соусів.</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Клієнтам</h4>
+            <div class="footer-links">
+                <a href="blog.html">🗞 Блог</a>
+                <a href="faq.html">FAQ</a>
+                <a href="shipping.html">Доставка</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Зв'язок</h4>
+            <div class="footer-contacts">
+                <span>+380XXXXXXXXX</span>
+                <a href="mailto:homestead.inferno@gmail.com">homestead.inferno@gmail.com</a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Інфо</h4>
+            <div class="footer-pp">
+                <a href="privacy.html">Конфіденційність</a>
+                <a href="terms.html">Публічна оферта</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom container">
+        <p>&copy; 2026 Gapka's Homestead Inferno. Обережно, викликає залежність від гострого. 🔥</p>
+    </div>
+</footer>
+
+<script src="blog-data.js"></script>
+<script src="blog-article-app.js"></script>
+
+</body>
+</html>

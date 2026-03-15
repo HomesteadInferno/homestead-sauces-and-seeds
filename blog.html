@@ -8,142 +8,155 @@
     font-src 'self' https://fonts.gstatic.com; 
     script-src 'self' 'unsafe-inline'; 
     img-src 'self' data:;">
-    <title>Блог-газета Gapka's Homestead Inferno</title>
-    <meta name="description" content="Дізнайтеся, як вирощувати екстремально гострі перці з насіння. Інструкції, поради щодо температури, світла та відповіді на часті питання від ферми Gapka's Homestead Inferno.">
-    <meta name="keywords" content="вирощування перцю з насіння, як виростити гострий перець, насіння гострого перцю поради, Homestead FAQ, доставка насіння по Україні">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     
-
-    <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="manifest.json">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
-
+    <title>Блог Gapka's Homestead Inferno — Все про гострі перці та соуси</title>
+    <meta name="description" content="Поради з вирощування суперхотів, рецепти гострих соусів, новини ферми та цікавинки про найгостріші перці світу від Gapka's Homestead Inferno">
+    <meta name="keywords" content="блог про гострі перці, як виростити carolina reaper, рецепти гострих соусів, вирощування superhots, homestead блог">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto+Slab:wght@300;400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="blog-styles.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a100a">
 </head>
 
-<div class="gazette-container">
-    <div class="gazette-header">
-        <p class="article-meta">Випуск №1 • Дніпро • 2026</p>
-        <h1>Gapka's Homestead Inferno Gazette</h1>
-        <nav class="gazette-nav">
-        <a href="index.html">На головну •</a>
-        <a href="seedsandseedlings.html">Насіння •</a>
-        <a href="sauces.html">Соуси •</a>
-        <a href="otherseeds.html">Насіння овочів •</a>
-        <a href="mailto:homestead.inferno@gmail.com">Зв'язок з фермою</a>
-    </nav>
-        <p style="font-style: italic;">"Все про перці - партизани, випробування та гостре життя"</p>
-    </div>
-
-   <article class="article-cut">
-    <div class="article-meta">Березень 14, 2026 | Нотатки з грядки</div>
-    <h2 class="article-title">Еволюція Inferno: Як народжується врожай суперхотів</h2>
+<body class="blog-page">
     
-    <div class="article-content">
-        <img src="images/seedlings.jpg" class="gazette-img" alt="Розсада сьогодні">
+<div class="overlay">
+    <div class="container">
         
-        <p class="article-intro">
-            Часто нас питають: "А чи точно воно виросте?". Замість тисячі слів ми просто показуємо наш сімейний архів пророщування суперхотів цього сезону.
-        </p>
-
-        <div class="photo-timeline">
-            <div class="timeline-item">
-                <img src="images/photo_1_2026-03-14_15-41-58.jpg" alt="24 лютого">
-                <p><strong>24 лютого:</strong> Перші сміливці. Ті самі легендарні "петельки". У цей момент головне — світло і тепло.</p>
+        <!-- HEADER -->
+        <header>
+            <a href="index.html" class="main-logo-link">
+                <img src="homesteadlogo.svg" alt="Gapka's Homestead Inferno" class="logo-image">
+            </a>
+            
+            <!-- Search -->
+            <div class="search-container" style="margin-top: 20px;">
+                <input type="text" id="blog-search" placeholder="Шукати статті..." autocomplete="off">
+                <span class="search-icon">🔍</span>
             </div>
+        </header>
 
-            <div class="timeline-item">
-                <img src="images/photo_2_2026-03-14_15-41-58.jpg" alt="27 лютого">
-                <p><strong>27 лютого:</strong> Перша пікіровка. Малюки отримали свої окремі "квартири" — перші горщики.</p>
-            </div>
-
-            <div class="timeline-item">
-                <img src="images/photo_3_2026-03-14_15-41-58.jpg" alt="10 березня">
-                <p><strong>10 березня:</strong> Формування другої пари справжніх листків. Коренева система зміцнюється.</p>
-            </div>
-
-            <div class="timeline-item">
-                <img src="images/photo_6_2026-03-14_15-41-58.jpg" alt="14 березня">
-                <p><strong>14 березня:</strong> Вибуховий ріст! Це вже підлітки з характером. Вони готові підкорювати цей великий світ.</p>
+        <!-- BLOG HERO -->
+        <div class="blog-hero">
+            <div class="blog-hero-content">
+                <span class="blog-badge">🔥 Блог Homestead</span>
+                <h1>Наші нотатки та відкриття</h1>
+                <p>Від грядки до пляшки: історії вирощування, рецепти, поради та секрети від ферми Gapka's Homestead Inferno</p>
             </div>
         </div>
 
-        <blockquote class="article-quote">
-            <strong>Наш секрет успіху:</strong> Ми не просто садимо насіння. Ми стежимо за кожним етапом і відбираємо лише найсильніших "атлетів".
-        </blockquote>
+        <!-- CATEGORY TABS -->
+        <div class="blog-categories">
+            <button class="category-btn active" data-category="all">
+                📰 Всі статті
+            </button>
+            <button class="category-btn" data-category="growing">
+                🌱 Вирощування
+            </button>
+            <button class="category-btn" data-category="recipes">
+                🍴 Рецепти
+            </button>
+            <button class="category-btn" data-category="news">
+                🗞️ Новини ферми
+            </button>
+            <button class="category-btn" data-category="tips">
+                💡 Поради та лайфхаки
+            </button>
+            <button class="category-btn" data-category="varieties">
+                🌶️ Сорти та огляди
+            </button>
+        </div>
+
+        <!-- FEATURED POST -->
+        <div class="featured-post" id="featured-post">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- BLOG GRID -->
+        <div class="main-layout">
+            
+            <!-- SIDEBAR -->
+            <aside class="blog-sidebar">
+                <div class="sidebar-widget">
+                    <h3>🔥 Популярні статті</h3>
+                    <div id="popular-posts">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3>📅 Архів</h3>
+                    <div class="archive-list">
+                        <a href="#" data-month="2026-03">Березень 2026 (5)</a>
+                        <a href="#" data-month="2026-02">Лютий 2026 (3)</a>
+                        <a href="#" data-month="2026-01">Січень 2026 (7)</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h3>🏷️ Теги</h3>
+                    <div class="tags-cloud">
+                        <a href="#" class="tag">#carolina-reaper</a>
+                        <a href="#" class="tag">#вирощування</a>
+                        <a href="#" class="tag">#гострі-соуси</a>
+                        <a href="#" class="tag">#superhots</a>
+                        <a href="#" class="tag">#рецепти</a>
+                        <a href="#" class="tag">#habanero</a>
+                        <a href="#" class="tag">#ghost-pepper</a>
+                        <a href="#" class="tag">#поради</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget cta-widget">
+                    <h3>🌶️ Замов насіння</h3>
+                    <p>Виростити свій перший суперхот легше, ніж здається!</p>
+                    <a href="seedsandseedlings.html" class="add-btn">До каталогу</a>
+                </div>
+            </aside>
+
+            <!-- POSTS GRID -->
+            <main class="blog-posts-grid" id="blog-posts">
+                <!-- Populated by JS -->
+            </main>
+
+        </div>
+
+        <!-- LOAD MORE -->
+        <div class="load-more-container">
+            <button class="load-more-btn" id="load-more">Завантажити ще</button>
+        </div>
+
     </div>
-</article>
-
-    <article class="article-cut">
-    <div class="article-meta"> 2026 | FAQ & Досвід 🔍</div>
-    <h2 class="article-title">Суперхоти: Шлях терпіння та драми. Як виростити суперхоти вдома?</h2>
-
-    <p>Ви вирішили виростити щось гостріше за звичайний "Вогник"? Ласкаво просимо до клубу. Але перед тим, як покласти насіння у ґрунт, забудьте все, що знали про перці. Суперхоти грають за власними правилами, вони як інша галактика!</p>
-
-    <h3 class="step-title">1. Екзамен на витримку</h3>
-    <p>Насіння суперхотів не проростає — воно медитує. Якщо звичайний перець вилітає за кілька днів, ці хлопці можуть сидіти в землі тижнями. Іноді не допомагають ні серветки, ні тепличка. Просто чекайте.</p>
-
-    <hr class="gazette-divider">
-
-    <h3 class="step-title">2. Фаза "Drama Queen"</h3>
-    <p>На етапі перших справжніх листків починається справжній трилер. Ваша розсада стає неймовірно тендітною. Суперхоти зараз — справжні королеви драми 👑💅.</p>
-    
-    <div class="drama-queen-box">
-        <strong>Важливо:</strong> Перелив на цьому етапі дорівнює смерті 💀. Зайва вода чи перелив — і рослина гине за ніч.
-    </div>
-
-    <p>Також на цьому етапі критично поставити 💨<strong>обдув</strong>💨. Легкий вітерець від вентилятора імітує природу та зміцнює стовбур, а що найбільш критично, не дає причепитися усіляким грибкам або патогенам на рослині, а також підсушує, якщо Ви допустили маленький перелив. Вентилятор також може компенсувати недостатність освітлення, без нього ви отримаєте слабкі "ниточки".</p>
-
-    <hr class="gazette-divider">
-
-    <h3 class="step-title">3. Пікіровка 🪴: Зона ризику</h3>
-    <p>Суперхоти ненавидять, коли чіпають їхнє коріння. Кожна пересадка — це стрес, який може зупинити ріст на тиждень . Ми радимо садити одразу у стакани. Якщо ж пікіруєте — будьте готові до втрат або використовуйте антистрес-препарати.</p>
-
-    <hr class="gazette-divider">
-
-    <h3 class="step-title">4. Світло в кінці тунелю</h3>
-    <p>Коли з’являється другий сет справжніх листків, примхи трохи вщухають (але не розслабляйтеся ще!🔥). Рослина стає міцною день у день. Ви помічатимете, як кожного дня суперхоти нарощують зелену масу і укріплюються.</p>
-</article>
 </div>
 
+<!-- FOOTER -->
 <footer>
     <div class="container footer-content">
         <div class="footer-brand">
             <img src="homesteadlogo.svg" alt="Homestead Logo" class="footer-logo-img">
-            <p class="footer-tagline">Справжня гострота вирощується тут. <br>Від насіння до вогняних соусів.</p>
+            <p class="footer-tagline">Справжня гострота вирощується тут.<br>Від насіння до вогняних соусів.</p>
         </div>
         
         <div class="footer-section">
             <h4>Клієнтам</h4>
-
             <div class="footer-links">
-                <a href="blog.html">🗞 Нотатки Gapka's Homestead Inferno</a>
-                <a href="faq.html">Питання та відповіді (FAQ)</a> 
-                <a href="shipping.html">Доставка та оплата</a>
+                <a href="blog.html">🗞 Блог</a>
+                <a href="faq.html">FAQ</a>
+                <a href="shipping.html">Доставка</a>
             </div>
         </div>
- 
+
         <div class="footer-section">
             <h4>Зв'язок</h4>
             <div class="footer-contacts">
-                <span>+00000000000</span>
+                <span>+380XXXXXXXXX</span>
                 <a href="mailto:homestead.inferno@gmail.com">homestead.inferno@gmail.com</a>
-                <div class="footer-socials">
-                   </div>
             </div>
         </div>
 
@@ -156,13 +169,13 @@
         </div>
     </div>
 
-    <div class="container" style="text-align: center; margin-top: 20px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 20px;">
-        <p style="font-size: 14px; opacity: 0.8; font-style: italic;">
-            Свіжий випуск: <a href="blog.html" style="color: var(--accent-orange); text-decoration: underline;">Як виростити сильні рослини з насіння без нервів та переживань. Читайте пізнавальні статті ТУТ</a>
-        </p>
-    </div>
-
     <div class="footer-bottom container">
-        <p>&copy; 2026 Gapka`s Homestead Inferno. Обережно, викликає залежність від гострого. 🔥</p>
+        <p>&copy; 2026 Gapka's Homestead Inferno. Обережно, викликає залежність від гострого. 🔥</p>
     </div>
 </footer>
+
+<script src="blog-data.js"></script>
+<script src="blog-app.js"></script>
+
+</body>
+</html>
