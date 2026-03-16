@@ -46,7 +46,7 @@ heatScore: "2",
         price: 70,
         heatLevel: "☠️ ЕКСТРЕМАЛЬНА (1,500,000 – 2,200,000+ SHU)",
 heatScore:"4",
-        images: ["Carolina Reaper Red.png", "", ""],
+        images: ["CarolinaReaperRed.png", "", ""],
         specs: {
             maturity: "100-120 днів (пізньостиглий)",
             height: "90-120 см",

@@ -68,6 +68,7 @@ body.blog-page {
     margin-bottom: 40px;
     padding-bottom: 30px;
     border-bottom: 2px solid var(--border-warm);
+    justify-content: center;
 }
 
 .category-btn {

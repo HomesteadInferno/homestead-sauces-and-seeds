@@ -42,8 +42,13 @@ const blogPosts = [
                     <img src="images/photo_6_2026-03-14_15-41-58.jpg" alt="14 березня">
                     <p><strong>14 березня:</strong> Вибуховий ріст! Це вже підлітки з характером. Вони готові підкорювати цей великий світ.</p>
                 </div>
-            </div>
 
+                <div class="timeline-item">
+                    <img src="images/photo_2026-03-15_14-32-02.jpg" alt="15 березня">
+                    <p><strong>15 березня:</strong> Ці хлопці та дівчата вже починають набувати характеру.</p>
+                </div>
+
+            </div>
             <blockquote class="article-quote">
                 <strong>Наш секрет успіху:</strong> Ми не просто садимо насіння. Ми стежимо за кожним етапом і відбираємо лише найсильніших "атлетів".
             </blockquote>
@@ -67,13 +72,13 @@ const blogPosts = [
             <p>Ви вирішили виростити щось гостріше за звичайний "Вогник"? Ласкаво просимо до клубу. Але перед тим, як покласти насіння у ґрунт, забудьте все, що знали про перці. Суперхоти грають за власними правилами!</p>
 
             <h3>1. Екзамен на витримку</h3>
-            <p>Насіння суперхотів не проростає — воно медитує. Якщо звичайний перець вилітає за кілька днів, ці хлопці можуть сидіти в землі тижнями. Іноді не допомагають ні серветки, ні тепличка. Просто чекайте.</p>
+            <p>Насіння суперхотів не проростає — воно медитує. Якщо звичайний перець вилітає за кілька днів, ці хлопці можуть сидіти в землі довше ніж ми звикли. На цьому етапі попіклуйтеся про хороший субстрат для перців. Він не має бути перегодований добривами.*</p>
 
             <h3>2. Фаза "Drama Queen"</h3>
             <p>На етапі перших справжніх листків починається справжній трилер. Ваша розсада стає неймовірно тендітною. Суперхоти зараз — справжні королеви драми 👑💅.</p>
             
             <div class="drama-queen-box">
-                <strong>Важливо:</strong> Перелив на цьому етапі дорівнює смерті 💀. Зайва вода — і рослина гине за ніч.
+                <strong>Важливо:</strong> Перелив і переохолодження на цьому етапі дорівнює смерті 💀. Зайва вода і протяг з вікна — і рослина гине за ніч.
             </div>
 
             <p>Критично поставити <strong>обдув</strong> 💨. Легкий вітерець від вентилятора імітує природу та зміцнює стовбур.</p>
@@ -110,17 +115,17 @@ const blogPosts = [
                 <li><strong>Вид:</strong> Capsicum Chinense</li>
             </ul>
 
-            <h3>Крок 1: Проростання (14-30 днів)</h3>
-            <p>Температура 26-30°C критична! Використовуйте підігрів горщиків або розташуйте біля батареї.</p>
+            <h3>Крок 1: Проростання (7-14 днів)</h3>
+            <p>Температура 26-30°C критична! Використовуйте нижній підігрів або розташуйте біля батареї.</p>
 
-            <h3>Крок 2: Розсада (2-3 місяці)</h3>
-            <p>Підсвічування 16 годин на день. Без світла отримаєте тонкі ниточки замість могутніх кущів.</p>
+            <h3>Крок 2: Розсада</h3>
+            <p>Підсвічування 12-16 годин на день в залежності від інтенсивності лампи. Особливо якщо Ви не маєте південного підвіконня і сильного сонячного світла, досвічування буде критично важливим. 
 
             <h3>Крок 3: Висадка (травень-червень)</h3>
             <p>Тільки після останніх заморозків! Reaper вимагає стабільно теплої погоди.</p>
 
             <h3>Крок 4: Догляд</h3>
-            <p>Полив регулярний але помірний. Підживлення кожні 2 тижні. Підв'язка обов'язкова — плодів буде багато!</p>
+            <p>Полив регулярний але помірний. Активне підживленя. Починайте з 1/4 від норми в інструкції з добривами. Підв'язка при висадці у грунт або контейнеп обов'язкова — плодів буде багато!</p>
 
             <blockquote>
                 💡 <strong>Секрет від Gapka:</strong> За 2 тижні до збору врожаю зменшіть полив на 30% — це підвищить капсаїцин і гостроту!
@@ -257,54 +262,104 @@ const blogPosts = [
 
             <h4>🌶️ Habanero (100K-350K SHU)</h4>
             <p>Класика. Фруктовий смак, помірна (для Chinense) гострота.</p>
-
-            <blockquote>
-                💡 <strong>Секрет:</strong> За 2 тижні до збору врожаю зменшіть полив — капсаїцин підвищиться на 30%!
-            </blockquote>
         `,
         tags: ['chinense', 'види', 'superhots', 'гайд']
     },
 
     {
-        id: 'habanero-vs-scotch-bonnet',
-        title: 'Habanero vs Scotch Bonnet: У чому різниця?',
-        slug: 'habanero-vs-scotch-bonnet',
-        category: 'varieties',
-        categoryLabel: 'Сорти',
-        date: '2026-02-15',
-        author: 'Gapka',
-        readTime: '7 хв',
-        image: 'images/habanero-scotch.jpg',
-        featured: false,
-        excerpt: 'Два схожих перці з одного виду, але з різним характером. Розбираємо відмінності.',
-        content: `
-            <p>На перший погляд вони схожі. Але різниця є — і вона суттєва!</p>
+    id: 'homestead-inferno-collection-2026',
+    title: 'Експедиція у Пекло: Повний огляд колекції перців 2026',
+    slug: 'collection-2026-longread',
+    category: 'varieties',
+    categoryLabel: 'Колекція',
+    date: '2026-03-16',
+    author: 'Gapka',
+    readTime: '15 хв',
+    image: 'images/blog/main-collection-cover.jpg',
+    featured: true,
+    excerpt: '30+ сортів 200+ рослин. Великий путівник нашою вогняною плантацією: від легендарної Кароліни Ріпер до загадкового Рокото.',
+    content: `
+        <p>Ласкаво просимо до епіцентру подій. Сезон 2026 у <a href="index.html" class="main-logo-link"><strong>Gapka's Homestead Inferno</strong></a> — це не просто город, це масштабне випробування генетики та фенотипів. Поки розсада завойовує підвіконня, ми розкладаємо наш арсенал по поличках.</p>
 
-            <h3>Habanero 🌶️</h3>
-            <ul>
-                <li><strong>Форма:</strong> Ліхтарик, конусоподібна</li>
-                <li><strong>Гострота:</strong> 100,000-350,000 SHU</li>
-                <li><strong>Смак:</strong> Фруктово-цитрусовий</li>
-                <li><strong>Походження:</strong> Мексика, Юкатан</li>
-                <li><strong>Використання:</strong> Універсальний</li>
-            </ul>
+        <div class="intro-box" style="background: #272727; padding: 20px; border-radius: 10px; border-left: 5px solid #e02424;">
+            <p><strong>Концепція сезону:</strong> Максимальна різноманітність. Ми поєднали чотири хвилі посадки, щоб перевірити, хто швидше захопить світ.</p>
+        </div>
 
-            <h3>Scotch Bonnet 🏴‍☠️</h3>
-            <ul>
-                <li><strong>Форма:</strong> Сплюснута, "капелюшок там-о-шантера"</li>
-                <li><strong>Гострота:</strong> 100,000-350,000 SHU</li>
-                <li><strong>Смак:</strong> Солодкуватий, тропічний</li>
-                <li><strong>Походження:</strong> Ямайка, Карибські острови</li>
-                <li><strong>Використання:</strong> Карибська кухня (jerk chicken!)</li>
-            </ul>
+        <h2 style="color: #e02424; margin-top: 40px;">🧪 Дивізіон "Ядерна зима": Суперхоти (1M+ SHU)</h2>
+        <p>Це еліта, яка не пробачає помилок. Вони ростуть повільно, але б'ють наповал.</p>
 
-            <h3>Головна різниця:</h3>
-            <p><strong>Смак!</strong> Habanero більш цитрусовий, Scotch Bonnet — солодший з нотками тропічних фруктів.</p>
+        <div class="variety-card">
+            <h4>Carolina Reaper (Red & Chocolate)</h4>
+            <img src="images/peppers/reaper-main.jpg" alt="Carolina Reaper" class="article-img" />
+            <p>Наш флагман. Ми вирощуємо класичну червону та елегантну шоколадну версії.<a href="product.html?id=carolinareaperchocolate" class="link-to-product"> <strong>Carolina Reaper Chocolate</strong></a>  зазвичай має більш "важкий" аромат і підступну гостроту, що накочує хвилями.</p>
+        </div>
 
-            <p>Для соусу Jerk Chicken обирайте Scotch Bonnet. Для універсального соусу — Habanero.</p>
-        `,
-        tags: ['habanero', 'scotch-bonnet', 'порівняння', 'сорти']
-    },
+        <div class="variety-card">
+            <h4>Гвардія 7 Pot: Brain Strain & Bubblegum</h4>
+            <img src="images/peppers/7pot-family.jpg" alt="7 Pot Peppers" class="article-img" />
+            <p><a href="product.html?id=7PotBrainStrainYellow" class="link-to-product"> <strong>7 Pot Brain Strain (Red | Yellow)</strong></a> — перці з поверхнею, що нагадує розпечений мозок. Поруч із ними — екзотичний <a href="product.html?id=7potbubblegumchocolate" class="link-to-product"> <strong>Bubblegum Chocolate</strong></a>, знаменитий своєю кольоровою чашечкою, що забарвлюється в тон плоду.</p>
+        </div>
+
+        <div class="variety-card">
+            <h4>Naga Bhut Jolokia & Scorpion</h4>
+            <img src="images/peppers/naga-ghost.jpg" alt="Ghost Peppers" class="article-img" />
+            <p>Класика жанру. У списку — класичний <a href="product.html?id=bhutjolokiared" class="link-to-product"> <strong>Bhut Jolokia</strong></a>, <a href="product.html?id=nagajolokia" class="link-to-product"> <strong>Naga Bhut Jolokia</strong></a> та <a href="product.html?id=morugascorpionred" class="link-to-product"> <strong>Moruga Scorpion</strong></a>. Ці сорти — фундамент для наших найгостріших соусів.</p>
+        </div>
+
+        <h2 style="color: #d97706; margin-top: 40px;">🥭 Дивізіон "Тропічний шторм": Habanero & Scotch Bonnet</h2>
+        <p>Тут панують аромати манго, цитруса та абрикоса, приправлені солідним вогнем.</p>
+
+        <div class="variety-card">
+            <h4>Habanero Clan</h4>
+            <img src="images/peppers/habanero-grid.jpg" alt="Habanero Collection" class="article-img" />
+            <p>У нас справжній пантеон Хабанеро:<a href="product.html?id=habaneroredsavina" class="link-to-product"> <strong>Savina Red</strong></a> (екс-рекордсмен), <a href="product.html?id=habanerochocolate" class="link-to-product"><strong>Chocolate</strong></a>, <a href="product.html?id=habanerodominica" class="link-to-product"><strong>Dominica</strong></a> та яскравий <a href="product.html?id=habanerobigsun" class="link-to-product"><strong>Big Sun</strong></a>. Кожен має свій відтінок фруктових нот.</p>
+        </div>
+
+        <div class="variety-card">
+            <h4>Scotch Bonnet & Fatalii</h4>
+            <img src="images/peppers/caribbean-vibe.jpg" alt="Scotch Bonnet and Fatalii" class="article-img" />
+            <p>Ямайська душа нашого городу. Два види <a href="product.html?id=scotchbonnet" class="link-to-product"><strong>Scotch Bonnet</strong></a> та десант <a href="product.html?id=fatalii" class="link-to-product"><strong>Fatalii</strong></a> (Yellow, Red). Фаталі — це лимонна блискавка, яка б'є миттєво.</p>
+        </div>
+
+        <h2 style="color: #059669; margin-top: 40px;">🎨 Дивізіон "Естетика та Екзотика": Baccatum & Pubescens</h2>
+        <p>Перці для тих, хто цінує не лише гостроту, а й красу куща та унікальний смак.</p>
+
+        <div class="variety-card">
+            <h4>Giant Rocoto</h4>
+            <img src="images/peppers/giant-rocoto.jpg" alt="Giant Rocoto" class="article-img" />
+            <p>Зірка партії. Чорне насіння, фіолетові квіти та товсті соковиті стінки.<a href="product.html?id=giantrocotored" class="link-to-product"><strong> Rocoto</strong></a> — це перець-довгожитель, який обожнює прохолоду і ненавидить спеку, зовсім як ми!.</p>
+        </div>
+
+        <div class="variety-card">
+            <h4>Baccatum Beauty: Zebrange & Sugar Rush</h4>
+            <img src="images/peppers/zebrange-sugar.jpg" alt="Baccatum peppers" class="article-img" />
+            <p><a href="product.html?id=sugarrushstripey" class="link-to-product"><strong>Sugar Rush</strong></a> (Полосатий цукор) та смугастий <a href="product.html?id=zebrange" class="link-to-product"><strong>Zebrange</strong></a> — головні "моделі" для фотосесій. Вони солодкі, ароматні та неймовірно врожайні.</p>
+        </div>
+
+        <div class="variety-card">
+            <h4>Monkey Face & Aji Melocoton</h4>
+            <img src="images/peppers/funky-shapes.jpg" alt="Monkey Face Pepper" class="article-img" />
+            <p>Сорти з характером. <a href="product.html?id=monkeyfaceyellow" class="link-to-product"><strong>Monkey Face</strong></a> дивує формою, а <a href="product.html?id=ajimelocoton" class="link-to-product"><strong>Aji Melocoton</strong></a> дарує ніжний персиковий смак та делікатну гостроту.</p>
+        </div>
+
+        <h2 style="color: #2563eb; margin-top: 40px;">🍕 Дивізіон "Кухонний Спецназ": Класика гриля</h2>
+        <p>Те, що робить щоденну їжу яскравішою. Робочі конячки плантації.</p>
+        <ul>
+            <li><strong><a href="product.html?id=jalapeno" class="link-to-product">Jalapeno</a> :</strong> Король маринування та "попперсів".</li>
+            <li><strong><a href="product.html?id=padron" class="link-to-product">Padron</a></strong>  & <strong><a href="product.html?id=shishito" class="link-to-product">Shishito</a>:</strong> Ідеальні для швидкої обсмажки на олії з сіллю.</li>
+            <li><strong><a href="product.html?id=lemondrop" class="link-to-product">Lemon Drop</a></strong>  & <strong><a href="product.html?id=starfishred" class="link-to-product">Brazilian Starfish</a>:</strong> Цитрусові нотки для салатів та риби.</li>
+            <li><strong><a href="product.html?id=peterpepper" class="link-to-product">Peter Pepper</a> :</strong> Перець, який завжди викликає посмішку завдяки своїй анатомічній формі.</li>
+            <li><strong><a href="product.html?id=anchosanluis" class="link-to-product">Ancho San Luis</a> :</strong> Великі, м'ясисті плоди для фарширування та сушіння.</li>
+        </ul>
+
+        <div class="outro-box" style="margin-top: 50px; padding: 30px; background: #262626; color: white; border-radius: 10px;">
+            <h3>Епілог: Що далі?</h3>
+            <p>Зараз уся ця армада проходить випробування південним вікном. Попереду — переїзд у теплицю-термос, де ми побачимо справжню силу методу "Pepper Guru" у поєднанні з нашою українською впертістю. 300+ кущів чекають на свій час.</p>
+            <p><strong>Далі буде... Готуйте молоко!</strong></p>
+        </div>
+    `,
+    tags: ['арсенал 2026', 'суперхоти', 'хабанеро', 'рокото', 'вирощування', 'homestead-inferno']
+},
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // ПОРАДИ ТА ЛАЙФХАКИ
@@ -359,40 +414,28 @@ const blogPosts = [
         featured: false,
         excerpt: 'Насіння не проростає? Ці трюки підвищать схожість навіть найкапризніших суперхотів.',
         content: `
-            <p>Схожість суперхотів — больове питання. Ось 10 перевірених способів підвищити її до максимуму:</p>
+            <p>Схожість суперхотів — больове питання. Ось декілька перевірених способів підвищити її до максимуму:</p>
 
             <h3>1. Paper Towel метод. Або метод вологої серветки</h3>
             <p>Візміть звичайні паперові серветки та намочіть гарячою водою. Дайте воді стекти, щоб з серветок не текло, але вони були вологі. Викладіть в них насіння і положіть у пластиковий контейнер, закривши кришкою і поставивши у тепле місце (на роутер). Провітрюйте раз в на день і не допускайте пересушування. Сходи будуть на 5+ день залежно від сорту.</p>
 
-            <h3>2. Скарифікація</h3>
-            <p>Злегка потріть насіння дрібним наждаком. Це допомагає воді проникнути всередину.</p>
-
-            <h3>3. Замочування в перекису</h3>
-            <p>3% перекис водню на 10 хвилин. Вбиває бактерії та м'якшить оболонку.</p>
-
-            <h3>4. Замочування в теплій воді</h3>
-            <p>Допомогає "напити" оболонку насіння, щоб вона швидше розклеілася.</p>
-
-            <h3>5. Підігрів знизу</h3>
+            <h3>2. Підігрів знизу</h3>
             <p>Тепловий килимок під горщики або батарея поруч. +26-30°C обов'язково!</p>
 
-            <h3>6. Міні-теплиця</h3>
+            <h3>3. Міні-теплиця</h3>
             <p>Плівка або пакет зверху горщика = 100% вологість. Але провітрюйте щодня!</p>
 
-            <h3>7. Свіже насіння завжди краще</h3>
+            <h3>4. Свіже насіння завжди краще</h3>
             <p>1-2 роки зберігання = топ схожість. 5+ років = лотерея.</p>
 
-            <h3>8. Торф'яні таблетки</h3>
+            <h3>5. Торф'яні таблетки</h3>
             <p>Якщо не хочете бруднитися в землі - цей варіант для Вас. Просто додайте теплої води!</p>
 
-            <h3>9. Не закопуйте глибоко</h3>
-            <p>ЗПоложіть насінинку у ямку, зроблену Вашим пальчиком, і злегка притрусіть зверху. Все! Заглиблювати не можна.</p>
-
-            <h3>10. Терпіння!</h3>
-            <p>Суперхоти можуть проростати до 30 днів. Не викидайте горщики передчасно!</p>
+            <h3>6. Не закопуйте глибоко</h3>
+            <p>ЗПоложіть насінинку у ямку, зроблену Вашим пальчиком, і злегка притрусіть грунтом зверху. Все! Заглиблювати не потрібно.</p>
 
             <div class="tip-box">
-                💡 <strong>Гарантований спосіб:</strong> Комбінуйте кілька методів. Наприклад: замочування + підігрів + міні-теплиця = 90%+ схожості!
+                💡 <strong>Гарантований спосіб:</strong> Комбінуйте кілька методів. Наприклад: підігрів + міні-теплиця = 90%+ схожості!
             </div>
         `,
         tags: ['проростання', 'лайфхаки', 'насіння', 'поради']

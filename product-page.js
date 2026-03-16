@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id');
     const product = allProducts[productId];
+
+    if (!product) {
+        document.querySelector('.product-page').innerHTML = 
+            '<h2 style="grid-column: span 2; text-align: center; padding: 50px;">Товар не знайдено 😕 <br><a href="index.html" class="add-btn" style="display:inline-block; width:auto; margin-top:20px;">Повернутися в каталог</a></h2>';
+        return; // Зупиняємо виконання всього, що нижче
+    }
     
     // Зберігаємо ID глобально
     currentProductId = productId;
