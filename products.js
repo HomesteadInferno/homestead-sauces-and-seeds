@@ -5,7 +5,7 @@ const allProducts = {
         searchName: "Хабанеро Савіна Ред, хабанеро ред савіна, хабанеро червоний, ред, савіна",
         category: "seeds",
         price: 50,
-        heatLevel: "🔥 🔥  Висока (200,000-577,000 SHU)",
+        heatLevel: "🔥 🔥  Висока (350,000-577,000 SHU)",
 heatScore: "2",
         // Масив фото. Перше - головне.
         images: [
@@ -15,7 +15,7 @@ heatScore: "2",
         ],
         // Характеристики для таблиці
         specs: {
-            maturity: "90-110 днів",
+            maturity: "90-100 днів",
             height: "60-80 см",
             species: "Capsicum Chinense",
             yield: ""
@@ -70,7 +70,7 @@ heatScore:"4",
         searchName: "Хабанеро Домініка, хабанеро домініка, хабанеро червоний, ред",
         category: "seeds",
         price: 45,
-        heatLevel: "🔥 🔥  Висока (200,000- 350,000 SHU)",
+        heatLevel: "🔥 🔥  Висока (100,000- 250,000 SHU)",
         heatScore: "2",
         // Масив фото. Перше - головне.
         images: [
@@ -81,7 +81,7 @@ heatScore:"4",
 
         // Характеристики для таблиці
         specs: {
-            maturity: "90–100 днів",
+            maturity: "85–100 днів",
             height: "50–70 см",
             species: "Capsicum Chinense",
             yield: ""
@@ -113,11 +113,11 @@ heatScore:"4",
         searchName: "Сім пот шоколадний, 7 pot, 7-pot, Севен Пот, Севен Піт, Бабблгам, 7 pot bubblegum chocolate",
         category: "seeds",
         price: 50,
-        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (850,000 – 1,000,000+ SHU)",
+        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (800,000 – 1,200,000+ SHU)",
 heatScore:"3",
         images: ["7potcchocbubble.png", "7potcchocbubble1.png", "7potcchocbubble2.png"],
         specs: {
-            maturity: "90-110 днів",
+            maturity: "110-120 днів",
             height: "90-120 см (міцний, розлогий)",
             species: "Capsicum Chinense",
             yield: ""
@@ -138,11 +138,11 @@ heatScore:"3",
         searchName: "Bhut Jolokia Red, Бхут Жолокіа, Ghost, Гост",
         category: "seeds",
         price: 50,
-        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (1,000,000 – 1,041,427 SHU)",
+        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (800,000 – 1,001,304 SHU)",
 heatScore:"3",
         images: ["ghost.png", "Ghost.jpg", "BhutJolokiaRed2.png"],
         specs: {
-            maturity: "90-120 днів",
+            maturity: "100-120 днів",
             height: "60-90 см",
             species: "Capsicum chinense x Capsicum frutescens (природний гібрид)",
             yield: ""
@@ -167,7 +167,7 @@ heatScore:"3",
 heatScore:"1",
         images: ["AjiM.png", "AjiM1.png", "AjiM2.png"],
         specs: {
-            maturity: "90-100 днів",
+            maturity: "80-90 днів",
             height: "90-150 см (високий, розлогий кущ)",
             species: "Capsicum baccatum",
             yield: ""
@@ -188,11 +188,11 @@ heatScore:"1",
         searchName: "Сім пот брейн жовтий, Севен пот брейн, Сім-пот брейн, Жовтий Севен пот, 7 Pot Brain Strain Yellow",
         category: "seeds",
         price: 50,
-        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (1,200,000 – 1,500,000+ SHU)",
+        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (1,000,000 – 1,400,000+ SHU)",
 heatScore:"3",
         images: ["7potbrain.jpg", "", ""],
         specs: {
-            maturity: "90-120 днів",
+            maturity: "110-120 днів",
             height: "90-120 см (сильний, розлогий)",
             species: "Capsicum chinense",
             yield: ""
@@ -214,7 +214,7 @@ heatScore:"3",
         searchName: "Манкі Фейс Жовтий, Monkey Face Yellow",
         category: "seeds",
         price: 40,
-        heatLevel: "🔥 НИЗЬКА (2,500 - 10,000 SHU)",
+        heatLevel: "🔥 НИЗЬКА (2,500 - 5,000 SHU)",
 heatScore:"1",
         images: ["monkeyface.png", "", ""],
         specs: {
@@ -243,7 +243,7 @@ heatScore:"1",
 heatScore:"1",
         images: ["shishito.png", "", ""],
         specs: {
-            maturity: "60–65 днів (спринтер серед перців)",
+            maturity: "60–75 днів (спринтер серед перців)",
             height: "60–90 см",
             species: "Capsicum annuum",
             yield: ""
@@ -264,11 +264,11 @@ heatScore:"1",
         searchName: "Червона Нага, Нага Жолокіа, Нага",
         category: "seeds",
         price: 52,
-        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (800,000 – 1,000,000+ SHU)",
+        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (800,000 – 1,001,300+ SHU)",
 heatScore:"3",
         images: ["nagared.png", "", ""],
         specs: {
-            maturity: "95-120 днів",
+            maturity: "100-110 днів",
             height: "100-120 см (міцний та високий)",
             species: "Capsicum chinense",
             yield: ""
@@ -289,11 +289,11 @@ heatScore:"3",
         searchName: "Кароліна шоколадна, Рипер, Ріпер, Кароліна, Жнець, Carolina Reaper Chocolate",
         category: "seeds",
         price: 60,
-        heatLevel: "☠️ ЕКСТРЕМАЛЬНА+ (1,600,000 – 2,200,000+ SHU)",
+        heatLevel: "☠️ ЕКСТРЕМАЛЬНА+ (1,500,000 – 2,200,000+ SHU)",
 heatScore:"4",
         images: ["1770729519875.png", "", ""],
         specs: {
-            maturity: "110-120 днів (дуже довгий шлях до фінішу)",
+            maturity: "110-130 днів (дуже довгий шлях до фінішу)",
             height: "До 120 см",
             species: "Capsicum chinense",
             yield: ""
@@ -319,7 +319,7 @@ heatScore:"4",
 heatScore:"3",
         images: ["", "", ""],
         specs: {
-            maturity: "90-110 днів",
+            maturity: "110-120 днів",
             height: "100 см (міцний, з великим листям)",
             species: "Capsicum chinense",
             yield: ""
@@ -365,7 +365,7 @@ heatScore:"1",
         searchName: "Старфіш, Зірка, Starfish Red ",
         category: "seeds",
         price: 35,
-        heatLevel: "🔥+ ПОМІРНА (10,000 – 30,000 SHU)",
+        heatLevel: "🔥+ ПОМІРНА (5,000 – 30,000 SHU)",
 heatScore:"1",
         images: ["", "", ""],
         specs: {
@@ -394,7 +394,7 @@ heatScore:"1",
 heatScore:"1",
         images: ["", "", ""],
         specs: {
-            maturity: "60–70 днів",
+            maturity: "60–75 днів",
             height: "60–80 см",
             species: "Capsicum annuum",
             yield: ""
@@ -419,7 +419,7 @@ heatScore:"1",
 heatScore:"1",
         images: ["zebrange.jpg", "", ""],
         specs: {
-            maturity: "90–100 днів",
+            maturity: "85–95 днів",
             height: "80–120 см",
             species: "Capsicum baccatum (Ягідний перець)",
             yield: ""
@@ -442,7 +442,7 @@ heatScore:"1",
         searchName: "Пітер, Пеппер Пітер",
         category: "seeds",
         price: 45,
-        heatLevel: "🔥+ ПОМІРНА (10,000 – 23,000 SHU)",
+        heatLevel: "🔥+ ПОМІРНА (10,000 – 25,000 SHU)",
 heatScore:"3",
         images: ["", "", ""],
         specs: {
@@ -493,7 +493,7 @@ heatScore:"1",
         searchName: "Шугар Раш, Цукровий Раш",
         category: "seeds",
         price: 40,
-        heatLevel: "🔥🔥 ВИСОКА (50,000 – 100,000 SHU)",
+        heatLevel: "🔥🔥 ВИСОКА (30,000 – 80,000 SHU)",
 heatScore:"2",
         images: ["", "", ""],
         specs: {
@@ -522,7 +522,7 @@ heatScore:"2",
 heatScore:"1",
         images: ["", "", ""],
         specs: {
-            maturity: "90–100 днів",
+            maturity: "80–90 днів",
             height: "90–120 см (дуже гіллястий, нагадує ліану)",
             species: "Capsicum baccatum",
             yield: ""
@@ -549,7 +549,7 @@ heatScore:"2",
         specs: {
             maturity: "110–130 днів (Потребує терпіння)",
             height: "100–150 см",
-            species: "Capsicum chinense",
+            species: "Capsicum pubescens",
             yield: "1500–2500 г з куща (Завдяки дуже товстим і важким стінкам плоду (1 плід 50-100г))"
         },
         description: "(Андійський важковаговик). Це перець для тих, хто цінує потужність. Giant Rocoto Red вражає своїми розмірами та м'ясистістю. Його плоди нагадують невеликі червоні яблука або томати, але з секретом усередині. У нього чорне насіння (це фішка виду pubescens) та опушене, наче оксамитове, листя. Це один із небагатьох перців, який обожнює прохолодні ночі й може жити до 15 років, перетворюючись на справжнє перцеве дерево.Рокото стійкий до легких заморозків, що робить його «останнім героєм» на городі, коли інші перці вже здалися. Важливо! Чорне насіння — це ознака елітності та «чистої крові» виду Рокото.",
@@ -563,12 +563,37 @@ heatScore:"2",
         allowSale: true
     },
 
-"fatalii": {
-        name: "Fatalii",
-        searchName: "Фаталі",
+"fataliiRed": {
+        name: "Fatalii Red",
+        searchName: "Фаталі Червоний",
         category: "seeds",
         price: 40,
-        heatLevel: "🔥🔥 ВИСОКА (125,000 – 325,000 SHU)",
+        heatLevel: "🔥🔥 ВИСОКА (125,000 – 400,000 SHU)",
+heatScore:"2",
+        images: ["", "", ""],
+        specs: {
+            maturity: "85-95 днів",
+            height: "60–90 см",
+            species: "Capsicum chinense",
+            yield: "400–800 г з куща"
+        },
+        description: "(Африканський сонячний удар). Fatalii Yellow — це справжня ікона у світі суперхотів. Поки інші перці просто випалюють рецептори, цей африканський красень влаштовує справжнє гастрономічне шоу. Родом із Центральної Африки, він вважається одним із найароматніших сортів планети. Його головна фішка — неймовірний, майже парфумований аромат лимона та тропічного лайма. Гострота Fatalii не затримується «на потім», як у Хабанеро, а б’є миттєво, різко та палко, наче сонячний удар у пустелі. Яскраво-жовті, зморшкуваті плоди з тонкою шкіркою ідеально підходять для створення цитрусових соусів, екзотичних маринадів або сушіння в ароматну пудру.",
+        growTip: "вони не люблять переливів на старті — насіння легко загниває, якщо субстрат занадто мокрий і не дуже теплий. Незважаючи на свою вередливість, Fatalii вважається «батьком» багатьох сучасних суперхотів. Його генетика дуже сильна, якщо вже він пустив коріння.",
+        meta: { count: "5 насінин", pack: "Zip", year: "2026" },
+         //ТЕГИ
+        // isNew: true,  // З'явиться тег NEW
+        isHot: true,  // З'явиться тег 🔥 HOT
+        //isFlavor:"🥭+🌸 Фрукти & Тропіки" , //Вписуй будь-який смак
+        inStock: true, 
+        allowSale: true
+    },
+
+"fataliiYellow": {
+        name: "Fatalii Yellow",
+        searchName: "Фаталі Жовтий",
+        category: "seeds",
+        price: 40,
+        heatLevel: "🔥🔥 ВИСОКА (125,000 – 400,000 SHU)",
 heatScore:"2",
         images: ["", "", ""],
         specs: {
@@ -584,7 +609,7 @@ heatScore:"2",
         // isNew: true,  // З'явиться тег NEW
         isHot: true,  // З'явиться тег 🔥 HOT
         //isFlavor:"🥭+🌸 Фрукти & Тропіки" , //Вписуй будь-який смак
-        inStock: false, 
+        inStock: true, 
         allowSale: true
     },
 
@@ -593,11 +618,11 @@ heatScore:"2",
         searchName: "Хабанеро шоколадний",
         category: "seeds",
         price: 40,
-        heatLevel: "🔥🔥 ВИСОКА (300,000 – 500,000 SHU)",
+        heatLevel: "🔥🔥 ВИСОКА (300,000 – 450,000 SHU)",
 heatScore:"2",
         images: ["", "", ""],
         specs: {
-            maturity: "90–110 днів",
+            maturity: "90–100 днів",
             height: "80–100 см",
             species: "Capsicum chinense",
             yield: "600–1000 г з куща"
@@ -663,18 +688,18 @@ heatScore:"4",
         allowSale: true
     },
 
-"": {
-        name: "",
-        searchName: "",
+"jalapeno": {
+        name: "Jalapeno",
+        searchName: "Халопеньо",
         category: "seeds",
-        price: 50,
-        heatLevel: "🔥🔥🔥 ДУЖЕ ВИСОКА (1,200,000 – 1,500,000+ SHU)",
-heatScore:"3",
+        price: 30,
+        heatLevel: "🔥 НИЗЬКА (2,500 – 8,000+ SHU)",
+heatScore:"1",
         images: ["", "", ""],
         specs: {
-            maturity: "90-120 днів",
-            height: "90-120 см (сильний, розлогий)",
-            species: "Capsicum chinense",
+            maturity: "70-80 днів",
+            height: "",
+            species: "Capsicum annuum",
             yield: ""
         },
         description: " ",
@@ -688,7 +713,30 @@ heatScore:"3",
         allowSale: true
     },
 
-
+"habaneroBigSun": {
+        name: "Habanero Big Sun",
+        searchName: "Хабанеро сонячний",
+        category: "seeds",
+        price: 50,
+        heatLevel: "🔥🔥 ВИСОКА (150,000 – 350,000+ SHU)",
+heatScore:"2",
+        images: ["", "", ""],
+        specs: {
+            maturity: "90-100 днів",
+            height: " ",
+            species: "Capsicum chinense",
+            yield: ""
+        },
+        description: " ",
+        growTip: "",
+        meta: { count: "5 насінин", pack: "Zip", year: "2026" },
+        //ТЕГИ
+        // isNew: true,  // З'явиться тег NEW
+        isHot: true,  // З'явиться тег 🔥 HOT
+        isFlavor:"🥭+🌸 Фрукти & Тропіки" , //Вписуй будь-який смак
+        inStock: true, 
+        allowSale: true
+    },
 
 
 
@@ -856,78 +904,290 @@ heatScore:"3",
 
 
 // інше насіння...
-"tomato": {
-        name: "Мар-Азул",
-        searchName: "",
-        category: "otherseeds",
-        price: 30,
-        heatLevel: "Томат",
-heatScore:"1",
-        images: ["маразул.png", "", ""],
-        specs: {
-            maturity: "",
-            height: "",
-            species: "",
-            yield: ""
-        },
-        description: " ",
-        growTip: "",
-        meta: { count: "15 насінин", pack: "Zip", year: "2026" },
-         //ТЕГИ
-        // isNew: true,  // З'явиться тег NEW
-        //isHot: true,  // З'явиться тег 🔥 HOT
-        //isFlavor:"🥭+🌸 Фрукти & Тропіки" , //Вписуй будь-який смак
-        inStock: true // Є в наявності
+"opal_gem_120": {
+    name: "GHI Opal Gem (Опаловий Самоцвіт)",
+    searchName: "опалова таємниця, опаловий томат, болотний томат, синій томат, якравий самоцвіт, lucid gem",
+    category: "otherseeds",
+    price: 27, // Екзотика з антоціаном завжди дорожча
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["opalgem.png", "", ""], 
+    specs: {
+        maturity: "115-125 днів (середньоранній)",
+        height: "170-190 см (індетермінантний)",
+        species: "Solanum lycopersicum",
+        yield: "Висока (5-8 кг з куща)"
     },
-"tomato2": {
-        name: "814",
-        searchName: "",
-        category: "otherseeds",
-        price: 30,
-        heatLevel: "Томат",
-heatScore:"1",
-        images: ["814г.png", "", ""],
-        specs: {
-            maturity: "",
-            height: "",
-            species: "",
-            yield: ""
-        },
-        description: " ",
-        growTip: "",
-        meta: { count: "15 насінин", pack: "Zip", year: "2026" },
-         //ТЕГИ
-        // isNew: true,  // З'явиться тег NEW
-        //isHot: true,  // З'явиться тег 🔥 HOT
-        //isFlavor:"🥭+🌸 Фрукти & Тропіки" , //Вписуй будь-який смак
-        inStock: true, 
-        allowSale: true
-    },
+    description: `<b>Таємниця "Опалового самоцвіту".</b> <br><br> Дивовижний пересорт синьо-зеленої лінії. Зовні — таємничий оливковий колір із сизими антоціановими плечима. Всередині — смарагдова м'якоть із яскравою оранжевою зіркою в центрі. Саме ця пляма сигналізує про пік солодкості та готовність до вживання. Смак — чиста екзотика: суміш ківі, дині та томата`,
+    growTip: "Обов'язково підв'язуйте та пасинкуйте. Щоб визначити стиглість, не чекайте зміни кольору — просто помацайте плід, він має стати м'яким.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🌿 Тропічний десерт",
+    inStock: true,
+    allowSale: true
+},
 
-"tomato3": {
-        name: "White",
-        searchName: "",
-        category: "otherseeds",
-        price: 30,
-        heatLevel: "Томат",
-heatScore:"1",
-        images: ["white.png", "", ""],
-        specs: {
-            maturity: "",
-            height: "",
-            species: "",
-            yield: ""
-        },
-        description: " ",
-        growTip: "",
-        meta: { count: "15 насінин", pack: "Zip", year: "2026" },
-         //ТЕГИ
-        // isNew: true,  // З'явиться тег NEW
-        //isHot: true,  // З'явиться тег 🔥 HOT
-        //isFlavor:"🥭+🌸 Фрукти & Тропіки" , //Вписуй будь-який смак
-        inStock: true, 
-        allowSale: true
+"brandywine_pink": {
+    name: "Brandywine Pink (Лінія GHI)",
+    searchName: "брендивайн, брендивайн розовый, найкращий смак, рожевий томат, heirloom tomato",
+    category: "otherseeds",
+    price: 27,
+    images: ["ghi_brandywine_pink.png", "", ""],
+    specs: {
+        maturity: "85-90 днів (від висадки)",
+        height: "180-200 см",
+        species: "Solanum lycopersicum"
     },
+    description: `<b>Світовий еталон смаку.</b> Brandywine Pink — це легендарна реліквія, яку професійні дегустатори щороку визнають найсмачнішим томатом світу. Ми отримали його з колекції відомого сідшопу з Канади Renees garden.
+    <br><br>
+    Його плоди мають неповторний "винний" аромат та ідеальний баланс цукру й кислоти. Це вибір для тих, хто шукає справжню якість, перевірену століттями.`,
+    growTip: "УВАГА: Сорт схильний до верхівкової гнилі (BER). Обов'язково забезпечте регулярний полив без пересихання ґрунту та проводьте профілактичні підживлення кальцієм з моменту появи першої зав'язі",
+    meta: { count: "10 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🏆 Чемпіон смаку",
+    inStock: true,
+    allowSale: true
+},
+
+"stupice_early": {
+    name: "Stupice Early (Контейнерний)",
+    searchName: "ступиче, ступице, ранній томат, томат для горщиків, холодостійкий помідор",
+    category: "otherseeds",
+    price: 25,
+    images: ["stupice.png", "", ""],
+    specs: {
+        maturity: "55-60 днів (ультраранній)",
+        height: "100-120 см (компактний)",
+        species: "Solanum lycopersicum"
+    },
+    description: `<b>Перший врожай сезону.</b> Stupice — це чеська реліквія, відома своєю неймовірною ранньостиглістю та стійкістю до холодного клімату. Колекція Renees Garden.
+    <br><br>
+    Попри компактні розміри, сорт дуже врожайний. Плоди невеликі, але надзвичайно солодкі. Ідеально підходить для вирощування в контейнерах на балконах, терасах або у відкритому ґрунті.`,
+    growTip: "Можна вирощувати у великих вазонах (від 15 літрів). Майже не потребує пасинкування в нижній частині.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🚀 Ультраранній",
+    inStock: true,
+    allowSale: true
+},
+
+"titan_red_814": {
+    name: "GHI Titan Red (Лінія 814)",
+    searchName: "великий томат, помідор гігант",
+    category: "otherseeds",
+    price: 25, // Можна трохи дорожче, бо це підтверджений рекорд!
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["814.png", "", ""], // ЗАМІНИ НА FataliiYellowCard.jpg З ВАГАМИ!
+    specs: {
+        maturity: "115-125 днів",
+        height: "180-200 см",
+        species: "Solanum lycopersicum",
+        yield: "Екстремально висока (окремі плоди - гіганти)"
+    },
+    description: `<b>Легенда рекордів на ваших вагах!</b> <br><br> Наша лінія GHI 814 походить від знаменитого сорту Big Zac, створеного спеціально для вирощування томатів-монстрів. Плоди мають класичний насичений червоний колір, м'ясисту структуру та неперевершений томатний аромат. <br><br>
+    Це сорт для тих, хто хоче побити наш рекорд у <b>814 грамів</b>! Він часто утворює "махрові" квіти, з яких і ростуть ці ребристі гіганти. Наш гордий рекордсмен. Лінія відібрана за ознакою екстремальної ваги та м’ясистості. Плід-титан, що підкорив позначку у 814 грамів. Класичний червоний смак у монументальній формі.`,
+    growTip: "Обов'язково пасинкуйте в 1 стебло, залишаючи лише 1-2 зав'язі на китиці, якщо хочете отримати максимальний розмір.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🐘 Супер-Гігант",
+    inStock: true,
+    allowSale: true
+},
+
+"white_186": {
+    name: "White GHI (Лінія 186)",
+    searchName: "білий томат, білий віск, великий білий томат, гіпоалергенний помідор",
+    category: "otherseeds",
+    price: 25, // Трохи піднімемо ціну за "лінію GHI" та підтверджену вагу
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["white.png", "", ""], // ЗАМІНИ FataliiYellowCard.jpg НА FataliiYellowCard.jpg З ВАГАМИ!
+    specs: {
+        maturity: "115-125 днів (пізньостиглий)",
+        height: "170-190 см (індетермінантний)",
+        species: "Solanum lycopersicum",
+        yield: "Висока (4-6 кг з куща)"
+    },
+    description: `<b>Тонка екзотика для вашого здоров'я.</b> <br><br> Наша лінія GHI 186. Плоди мають унікальний кремово-білий колір, м'ясисту структуру та ніжну м'якоть. <br><br>
+    Головна фішка цього томата — його гіпоалергенність. Його смак не класичний томатний, а дуже тонкий, ніжний, з легкими фруктовими нотками. Він ідеально підходить для тих, хто шукає дієтичний продукт або хоче здивувати гостей незвичною нарізкою.`,
+    growTip: "Обов'язково підв'язуйте та пасинкуйте. Щоб відчути справжній смак, дайте плодам добре дозріти — вони повинні набути легкого кремового відтінку.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isHot: false,
+    isFlavor: "🌿 Гіпоалергенний десерт",
+    inStock: true,
+    allowSale: true
+},
+
+"emerald_honey_97": {
+    name: "GHI 97 Emerald Honey",
+    searchName: "зелений томат, зелений солодкий, зеленый сладкий, зеленый помидор, зелена сосиска, смарагдовий помідор, зелене диво",
+    category: "otherseeds",
+    price: 25, // Трохи піднімемо ціну за "лінію GHI" та підтверджену вагу
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["emeraldhoney.png", "", ""], // ЗАМІНИ FataliiYellowCard.jpg НА FataliiYellowCard.jpg З ВАГАМИ!
+    specs: {
+        maturity: "115-125 днів (середньоранній)",
+        height: "170-190 см (індетермінантний)",
+        species: "Solanum lycopersicum",
+        yield: "Висока (4-6 кг з куща, плоди невеликі)"
+    },
+    description: `<b>Смарагдовий десерт на вашому столі.</b> <br><br> Наша лінія GHI 97 - наш головний секрет. Не вірте очам — вірте смаку! Цей томат залишається зеленим навіть у повній стиглості, але всередині ховає справжній мед з фруктовими нотками ківі. Пробуйте м'якість на дотик — це і є момент ідеального смаку. Плоди мають унікальний насичено-зелений колір, м'ясисту структуру та ніжну, як у ківі, м'якоть. <br><br>
+    Головна фішка цього томата — його неймовірна солодкість. Смак не томатний, а справді тропічний, з легкими фруктовими нотками. Він ідеально підходить для тих, хто шукає екзотику або хоче здивувати гостей незвичною нарізкою.`,
+    growTip: "Обов'язково підв'язуйте та пасинкуйте. Щоб визначити стиглість, не чекайте зміни кольору — просто помацайте плід, він має стати м'яким.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isHot: false,
+    isFlavor: "🌿 Тропічний десерт",
+    inStock: true,
+    allowSale: true
+},
+
+"zagadka": {
+    name: "Загадка",
+    searchName: "загадка, томат загадка, ультраранній помідор, низкорослый томат",
+    category: "otherseeds",
+    price: 25,
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["zagadka.png", "", ""],
+    specs: {
+        maturity: "80-85 днів (ультраранній)",
+        height: "40-50 см",
+        species: "Solanum lycopersicum",
+        yield: "3-4 кг з куща"
+    },
+    description: `<b>Надійний врожай до фітофтори!</b> Сорт "Загадка" — справжня знахідка для тих, хто прагне отримати перший врожай якомога раніше. Завдяки феноменальній швидкості дозрівання, він уникає фітофторозу.
+    <br><br>
+    Кущі компактні, міцні, не потребують сильного пасинкування. Плоди округлі, щільні та дуже смачні. Ідеально підходять як для свіжих салатів, так і для цільноплідного консервування.`,
+    growTip: "Можна вирощувати без підв'язки, але краще поставити невелику опору, бо кущ може падати під вагою врожаю.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🚀 Ультраранній врожай",
+    inStock: true,
+    allowSale: true
+},
+
+"pinkgiant": {
+    name: "Рожевий Велетень",
+    searchName: "рожевий велетень, розовый гигант, солодкий томат, великий помідор",
+    category: "otherseeds",
+    price: 25,
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["pink_giant.png", "", ""],
+    specs: {
+        maturity: "110-120 днів",
+        height: "170-200 см",
+        species: "Solanum lycopersicum",
+        yield: "5-8 кг з куща"
+    },
+    description: `<b>Король солодких томатів.</b> Рожевий Велетень — це вибір тих, хто ставить смак на перше місце. Його плоди мають тонку шкірку та неймовірну "цукрову" структуру м'якоті.
+    <br><br>
+    Це справжній гігант: при правильному догляді вага одного плоду може сягати 800-1000 грамів. Ідеальний для свіжого вживання, соків та домашніх соусів.`,
+    growTip: "Обов'язково пасинкуйте та підв'язуйте не тільки стовбур, а й важкі китиці, щоб вони не зламалися під вагою плодів.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🍯 Солодкий гігант",
+    inStock: true,
+    allowSale: true
+},
+
+"ghi_medvezha_lapa": {
+    name: "GHI Медвежа Лапа",
+    searchName: "ведмежа лапа, солодкий томат, великий помідор",
+    category: "otherseeds",
+    price: 25,
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["ghi_medvezha_lapa.png", "", ""],
+    specs: {
+        maturity: "110-120 днів",
+        height: "150-170 см (індетермінантний)",
+        species: "Solanum lycopersicum",
+        yield: "5-8 кг з куща"
+    },
+    description: `<b>Сила та м'ясо вашого саду!</b> <br><br> GHI Медвежа Лапа — це старовинний український сорт, який цінується за фантастичну врожайність та масивність плодів. Плоди плоскоокруглі, червоні, вагою 250-400 г (окремі до 600 г), з характерною ребристістю біля плодоніжки, що нагадує відбиток лапи ведмедя. <br><br> Наша лінія відібрана нами за ознакою м'ясистості та чудового, насиченого помідорного смаку. Це ідеальний вибір для великих салатів, соків та густих соусів. Сорт стійкий до основних хвороб та примх погоди.`,
+    growTip: "Обов'язково пасинкуйте та підв'язуйте не тільки стовбур, а й важкі китиці, щоб вони не зламалися під вагою плодів.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🐻 Масивний та м'ясистий",
+    inStock: true,
+    allowSale: true
+},
+
+"mongol_dwarf": {
+    name: "Монгольський Карлик",
+    searchName: "монгольський карлик, монгольский карлик, низькорослий томат, томат для ледачих",
+    category: "otherseeds",
+    price: 30,
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["mongol.png", "", ""],
+    specs: {
+        maturity: "90-100 днів",
+        height: "20-30 см (стелеться)",
+        species: "Solanum lycopersicum",
+        yield: "до 10 кг з кв.м"
+    },
+    description: `<b>Томатний "партизан".</b> Монгольський Карлик — один із найбільш незвичних сортів. Він не потребує підв'язки та пасинкування, оскільки росте вшир, а не вгору. 
+    <br><br>
+    Плоди великі, червоні та м'ясисті. Сорт надзвичайно стійкий до стресових умов: холоду, посухи та хвороб. Ідеальний вибір для відкритого ґрунту та зайнятих господарів.`,
+    growTip: "Обов'язково замульчуйте землю під кущем соломою або агроволокном, оскільки плоди дозрівають лежачи на землі.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🚜 Максимальна невибагливість",
+    inStock: true,
+    allowSale: true
+},
+"red_chief": {
+    name: "Early Red Chief",
+    searchName: "ерлі ред чіф, ранній червоний вождь, американский томат, ранній помідор",
+    category: "otherseeds",
+    price: 30,
+    heatLevel: "Томат",
+    heatScore: "1",
+    images: ["red_chief.png", "", ""],
+    specs: {
+        maturity: "90-95 днів",
+        height: "50-70 см",
+        species: "Solanum lycopersicum",
+        yield: "дуже висока"
+    },
+    description: `<b>Залізна надійність з Америки.</b> Early Red Chief — це сорт, на який можна покластися. Він був виведений для фермерів, яким був потрібний ранній, здоровий та товарний томат.
+    <br><br>
+    Плоди середнього розміру, дуже красиві та щільні. Має відмінний смак, який рідко зустрічається серед таких ранніх сортів. Стійкий до більшості хвороб томатів.`,
+    growTip: "Попри низький зріст, обов'язково підв'язуйте гілки, щоб вони не зламалися під масою плодів, яких буде дуже багато.",
+    meta: { count: "15 насінин", pack: "Zip", year: "2026" },
+    isFlavor: "🛡️ Надійний та стійкий",
+    inStock: true,
+    allowSale: true
+},
+
+// --- СЮРПРИЗ-БОКСИ (BUNDLES) ---
+"bundle_random": {
+    name: 'Box "Городній Рандом"',
+    searchName: "бокс, сюрприз, набір, рандом, городній, подарунок",
+    category: "bundles",
+    price: 145,
+    heatLevel: "Сюрприз",
+    heatScore: "1",
+    images: ["homesteadlogo.svg"], // Або закинь сюди картинку подарунка
+    specs: { maturity: "-", height: "-", species: "Набір насіння", yield: "-" },
+    description: "Ідеальний спосіб спробувати все потроху без мук вибору. Ми зберемо найкращі сорти огірків, томатів та гарбузів спеціально для вас + покладемо секретний бонус.",
+    growTip: "Просто довіртеся нам!",
+    meta: { count: "Набір (6 позицій)", pack: "Спец-пакування", year: "2026" },
+    inStock: true,
+    allowSale: false // Бокси вже зі знижкою, не даємо на них додаткову глобальну акцію
+},
+
+"bundle_roulette": {
+    name: 'Box "Пекельна Рулетка"',
+    searchName: "бокс, сюрприз, рулетка, набір, пекельна, подарунок, чиліхед",
+    category: "bundles",
+    price: 210,
+    heatLevel: "☠️ ЕКСТРЕМАЛЬНА РУЛЕТКА",
+    heatScore: "4",
+    images: ["homesteadlogo.svg"],
+    specs: { maturity: "-", height: "-", species: "Набір Суперхотів", yield: "-" },
+    description: "Ви не знаєте, що виросте, поки не побачите перший плід. Ми зберемо мікс із наших найзліших суперхотів. Тільки для сміливих!",
+    growTip: "Одягайте рукавички навіть коли розпаковуєте посилку 😉",
+    meta: { count: "Набір (4 позиції + мерч)", pack: "Спец-пакування", year: "2026" },
+    inStock: true,
+    allowSale: false
+}
     
 };
 

@@ -204,7 +204,6 @@
 <meta name="google-site-verification" content="ZHWp3dDyPfgW63HqbmKizw4DOSzIvlCrq7mUrW8wDro" />
 </head>
 <body class="homepage">
-
     <div class="fire-wrapper">
         <div class="ember" style="--left:15%; --duration:7s; --delay:0s; --size:4px; --color:#ff4500;"></div>
         <div class="ember" style="--left:35%; --duration:9s; --delay:2s; --size:2px; --color:#ffd700;"></div>
@@ -236,9 +235,7 @@
         <img src="homesteadlogo.svg" alt="Homestead" class="logo-image">
     </a>
 </div>
-</header>
-            
-             <!-- 🔍 БЛОК ПОШУКУ -->
+<!-- 🔍 БЛОК ПОШУКУ -->
     <div class="search-container" style="margin-top: 20px;">
         <input 
             type="text" 
@@ -249,18 +246,13 @@
         <span class="search-icon">🔍</span>
         <div id="search-results"></div>
     </div>
+</header>
 
-           
             <section class="hero-text">
-                <div class="sub-header">
+                <h1>Вирощуйте врожай, яким хочеться хвалитися.<br> Спробуйте крафтові соуси,<br> що наділяють звичайну їжу <a href="sauces.html"><span class="fire-text">INFERNO</span></a> здібностями.</h1>
+                <p class="description">
                     Генетика <a href="seedsandseedlings.html"><span class="green-text">насіння</span></a> від перевіреної класики до власних суперхотів.<br>
                     Саме з нього народжена лінійка ультра-гострих соусів <a href="sauces.html"><span class="fire-text">INFERNO</span></a>
-                </div>
-
-                <h1>Вирощуйте врожай,<br>яким хочеться хвалитися</h1>
-                
-
-                <p class="description">
                     Ми відібрали світові легенди: Carolina Reaper, Ghost
                     <img src="bhutjolokiaNOTEXT.PNG" alt="Ghost Pepper" class="pepper-icon">, 
                     
@@ -294,12 +286,73 @@
                     <div class="card-label">Авторські лінії<br>Томатів та Овочів</div>
                 </a>
             </section>
+
+            <section class="bundles-section container">
+    <h2 class="section-title" style="text-align: center; margin-bottom: 10px;">🎁 Пекельні Сюрприз-Бокси</h2>
+    <p style="text-align: center; margin-bottom: 30px; opacity: 0.8;">Не знаєте, що обрати? Довіртеся долі! Ми зберемо найкраще насіння на наш смак.</p>
+    <div class="bundle-grid">
+        <div class="bundle-card">
+    <div class="bundle-badge">СЮРПРИЗ</div>
+    <div class="bundle-name">Box "Городній Рандом"</div>
+    <div class="bundle-price">145 ₴ <span class="old-price">180 ₴</span></div>
+    <ul class="bundle-list">
+        <li>🌶️ 2 сорти солодкого перцю (по 5-7 нас.)</li>
+        <li>🍅 3 сорти унікальних томатів (по 10 нас.)</li>
+        <li>🎃 1 сорт гарбуза-красеня (5 нас.)</li>
+        <li>✨ 40+ насінин та секретний бонус</li>
+    </ul>
+    <p class="bundle-descr">Ідеальний спосіб засіяти базовий город без мук вибору. Все необхідне в одному пакунку!</p>
+    <button class="bundle-btn" onclick="addToCart('bundle_random', 145, 'Box Городній Рандом', 1); alert('🎁 Box Городній Рандом додано у кошик!');">
+        Випробувати вдачу
+    </button>
+</div>
+        
+        <div class="bundle-card special-signature">
+    <div class="bundle-badge">ЕКСКЛЮЗИВ</div>
+    <div class="bundle-name">Box "Homestead Signature"</div>
+    <div class="bundle-price">195 ₴ <span class="old-price">240 ₴</span></div>
+    
+    <ul class="bundle-list">
+        <li>🎨 3 сорти перців-красенів (найбільш естетичні плоди з колекції)</li>
+        <li>🎁 Набір стікерів (секретний пак з авторськими ілюстраціями)</li>
+        <li>🌱 15+ насінин у наборі</li>
+        <li>✨ Таємничий пакет насіння</li>
+    </ul>
+    
+    <p class="bundle-descr">Мій особистий вибір: баланс краси та врожайності. Все, що потрібно для естетичного городу, в одному боксі.</p>
+    
+    <button class="bundle-btn btn-signature" onclick="addToCart('bundle_signature', 195, 'Box Homestead Signature', 1); alert('✨ Box Signature додано у кошик!');">
+        Отримати ексклюзив
+    </button>
+</div>
+
+        <div class="bundle-card special-inferno">
+    <div class="bundle-badge">RANDOM HEAT</div>
+    <div class="bundle-name">Box "Пекельна Рулетка"</div>
+    <div class="bundle-price">210 ₴ <span class="old-price">260 ₴</span></div>
+    <ul class="bundle-list">
+        <li>🔥 3 пакети Суперхотів (по 5 нас. у кожному)</li>
+        <li>🌶️ 1 сорт середньої гостроти (5-10 нас.)</li>
+        <li>💀 20+ насінин екстремального вогню</li>
+        <li>🧪 Сюрприз та наклейка "Caution: Inferno"</li>
+    </ul>
+    <p class="bundle-descr">Тільки для сміливих! Ви не знаєте рівня пекучості, поки не з’явиться перший плід. Приймайте виклик!</p>
+    <button class="bundle-btn btn-hot" onclick="addToCart('bundle_roulette', 210, 'Box Пекельна Рулетка', 1); alert('🔥 Box Пекельна Рулетка додано у кошик!');">
+        Прийняти виклик!
+    </button>
+</div>
+
+    </div>
+</section>
+
+    </div>
+</section>
         </div>
 
         <section class="hero-banner">
     <div class="video-container">
         <video autoplay muted loop playsinline poster="peppers-preview.jpg" class="bg-video">
-            <source src="peppers-growing.mp4" type="video/mp4">
+            <source src="Video.mp4" type="video/mp4">
         </video>
         <div class="hero-content">
             <h3>Наше виробництво</h3>

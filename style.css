@@ -594,6 +594,18 @@ header {
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+    position: relative;
+}
+.video-container::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* Створюємо мікро-сітку 2х2 пікселі */
+    background-image: radial-gradient(rgba(40, 10, 0, 0.5) 1px, transparent 1px);
+    background-size: 3px 3px; 
+    z-index: 2;
+    pointer-events: none;
 }
 
 .bg-video {
@@ -603,10 +615,30 @@ header {
 }
 
 .hero-content {
+    /* Розтягуємо на всю ширину */
+    width: 100%;
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    text-align: center; z-index: 10;
+    left: 0;
+    top: 50%; /* Центруємо по вертикалі */
+    transform: translateY(-50%);
+    /* Наше "мило" (ефект розмиття) */
+    backdrop-filter: blur(4px); 
+    -webkit-backdrop-filter: blur(4px); /* Для підтримки в Safari */
+    /* Темна напівпрозора полоса */
+    background: rgba(0, 0, 0, 0.4); 
+    /* Додаємо невелике світіння зверху і знизу, щоб межі були м'якшими */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* Внутрішні відступи для тексту */
+    padding: 40px 0;
+    text-align: center;
+    z-index: 10;
+}
+
+/* Налаштування для самого тексту всередині полоси */
+.hero-content h1, .hero-content p {
+    max-width: 800px; /* Щоб текст не розповзався на надто широких екранах */
+    margin: 0 auto;
+    padding: 0 20px;
 }
 .hero-content h2 { font-size: 46px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); margin-bottom: 8px; }
 .hero-content p  { font-size: 18px; opacity: 0.9; }
@@ -3035,6 +3067,185 @@ body.otherseeds-page header::after {
     color: #fff;
     background: rgba(255, 77, 0, 0.1);
 }
+
+/* --- СТИЛІ ДЛЯ БАНДЛІВ HOMESTEAD INFERNO --- */
+
+.bundles-section {
+    padding: 60px 0;
+    background: rgba(0, 0, 0, 0.2); /* Легке затемнення фону */
+    border-radius: 20px;
+    margin: 40px 0;
+}
+
+.bundle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   justify-content: center; /* Центруємо картки в ряду */
+    gap: 5px;
+    margin-top: 40px;
+    padding: 0 15px;
+}
+
+.bundle-card {
+    background: rgba(255, 255, 255, 0.05); /* Напівпрозорий темний фон */
+    border: 1px solid rgba(255, 69, 0, 0.3); /* Твій фірмовий OrangeRed */
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    position: relative;
+    backdrop-filter: blur(5px);
+    max-width: 400px; /* Обмежуємо ширину */
+    margin: 0 auto;   /* Центруємо, якщо їх мало */
+    padding: 20px;    /* Трохи менші відступи всередині */
+    font-size: 0.95em; /* Трішки менший шрифт для компактності */
+}
+
+.bundle-card:hover {
+    transform: translateY(-10px);
+    border-color: #ff4500;
+    box-shadow: 0 10px 30px rgba(255, 69, 0, 0.2);
+}
+
+.bundle-badge {
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background: #ff4500;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.bundle-name {
+    font-size: 22px;
+    font-family: serif; /* Під твій вінтажний стиль */
+    color: #fff;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+.bundle-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.bundle-list li {
+    color: #ddd;
+    margin-bottom: 12px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+/* Картка для Суперхотів */
+.special-inferno {
+    background: linear-gradient(145deg, rgba(40, 0, 0, 0.6), rgba(20, 0, 0, 0.8));
+    border: 2px solid #ff4500;
+}
+
+.bundle-btn {
+    background: transparent;
+    border: 2px solid #ff4500;
+    color: #ff4500;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.bundle-btn:hover {
+    background: #ff4500;
+    color: #fff;
+    box-shadow: 0 0 15px #ff4500;
+}
+
+.btn-hot {
+    background: #ff4500;
+    color: #fff;
+}
+
+.btn-hot:hover {
+    background: #fff;
+    color: #ff4500;
+    border-color: #fff;
+}
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 69, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
+}
+
+.special-inferno {
+    animation: pulse-red 2s infinite; /* Картка буде пульсувати вогнем */
+    border: 2px solid #ff4500;
+}
+/* Контейнер для ціни */
+.bundle-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff4500; /* Твій фірмовий вогняний колір */
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центруємо ціну */
+}
+
+/* Клас для закресленої ціни */
+.old-price {
+    font-size: 16px;
+    text-decoration: line-through; /* 🪄 Ось ця магія закреслює текст! */
+    color: #888; /* Робимо сірою, щоб вона "відійшла" на задній план */
+    margin-left: 12px;
+    font-weight: normal;
+    opacity: 0.7;
+}
+/* Особливий стиль для авторського бандлу */
+.special-signature {
+    border: 1px solid #d4a373 !important; /* Колір старого паперу/крафту */
+    background: rgba(212, 163, 115, 0.05) !important;
+}
+
+.special-signature .bundle-badge {
+    background: #d4a373;
+    color: #fefae0;
+}
+
+.btn-signature {
+    background: #bc6c25 !important; /* Насичений коричнево-помаранчевий */
+    color: white;
+}
+
+.btn-signature:hover {
+    background: #dda15e !important;
+}
+.bundle-list li:last-child{
+    color: #78b898;
+    font-weight: bold;
+}
+/* Золотистий акцент на списку */
+.special-signature .bundle-list li:last-child {
+    color: #b5838d;
+    font-weight: bold;
+}
+
+.special-inferno .bundle-list li:last-child {
+    color: #8f1717;
+    font-weight: bold;
+}
+
+
 
 /* ╔══════════════════════════════════════════════════════════════╗
    ║  КІНЕЦЬ — v6.0 · 23 секції · динамічні теми                ║

@@ -114,8 +114,14 @@ function updateCartUI() {
                         <div class="cart-item-details">
                             ${parseFloat(item.price).toFixed(2)} ₴ 
                             <span style="opacity: 0.7; font-size: 0.9em;">
-                                ${(item.name.toLowerCase().includes('соус') || item.name.toLowerCase().includes('sauce')) ? '/ шт.' : '/ пакет (5 насінин)'}
-                            </span>
+    ${
+        (item.name.toLowerCase().includes('соус') || item.name.toLowerCase().includes('sauce')) 
+        ? '/ шт.' 
+        : (item.name.toLowerCase().includes('box') || item.name.toLowerCase().includes('набір'))
+        ? '/ за набір' 
+        : '/ пакет 5 насінин (Перці), 15 насінин інші овочі'
+    }
+</span>
                         </div>
                     </div> <div class="cart-item-actions">
                         <span class="cart-item-subtotal">${(parseFloat(item.price) * parseInt(item.qty)).toFixed(2)} ₴</span>
