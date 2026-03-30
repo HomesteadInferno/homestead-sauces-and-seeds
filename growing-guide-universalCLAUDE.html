@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Інструкція з вирощування — Gapka's Homestead Inferno</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --flame-red: #ff4500;
+            --deep-red: #a30000;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --border-warm: rgba(214, 96, 58, 0.3);
+            --text-primary: #eaddcf;
+            --text-secondary: #a89584;
+            --accent-green: #81c995;
+            --accent-orange: #d6603a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f0a 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px 10px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--flame-red) 0%, var(--deep-red) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 69, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+         .header-logo-link {
+            display: inline-block;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo-link:hover {
+            transform: scale(1.05);
+        }
+
+        .header-logo {
+            width: 380px;
+            max-width: 70vw;
+            height: auto;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        .veggie-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Zilla Slab', serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* VEGETABLE SELECTOR */
+        .veggie-selector {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-warm);
+        }
+
+        .veggie-selector h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--accent-orange);
+            text-align: center;
+        }
+
+        .veggie-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .veggie-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border-warm);
+            color: var(--text-primary);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .veggie-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(214, 96, 58, 0.3);
+        }
+
+        .veggie-btn.active {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            box-shadow: 0 5px 20px rgba(214, 96, 58, 0.5);
+        }
+
+        .veggie-btn-icon {
+            font-size: 32px;
+        }
+
+        /* CONTENT SECTIONS */
+        .guide-content {
+            display: none;
+        }
+
+        .guide-content.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-orange);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            font-family: 'Zilla Slab', serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--accent-orange);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: var(--accent-green);
+        }
+
+        .card ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .card strong {
+            color: var(--accent-orange);
+        }
+
+        .card p {
+            margin-bottom: 12px;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 15px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-orange), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            border: 2px solid var(--dark-bg);
+        }
+
+        /* WARNING BOX */
+        .warning-box {
+            background: rgba(255, 69, 0, 0.1);
+            border: 1px solid var(--flame-red);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .warning-box strong {
+            color: var(--flame-red);
+        }
+
+        /* TIP BOX */
+        .tip-box {
+            background: rgba(129, 201, 149, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .tip-box strong {
+            color: var(--accent-green);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-warm);
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo {
+            width: 120px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 22px;
+                letter-spacing: 2px;
+            }
+
+            .veggie-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .timeline {
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        
+        <!-- HEADER -->
+        <div class="header" id="main-header">
+            <div class="veggie-icon" id="header-icon">🌱</div>
+            <h1 id="header-title">Інструкція з вирощування</h1>
+            <a href="https://homesteadinferno.github.io/ghi/index.html" class="header-logo-link">
+                <img src="homesteadlogo.svg" alt="Homestead Inferno" class="header-logo">
+            </a>
+            <p class="subtitle">Gapka's Homestead Inferno — Від насіння до врожаю</p>
+        </div>
+
+        <!-- VEGETABLE SELECTOR -->
+        <div class="veggie-selector">
+            <h3>🌿 Оберіть що ви купили:</h3>
+            <div class="veggie-buttons">
+                <button class="veggie-btn active" data-veggie="peppers">
+                    <span class="veggie-btn-icon">🌶️</span>
+                    <span>Гострі перці</span>
+                </button>
+                <button class="veggie-btn" data-veggie="tomatoes">
+                    <span class="veggie-btn-icon">🍅</span>
+                    <span>Томати</span>
+                </button>
+                <button class="veggie-btn" data-veggie="cucumbers">
+                    <span class="veggie-btn-icon">🥒</span>
+                    <span>Огірки</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════════════════════════
+             ГОСТРІ ПЕРЦІ
+             ════════════════════════════════════════════════════════════ -->
+        
+        <div class="guide-content active" id="peppers-content">
+            
+            <div class="card">
+                <h2>🌱 Крок 1: Проростання насіння (7-30 днів)</h2>
+                
+                <div class="warning-box">
+                    <strong>⏳ Терпіння — ваш найкращий друг!</strong><br>
+                    Суперхоти (Carolina Reaper, Ghost Pepper, 7 Pot) проростають ДОВГО — до 20 днів. Це нормально!
+                </div>
+
+                <h3>Що потрібно:</h3>
+                <ul>
+                    <li><strong>Температура:</strong> 26-30°C (критично важливо!)</li>
+                    <li><strong>Вологість:</strong> Постійна, але без перезволоження</li>
+                    <li><strong>Світло:</strong> Не потрібно до появи паростків</li>
+                </ul>
+
+                <h3>Як саджати:</h3>
+                <ul>
+                    <li>Замочіть насіння на 12-24 год у теплій воді</li>
+                    <li>Висадіть в торф'яні таблетки або легкий ґрунт</li>
+                    <li>Накрийте плівкою/склом (міні-теплиця)</li>
+                    <li>Поставте на батарею або використайте підігрів знизу</li>
+                    <li>Провітрюйте щодня по 15 хв</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>💡 Лайфхак від Homestead:</strong> Покладіть горщики в пакет Zip-lock з вологою серветкою — 100% вологість!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌿 Крок 2: Розсада (2-3 місяці)</h2>
+
+                <h3>Освітлення (КРИТИЧНО!):</h3>
+                <ul>
+                    <li><strong>16 годин світла на день</strong> — без компромісів!</li>
+                    <li>Фітолампа 20-30 см над рослинами</li>
+                    <li>Без світла = довгі тонкі "ниточки"</li>
+                </ul>
+
+                <h3>Полив:</h3>
+                <ul>
+                    <li><strong>Помірний!</strong> Перелив = смерть</li>
+                    <li>Поливайте коли верхній шар підсох</li>
+                    <li>Краще недолити, ніж перелити</li>
+                </ul>
+
+                <h3>Обдув (ОБОВ'ЯЗКОВО!):</h3>
+                <ul>
+                    <li>Вентилятор 2-4 год/день</li>
+                    <li>Зміцнює стовбур</li>
+                    <li>Запобігає грибкам</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>☀️ Крок 3: Висадка в ґрунт</h2>
+
+                <h3>Коли:</h3>
+                <ul>
+                    <li><strong>Відкритий ґрунт:</strong> Кінець травня</li>
+                    <li><strong>Теплиця:</strong> Початок травня</li>
+                </ul>
+
+                <h3>Вимоги:</h3>
+                <ul>
+                    <li><strong>Горщик:</strong> 10-15 л</li>
+                    <li><strong>Відстань:</strong> 50-60 см</li>
+                    <li><strong>Сонце:</strong> 6+ годин</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>💧 Крок 4: Догляд</h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>Полив:</strong> 2-3 рази/тиждень, рясно
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Підживлення:</strong> Кожні 2 тижні
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Підв'язка:</strong> Обов'язкова!
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌶️ Крок 5: Збір врожаю</h2>
+
+                <div class="warning-box">
+                    <strong>🧤 РУКАВИЧКИ ОБОВ'ЯЗКОВО!</strong><br>
+                    Капсаїцин залишається на руках годинами!
+                </div>
+
+                <h3>Коли збирати:</h3>
+                <ul>
+                    <li>Коли перець набув свого кольору</li>
+                    <li>100-120 днів після висадки</li>
+                    <li>Шкірка глянцева та зморщена</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>🔥 Секрет гостроти:</strong><br>
+                    За 2 тижні до збору зменшіть полив на 30% — капсаїцин +20%!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ════════════════════════════════════════════════════════════
+             ТОМАТИ
+             ════════════════════════════════════════════════════════════ -->
+        
+        <div class="guide-content" id="tomatoes-content">
+            
+            <div class="card">
+                <h2>🌱 Крок 1: Посів насіння (5-10 днів)</h2>
+
+                <h3>Коли сіяти:</h3>
+                <ul>
+                    <li><strong>Ранні:</strong> Початок березня</li>
+                    <li><strong>Середні:</strong> Кінець лютого</li>
+                    <li><strong>Низькі:</strong> Середина березня</li>
+                </ul>
+
+                <h3>Посів:</h3>
+                <ul>
+                    <li>Глибина: <strong>1-1.5 см</strong></li>
+                    <li>Температура: <strong>22-25°C</strong></li>
+                    <li>Накрийте плівкою до сходів</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>💡 Порада:</strong> Томати проростають швидко — не сійте занадто рано!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>☀️ Крок 2: Розсада (40-60 днів)</h2>
+
+                <h3>Освітлення:</h3>
+                <ul>
+                    <li>12-14 годин світла</li>
+                    <li>Відстань до лампи: 15-20 см</li>
+                </ul>
+
+                <h3>Температура:</h3>
+                <ul>
+                    <li><strong>Вдень:</strong> 20-22°C</li>
+                    <li><strong>Вночі:</strong> 16-18°C</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>⚠️ Загартовування обов'язкове!</strong><br>
+                    За 2 тижні до висадки виносьте на вулицю на 1-2 години.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🪴 Крок 3: Пікіровка (2-3 тижні після сходів)</h2>
+
+                <h3>Коли:</h3>
+                <ul>
+                    <li>При 2-3 справжніх листках</li>
+                    <li>Горщики 0.5-1 л</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>🌿 Секрет:</strong><br>
+                    Заглиблюйте до сім'ядольних листків — виростуть додаткові корені!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌍 Крок 4: Висадка в ґрунт</h2>
+
+                <h3>Коли:</h3>
+                <ul>
+                    <li><strong>Теплиця:</strong> Середина травня</li>
+                    <li><strong>Відкритий ґрунт:</strong> Кінець травня</li>
+                </ul>
+
+                <h3>Схема:</h3>
+                <ul>
+                    <li><strong>Високі:</strong> 50x60 см</li>
+                    <li><strong>Низькі:</strong> 40x50 см</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>💧 Крок 5: Догляд</h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>Полив:</strong> 1-2 рази/тиждень, 5-10 л під кущ
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Підживлення:</strong> Кожні 10-14 днів
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Пасинкування:</strong> Раз на тиждень
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Підв'язка:</strong> Кожні 20-30 см
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>🍂 Видаляйте нижні листки!</strong><br>
+                    Нижче першої плодової китиці — для кращого провітрювання.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🍅 Крок 6: Збір врожаю</h2>
+
+                <h3>Коли збирати:</h3>
+                <ul>
+                    <li>Коли томат повністю забарвився</li>
+                    <li>Для зберігання — у фазі "молочної стиглості"</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>📦 Секрет:</strong><br>
+                    Зривайте з плодоніжкою — зберігаються довше!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ════════════════════════════════════════════════════════════
+             ОГІРКИ
+             ════════════════════════════════════════════════════════════ -->
+        
+        <div class="guide-content" id="cucumbers-content">
+            
+            <div class="card">
+                <h2>🌱 Крок 1: Посів (3-7 днів)</h2>
+
+                <h3>Коли сіяти:</h3>
+                <ul>
+                    <li><strong>Теплиця:</strong> Середина квітня</li>
+                    <li><strong>Відкритий ґрунт:</strong> Початок травня</li>
+                </ul>
+
+                <h3>Посів:</h3>
+                <ul>
+                    <li>Глибина: <strong>1.5-2 см</strong></li>
+                    <li>Температура: <strong>25-28°C</strong></li>
+                    <li>По 1-2 насінини в горщик</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>❄️ Огірки ДУЖЕ теплолюбні!</strong><br>
+                    Нижче +15°C — ріст зупиняється. Нижче +10°C — гинуть!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌿 Крок 2: Розсада (20-25 днів)</h2>
+
+                <h3>Температура:</h3>
+                <ul>
+                    <li><strong>До сходів:</strong> 25-28°C</li>
+                    <li><strong>Після сходів:</strong> 20-22°C вдень</li>
+                </ul>
+
+                <h3>Полив:</h3>
+                <ul>
+                    <li><strong>Огірки — водохлеби!</strong></li>
+                    <li>Поливайте щодня теплою водою (+20-25°C)</li>
+                    <li>Не допускайте пересихання!</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>💧 Вони люблять вологість:</strong><br>
+                    Обприскуйте листя 1-2 рази/день!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🚫 Крок 3: Пікіровка — НЕ ТРЕБА!</h2>
+
+                <div class="warning-box">
+                    <strong>⚠️ Огірки не переносять пересадку!</strong><br>
+                    Сійте одразу в окремі горщики або торф'яні стаканчики!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌍 Крок 4: Висадка</h2>
+
+                <h3>Коли:</h3>
+                <ul>
+                    <li><strong>Теплиця:</strong> Середина травня</li>
+                    <li><strong>Ґрунт:</strong> Початок червня</li>
+                </ul>
+
+                <h3>Схема:</h3>
+                <ul>
+                    <li>40x60 см або на шпалері</li>
+                    <li>Не заглиблюйте сильно!</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>💧 Крок 5: Догляд</h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>Полив:</strong> ЩОДНЯ у спеку! Тільки теплою водою!
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Підживлення:</strong> Кожні 7-10 днів
+                    </div>
+                    <div class="timeline-item">
+                        <strong>Підв'язка:</strong> На шпалері вертикально
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>❄️ Холодна вода = хвороби!</strong><br>
+                    Поливайте тільки теплою водою (+20-25°C)!
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🥒 Крок 6: Збір врожаю</h2>
+
+                <h3>Коли:</h3>
+                <ul>
+                    <li><strong>КОЖНОГО ДНЯ!</strong> або через день</li>
+                    <li>Оптимальний розмір: 10-15 см</li>
+                    <li>Переросли гальмують нові!</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>⚡ Головне правило:</strong><br>
+                    Збирайте РЕГУЛЯРНО! Навіть якщо не потрібні — це стимулює родити більше!
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <img src="homesteadlogo.svg" alt="Homestead Inferno" class="footer-logo">
+            <p>
+                <strong>Gapka's Homestead Inferno</strong><br>
+                Від насіння до врожаю — з любов'ю 🌱🔥
+            </p>
+            <p style="margin-top: 15px; font-size: 12px;">
+                Питання? <a href="mailto:homestead.inferno@gmail.com" style="color: var(--accent-orange);">homestead.inferno@gmail.com</a>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const veggieBtns = document.querySelectorAll('.veggie-btn');
+        const guideContents = document.querySelectorAll('.guide-content');
+        const headerIcon = document.getElementById('header-icon');
+        const headerTitle = document.getElementById('header-title');
+        const mainHeader = document.getElementById('main-header');
+
+        const veggieData = {
+            peppers: {
+                icon: '🌶️',
+                title: 'Гострі перці',
+                gradient: 'linear-gradient(135deg, #ff4500 0%, #a30000 100%)'
+            },
+            tomatoes: {
+                icon: '🍅',
+                title: 'Томати',
+                gradient: 'linear-gradient(135deg, #e63946 0%, #a30015 100%)'
+            },
+            cucumbers: {
+                icon: '🥒',
+                title: 'Огірки',
+                gradient: 'linear-gradient(135deg, #52b788 0%, #2d6a4f 100%)'
+            }
+        };
+
+        veggieBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const veggie = btn.dataset.veggie;
+                
+                veggieBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                guideContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(`${veggie}-content`).classList.add('active');
+                
+                headerIcon.textContent = veggieData[veggie].icon;
+                headerTitle.textContent = veggieData[veggie].title;
+                mainHeader.style.background = veggieData[veggie].gradient;
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+
+</body>
+</html>
