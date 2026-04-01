@@ -374,7 +374,7 @@ function renderSeedVersionSelector(product, productId) {
     
     selectorContainer.innerHTML = html;
     
-    // Вставляємо після ціни
+    // Вставляємо після ціни (стандартне місце)
     priceEl.parentNode.insertBefore(selectorContainer, priceEl.nextSibling);
     
     // Встановлюємо початкову версію

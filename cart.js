@@ -260,15 +260,13 @@ window.openCheckout = function() {
     }
 };
 
-// --- Логіка Нової Пошти ---
 let isNPInitialized = false;
-// Виносимо змінні у вищий масштаб, щоб вони були доступні при повторних викликах
 let currentCityBranches = [];
 let lastSelectedCity = "";
+let lastSelectedCityRef = "";
 let isLocked = false;
 let debounceTimeout;
 
-// ✅ Переміщуємо допоміжні функції вгору, щоб вони були доступні завжди
 const cleanForSearch = (str) => {
     if (!str) return "";
     return str.toLowerCase()
@@ -276,6 +274,10 @@ const cleanForSearch = (str) => {
         .replace(/\s+/g, ' ')               
         .trim();
 };
+
+// ───────────────────────────────────────────────────────────────
+// ГОЛОВНА ФУНКЦІЯ ІНІЦІАЛІЗАЦІЇ
+// ───────────────────────────────────────────────────────────────
 
 function initNovaPoshta() {
     const cityInput = document.getElementById('cust-city');
@@ -286,27 +288,41 @@ function initNovaPoshta() {
     const citySuggestions = document.getElementById('city-suggestions');
     const branchHidden = document.getElementById('cust-branch');
 
+    // ✅ ФІКС: Оновлення UI для типу доставки
     const updateBranchUI = () => {
         if (!deliverySelect || !branchLabel || !branchInput) return;
         const isCourier = deliverySelect.value === "Кур'єр НП";
-        branchLabel.innerText = isCourier ? "Адреса доставки (вулиця, будинок, квартира)" : "Відділення або поштомат (номер чи адреса)";
-        branchInput.placeholder = isCourier ? "Наприклад: вул. Шевченка 1, кв. 10" : "Введіть номер або назву...";
-        if (isCourier && branchSuggestions) branchSuggestions.style.display = 'none';
-    };
-
-    // Функція для автоматичного завантаження відділень при старті
-    const checkAutoLoad = () => {
-        if (cityInput && cityInput.value && cityInput.dataset.ref) {
-            if (cityInput.value !== lastSelectedCity || currentCityBranches.length === 0) {
-                lastSelectedCity = cityInput.value;
-                loadWarehouses(cityInput.dataset.ref);
-            }
+        branchLabel.innerText = isCourier 
+            ? "Адреса доставки (вулиця, будинок, квартира)" 
+            : "Відділення або поштомат (номер чи адреса)";
+        branchInput.placeholder = isCourier 
+            ? "Наприклад: вул. Шевченка 1, кв. 10" 
+            : "Введіть номер або назву...";
+        
+        if (isCourier && branchSuggestions) {
+            branchSuggestions.style.display = 'none';
         }
     };
 
+    // ✅ ФІКС: Автозавантаження відділень при старті
+    const checkAutoLoad = async () => {
+        if (!cityInput || !cityInput.value.trim()) return;
+        
+        const cityRef = cityInput.dataset.ref;
+        
+        // Якщо є збережений ref і місто
+        if (cityRef && cityRef !== "") {
+            console.log('🔄 Автозавантаження відділень для:', cityInput.value);
+            lastSelectedCity = cityInput.value;
+            lastSelectedCityRef = cityRef;
+            await loadWarehouses(cityRef);
+        }
+    };
+
+    // ✅ ФІКС: Перевіряємо чи вже ініціалізовано
     if (isNPInitialized) {
         updateBranchUI();
-        checkAutoLoad();
+        checkAutoLoad(); // Викликаємо тільки після ініціалізації
         return;
     }
 
@@ -315,146 +331,242 @@ function initNovaPoshta() {
 
     if (!cityInput || !branchInput) return;
 
-    // Функція для показу списку міст при фокусі або введенні
+    // ───────────────────────────────────────────────────────────────
+    // ПОШУК МІСТА
+    // ───────────────────────────────────────────────────────────────
+
     const triggerCitySearch = async (query) => {
-        if (isLocked) return;
+        // ✅ ФІКС: Додано більше перевірок
+        if (isLocked) {
+            console.log('🔒 Пошук заблокований');
+            return;
+        }
 
         const cleanedQuery = cleanForSearch(query);
         const cleanedLast = cleanForSearch(lastSelectedCity);
 
-        if (cleanedQuery === cleanedLast || cleanedQuery === "") {
+        // Якщо вже вибране це місто — не шукаємо
+        if (cleanedQuery === cleanedLast && cityInput.dataset.ref) {
             citySuggestions.style.display = 'none';
             return;
         }
+
         if (query.length < 1) {
             citySuggestions.style.display = 'none';
             return;
         }
 
-        // Показуємо статус завантаження
-        citySuggestions.innerHTML = '<div class="np-item">Шукаємо місто... 🔍</div>';
+        // Показуємо лоадер
+        citySuggestions.innerHTML = '<div class="np-item np-loading">Шукаємо місто... 🔍</div>';
         citySuggestions.style.display = 'block';
 
-        // Логіка запиту (винесена для перевикористання)
-        const response = await fetch(NP_SETTINGS.apiUrl, {
-            method: 'POST',
-            body: JSON.stringify({
-                modelName: "Address",
-                calledMethod: "searchSettlements",
-                methodProperties: { CityName: query, Limit: 5 }
-            })
-        });
-        const data = await response.json();
+        try {
+            const response = await fetch(NP_SETTINGS.apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    modelName: "Address",
+                    calledMethod: "searchSettlements",
+                    methodProperties: { 
+                        CityName: query, 
+                        Limit: 8 // Збільшено з 5 до 8
+                    }
+                })
+            });
 
-        // Перевіряємо, чи юзер не встиг стерти текст, поки чекав відповідь
-        if (cityInput.value.trim() === "") {
-            citySuggestions.style.display = 'none';
-            return;
-        }
+            const data = await response.json();
 
-        if (data.success && data.data[0]?.Addresses && data.data[0].Addresses.length > 0) {
-            citySuggestions.innerHTML = data.data[0].Addresses.map(addr => `
-                <div class="np-item" data-ref="${addr.DeliveryCity}" data-name="${addr.MainDescription}" data-full="${addr.Present}">
-                    ${addr.Present}
-                </div>
-            `).join('');
+            // ✅ ФІКС: Перевіряємо чи поле ще активне
+            if (cityInput.value.trim() === "") {
+                citySuggestions.style.display = 'none';
+                return;
+            }
+
+            if (data.success && data.data[0]?.Addresses && data.data[0].Addresses.length > 0) {
+                citySuggestions.innerHTML = data.data[0].Addresses.map(addr => `
+                    <div class="np-item" data-ref="${escapeHtml(addr.DeliveryCity)}">
+                        ${escapeHtml(addr.Present)}
+                    </div>
+                `).join('');
+                citySuggestions.style.display = 'block';
+            } else {
+                citySuggestions.innerHTML = '<div class="np-item np-empty">Місто не знайдено 😕</div>';
+                citySuggestions.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('❌ Помилка пошуку міста:', error);
+            citySuggestions.innerHTML = '<div class="np-item np-error">Помилка підключення</div>';
             citySuggestions.style.display = 'block';
-        } else {
-            citySuggestions.innerHTML = '<div class="np-item">Місто не знайдено 😕</div>';
         }
     };
 
+    // ✅ ПОКРАЩЕНО: Input handler з дебаунсом
     cityInput.addEventListener('input', (e) => {
         if (isLocked) return;
+        
         clearTimeout(debounceTimeout);
         const query = e.target.value.trim();
         
-        // Скидаємо вибір тільки якщо текст реально змінився
-        if (cleanForSearch(query) !== cleanForSearch(lastSelectedCity)) {
+        // ✅ ФІКС: Скидаємо вибір тільки якщо текст РЕАЛЬНО змінився
+        const currentClean = cleanForSearch(query);
+        const lastClean = cleanForSearch(lastSelectedCity);
+        
+        if (currentClean !== lastClean) {
             cityInput.dataset.ref = "";
             lastSelectedCity = "";
+            lastSelectedCityRef = "";
+            // Очищаємо відділення при зміні міста
+            currentCityBranches = [];
+            branchInput.value = "";
+            branchHidden.value = "";
+            branchSuggestions.style.display = 'none';
         }
 
+        // ✅ ПОКРАЩЕНО: Дебаунс 200мс замість 150мс
         debounceTimeout = setTimeout(async () => {
             await triggerCitySearch(query);
-        }, 150);
+        }, 200);
     });
 
-    // Показуємо список при кліку на поле, якщо там вже щось введено
+    // ✅ ПОКРАЩЕНО: Показуємо список при фокусі
     cityInput.addEventListener('focus', () => {
         if (isLocked) return;
+        
         const val = cityInput.value.trim();
-        if (val.length >= 1 && val !== lastSelectedCity) triggerCitySearch(val);
+        
+        // Якщо вже є вибране місто — показуємо підказку
+        if (val.length >= 1 && val === lastSelectedCity && cityInput.dataset.ref) {
+            citySuggestions.innerHTML = `<div class="np-item np-info">✅ Обрано: ${escapeHtml(lastSelectedCity)}</div>`;
+            citySuggestions.style.display = 'block';
+            setTimeout(() => {
+                citySuggestions.style.display = 'none';
+            }, 2000);
+        } else if (val.length >= 1) {
+            // Якщо є текст але не вибране — шукаємо
+            triggerCitySearch(val);
+        }
     });
 
+    // ✅ ПОКРАЩЕНО: Вибір міста
     citySuggestions.addEventListener('click', async (e) => {
         const item = e.target.closest('.np-item');
-        if (!item) return;
+        if (!item || item.classList.contains('np-loading') || 
+            item.classList.contains('np-empty') || 
+            item.classList.contains('np-error') ||
+            item.classList.contains('np-info')) {
+            return;
+        }
 
         e.stopPropagation();
-        isLocked = true; // 🛡️ Блокуємо будь-які спрацювання search поки ми в процесі
+        
+        // ✅ ФІКС: Блокуємо надійно
+        isLocked = true;
         clearTimeout(debounceTimeout);
+        console.log('🔒 Місто вибрано, блокуємо інтерфейс');
 
-        const { ref: cityRef, name: cityName, full: fullTitle } = item.dataset;
+        const cityRef = item.getAttribute('data-ref');
+        const fullTitle = item.innerText.trim();
 
-        // 1. Оновлюємо UI миттєво
+        if (!cityRef) {
+            console.error('❌ Не знайдено ref для міста');
+            isLocked = false;
+            return;
+        }
+
+        // 1. Оновлюємо UI МИТТЄВО
         cityInput.dataset.ref = cityRef;
         cityInput.value = fullTitle;
         lastSelectedCity = fullTitle;
+        lastSelectedCityRef = cityRef;
         citySuggestions.innerHTML = '';
         citySuggestions.style.display = 'none';
 
-        // 2. Готуємо поле відділення
+        // 2. Очищаємо поле відділення
         branchInput.value = '';
         branchHidden.value = '';
-        branchInput.placeholder = (deliverySelect?.value === "Кур'єр НП") ? 'Вулиця, будинок...' : 'Завантаження відділень... ⏳';
         currentCityBranches = [];
         
-        branchInput.focus(); 
+        // 3. Показуємо лоадер у placeholder
+        const isCourier = deliverySelect?.value === "Кур'єр НП";
+        branchInput.placeholder = isCourier 
+            ? 'Вулиця, будинок...' 
+            : 'Завантаження відділень... ⏳';
+        
+        // 4. Переводимо фокус
+        branchInput.focus();
 
-        // 3. Завантажуємо та знімаємо блок через паузу
+        // 5. Завантажуємо відділення
         await loadWarehouses(cityRef);
-        setTimeout(() => { isLocked = false; }, 500); 
+        
+        // ✅ ФІКС: Розблокуємо через більший інтервал
+        setTimeout(() => {
+            isLocked = false;
+            console.log('🔓 Інтерфейс розблоковано');
+        }, 600); // Збільшено з 500мс
     });
 
-    // --- Пошук по відділеннях (фільтрація локального списку) ---
+    // ───────────────────────────────────────────────────────────────
+    // ПОШУК ВІДДІЛЕННЯ
+    // ───────────────────────────────────────────────────────────────
+
+    // ✅ ПОКРАЩЕНО: Input handler
     branchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
+        const query = e.target.value.trim();
         
-        // ✅ СИНХРОНІЗАЦІЯ: Якщо користувач пише вручну, оновлюємо приховане поле
+        // Синхронізуємо з прихованим полем
         branchHidden.value = e.target.value;
 
-        if (deliverySelect && deliverySelect.value !== "Кур'єр НП") {
-            renderBranchSuggestions(query);
+        // Якщо кур'єр — не показуємо список
+        if (deliverySelect && deliverySelect.value === "Кур'єр НП") {
+            branchSuggestions.style.display = 'none';
+            return;
         }
+
+        // Показуємо відфільтровані відділення
+        renderBranchSuggestions(query.toLowerCase());
     });
 
-    // Показуємо всі варіанти при фокусі, якщо місто вже вибрано
+    // ✅ ПОКРАЩЕНО: Показуємо список при фокусі
     branchInput.addEventListener('focus', () => {
-        const val = branchInput.value.toLowerCase().trim();
-        
-        if (deliverySelect && deliverySelect.value === "Кур'єр НП") return;
+        // Якщо кур'єр — не показуємо
+        if (deliverySelect && deliverySelect.value === "Кур'єр НП") {
+            return;
+        }
 
+        const val = branchInput.value.trim();
+
+        // ✅ ФІКС: Показуємо список навіть якщо пусте поле
         if (currentCityBranches.length > 0) {
-            renderBranchSuggestions(val);
+            renderBranchSuggestions(val.toLowerCase());
         } else if (cityInput.value.trim() !== "" && !lastSelectedCity) {
-            // Не забираємо фокус силою, просто нагадуємо
-            citySuggestions.style.display = 'none';
+            // Підказка що треба спочатку обрати місто
+            branchSuggestions.innerHTML = '<div class="np-item np-info">Спочатку оберіть місто ⬆️</div>';
+            branchSuggestions.style.display = 'block';
+            setTimeout(() => {
+                branchSuggestions.style.display = 'none';
+            }, 2000);
         }
     });
 
+    // ✅ ПОКРАЩЕНО: Вибір відділення
     branchSuggestions.addEventListener('click', (e) => {
         const item = e.target.closest('.np-item');
-        if (!item) return;
+        if (!item || item.classList.contains('np-empty') || 
+            item.classList.contains('np-info')) {
+            return;
+        }
 
-        const branchName = item.dataset.name;
+        const branchName = item.innerText.trim();
         branchInput.value = branchName;
         branchHidden.value = branchName;
         branchSuggestions.style.display = 'none';
     });
 
+    // ✅ ПОКРАЩЕНО: Рендеринг списку відділень
     function renderBranchSuggestions(query) {
-        // Захист: якщо обрано кур'єра, ніколи не показуємо список підказок
+        // Захист від кур'єрської доставки
         if (deliverySelect && deliverySelect.value === "Кур'єр НП") {
             branchSuggestions.style.display = 'none';
             return;
@@ -470,22 +582,79 @@ function initNovaPoshta() {
         const filtered = currentCityBranches.filter(b => {
             if (searchWords.length === 0) return true;
             const cleanDesc = cleanForSearch(b.Description);
-            // Перевіряємо, чи кожне слово з запиту є в описі відділення
             return searchWords.every(word => cleanDesc.includes(word));
-        }).slice(0, 15);
+        }).slice(0, 20); // Збільшено з 15 до 20
 
         if (filtered.length > 0) {
             branchSuggestions.innerHTML = filtered.map(b => `
-                <div class="np-item" data-name="${b.Description}">
-                    ${b.Description}
+                <div class="np-item">
+                    ${escapeHtml(b.Description)}
                 </div>
             `).join('');
             branchSuggestions.style.display = 'block';
-        } else {
-            branchSuggestions.innerHTML = '<div class="np-item">Нічого не знайдено</div>';
+        } else if (searchWords.length > 0) {
+            branchSuggestions.innerHTML = '<div class="np-item np-empty">Нічого не знайдено</div>';
             branchSuggestions.style.display = 'block';
+        } else {
+            branchSuggestions.style.display = 'none';
         }
     }
+
+    // ───────────────────────────────────────────────────────────────
+    // ЗАВАНТАЖЕННЯ ВІДДІЛЕНЬ
+    // ───────────────────────────────────────────────────────────────
+
+    async function loadWarehouses(cityRef) {
+        console.log('📦 Завантаження відділень для ref:', cityRef);
+        
+        try {
+            const response = await fetch(NP_SETTINGS.apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    modelName: "Address",
+                    calledMethod: "getWarehouses",
+                    methodProperties: { 
+                        CityRef: cityRef,
+                        Limit: 500 // Завантажуємо всі відділення
+                    }
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.data && data.data.length > 0) {
+                currentCityBranches = data.data;
+                console.log(`✅ Завантажено ${data.data.length} відділень`);
+                
+                branchInput.placeholder = 'Введіть номер або адресу';
+                
+                // ✅ ФІКС: Автоматично показуємо список якщо поле активне
+                const isNotCourier = deliverySelect && deliverySelect.value !== "Кур'єр НП";
+                const isFocused = document.activeElement === branchInput;
+                
+                if (isNotCourier && isFocused) {
+                    setTimeout(() => {
+                        renderBranchSuggestions(branchInput.value.toLowerCase().trim());
+                    }, 100);
+                }
+            } else {
+                currentCityBranches = [];
+                branchInput.placeholder = 'Відділень не знайдено';
+                console.warn('⚠️ Відділення не знайдено для міста');
+            }
+        } catch (error) {
+            console.error('❌ Помилка завантаження відділень:', error);
+            currentCityBranches = [];
+            branchInput.placeholder = 'Помилка завантаження';
+        }
+    }
+
+    // ───────────────────────────────────────────────────────────────
+    // ГЛОБАЛЬНІ ОБРОБНИКИ
+    // ───────────────────────────────────────────────────────────────
 
     // Закриття списків при кліку поза ними
     document.addEventListener('click', (e) => {
@@ -495,41 +664,68 @@ function initNovaPoshta() {
         }
     });
 
-    // Додаткове QoL: Закриття на ESC
+    // Закриття на ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             citySuggestions.style.display = 'none';
             branchSuggestions.style.display = 'none';
+            // Також знімаємо фокус
+            if (document.activeElement === cityInput || document.activeElement === branchInput) {
+                document.activeElement.blur();
+            }
         }
     });
 
-    async function loadWarehouses(cityRef) {
-        const response = await fetch(NP_SETTINGS.apiUrl, {
-            method: 'POST',
-            body: JSON.stringify({
-                modelName: "Address",
-                calledMethod: "getWarehouses",
-                methodProperties: { CityRef: cityRef }
-            })
-        });
-        const data = await response.json();
+    // ✅ НОВИНКА: Навігація стрілками у списку
+    const handleArrowNavigation = (e, suggestions) => {
+        const items = Array.from(suggestions.querySelectorAll('.np-item:not(.np-loading):not(.np-empty):not(.np-error):not(.np-info)'));
+        if (items.length === 0) return;
 
-        if (data.success && data.data.length > 0) {
-            currentCityBranches = data.data;
-            branchInput.placeholder = 'Введіть номер або адресу';
-            
-            // Показуємо список негайно тільки якщо це НЕ кур'єрська доставка
-            const isNotCourier = deliverySelect && deliverySelect.value !== "Кур'єр НП";
-            if (isNotCourier && (branchInput.value.trim().length > 0 || document.activeElement === branchInput)) {
-                renderBranchSuggestions(branchInput.value.toLowerCase().trim());
-            }
-        } else {
-            branchInput.placeholder = 'Відділень не знайдено';
+        const activeItem = suggestions.querySelector('.np-item.keyboard-active');
+        let currentIndex = activeItem ? items.indexOf(activeItem) : -1;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            currentIndex = (currentIndex + 1) % items.length;
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+        } else if (e.key === 'Enter' && activeItem) {
+            e.preventDefault();
+            activeItem.click();
+            return;
         }
-    }
+
+        items.forEach(item => item.classList.remove('keyboard-active'));
+        if (currentIndex >= 0) {
+            items[currentIndex].classList.add('keyboard-active');
+            items[currentIndex].scrollIntoView({ block: 'nearest' });
+        }
+    };
+
+    cityInput.addEventListener('keydown', (e) => {
+        if (['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) {
+            handleArrowNavigation(e, citySuggestions);
+        }
+    });
+
+    branchInput.addEventListener('keydown', (e) => {
+        if (['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) {
+            handleArrowNavigation(e, branchSuggestions);
+        }
+    });
+
+    // ───────────────────────────────────────────────────────────────
+    // ЗАВЕРШЕННЯ ІНІЦІАЛІЗАЦІЇ
+    // ───────────────────────────────────────────────────────────────
 
     isNPInitialized = true;
-    checkAutoLoad(); // Перший запуск
+    console.log('✅ Нова Пошта ініціалізована');
+    
+    // ✅ ФІКС: Викликаємо автозавантаження тільки після повної ініціалізації
+    setTimeout(() => {
+        checkAutoLoad();
+    }, 100);
 }
 
 window.closeCheckout = function() {
@@ -748,13 +944,21 @@ window.submitOrder = async function() {
         phone: document.getElementById('cust-phone'),
         delivery: document.getElementById('cust-delivery'),
         city: document.getElementById('cust-city'),
-        branch: document.getElementById('cust-branch')
+        branch: document.getElementById('cust-branch'), // приховане поле для ID/повного тексту
+        branchInput: document.getElementById('cust-branch-input') // видиме текстове поле
     };
+
+    // 1. СИНХРОНІЗАЦІЯ ПЕРЕД ВАЛІДАЦІЄЮ
+    // Якщо приховане поле порожнє, але у видимому щось є - копіюємо (на випадок ручного вводу)
+    if (fields.branch && fields.branchInput && !fields.branch.value.trim()) {
+        fields.branch.value = fields.branchInput.value.trim();
+    }
 
     let hasError = false;
 
     // Очищаємо попередні помилки
-    Object.values(fields).forEach(el => el && el.classList.remove('input-error'));
+    Object.values(fields).forEach(el => el && el.classList?.remove('input-error'));
+    if (fields.branchInput) fields.branchInput.classList.remove('input-error');
 
     // ✅ НОВЕ: Sanitize усіх полів
     const sanitizedData = {};
@@ -767,7 +971,12 @@ window.submitOrder = async function() {
         
         // Перевірка на порожнечу
         if (!value) {
-            field.classList.add('input-error');
+            // Якщо помилка в прихованому полі відділення — підсвічуємо видиме поле
+            if (key === 'branch' && fields.branchInput) {
+                fields.branchInput.classList.add('input-error');
+            } else if (field.classList) {
+                field.classList.add('input-error');
+            }
             hasError = true;
             continue;
         }
@@ -842,10 +1051,22 @@ function cleanPhone(phone) {
         }
     }
 
-    // Перед перевіркою hasError, переконуємося, що branch підтягнуто з текстового поля, 
-    // якщо приховане чомусь порожнє (наприклад, не вибрали зі списку)
-    if (!fields.branch.value && document.getElementById('cust-branch-input').value) {
-        fields.branch.value = document.getElementById('cust-branch-input').value;
+    // 2. ПЕРЕВІРКА ОБРАНОГО МІСТА (чи вибрано з АПІ)
+    const cityInput = document.getElementById('cust-city');
+    if (cityInput && cityInput.value && !lastSelectedCity) {
+        alert("Будь ласка, оберіть місто зі списку підказок 📍");
+        cityInput.classList.add('input-error');
+        hasError = true;
+    }
+
+    // 3. ПЕРЕВІРКА ВМІСТУ ВІДДІЛЕННЯ (Захист від неповних даних)
+    const branchVal = fields.branch.value.trim().toLowerCase();
+    const deliveryType = fields.delivery.value;
+    
+    if (deliveryType !== "Кур'єр НП" && (branchVal === 'поштомат' || branchVal === 'відділення' || branchVal.length < 3)) {
+        alert("Будь ласка, вкажіть конкретний номер або адресу відділення/поштомату 🏢");
+        if (fields.branchInput) fields.branchInput.classList.add('input-error');
+        hasError = true;
     }
 
     if (hasError) {
@@ -991,7 +1212,7 @@ window.sendReview = async function() {
         await fetch("https://script.google.com/macros/s/AKfycbzAN1VnfuzH1SrRjEJPJh3V0UOHHQGAnwki6ROuyKCHD3K_psk65dNZZrlICR13KRw6/exec", {
             method: "POST", 
             mode: "no-cors", 
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ message: reviewText })
         });
 

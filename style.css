@@ -1932,26 +1932,6 @@ main.product-page {
     max-height: 160px;
 }
 
-.np-suggestions {
-    position: absolute;
-    top: 100%; left: 0; right: 0;
-    background: #2a1a10;
-    border: 1px solid var(--primary-color);
-    border-radius: 8px;
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
-}
-.np-item {
-    padding: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.np-item:hover { background: rgba(255,255,255,0.05); }
-
-
 /* ═══════════════════════════════════════════
    ПРАВА ЧАСТИНА — ЧЕК / ЗАМОВЛЕННЯ
 ═══════════════════════════════════════════ */
@@ -2604,7 +2584,6 @@ footer {
 
 /* Адаптація для мобілок */
 
-
 .sale-badge {
     position: absolute; top: 10px; right: 10px;
     background: var(--danger-color); color: #fff;
@@ -2612,7 +2591,6 @@ footer {
     font-family: var(--font-accent);
     font-style: italic; /* Playfair Display в італіку — це чистий секс */
     font-weight: 700;
-    z-index: 1111;
 }
 
 .sale-price {
@@ -3332,7 +3310,108 @@ body.otherseeds-page header::after {
     font-weight: bold;
 }
 
+/* --- СТИЛІ ДЛЯ ПІДКАЗОК НОВОЇ ПОШТИ --- */
+.np-suggestions {
+    position: absolute;
+    top: calc(100% - 2px); 
+    left: 0;
+    right: 0;
+    background: var(--surface-2);
+    border: 1px solid var(--primary-color);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    display: none;
+    backdrop-filter: blur(10px);
+}
 
+/* Стилізація скроллбару для списку підказок */
+.np-suggestions::-webkit-scrollbar {
+    width: 4px;
+}
+.np-suggestions::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.np-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    line-height: 1.4;
+}
+
+.np-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-color);
+}
+
+.np-item.keyboard-active {
+    background: rgba(214, 96, 58, 0.2) !important;
+    border-left: 3px solid var(--primary-orange);
+}
+
+.np-item.np-loading {
+    opacity: 0.7;
+    cursor: wait;
+    font-style: italic;
+}
+
+.np-item.np-empty,
+.np-item.np-error,
+.np-item.np-info {
+    cursor: default;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.np-item.np-error {
+    color: #e74c3c;
+}
+
+.np-item.np-info {
+    color: #3498db;
+}
+
+.np-item.np-empty {
+    color: #95a5a6;
+}
+
+.np-item.keyboard-active {
+    background: rgba(214, 96, 58, 0.2) !important;
+    border-left: 3px solid var(--primary-orange);
+}
+
+.np-item.np-loading {
+    opacity: 0.7;
+    cursor: wait;
+    font-style: italic;
+}
+
+.np-item.np-empty,
+.np-item.np-error,
+.np-item.np-info {
+    cursor: default;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.np-item.np-error {
+    color: #e74c3c;
+}
+
+.np-item.np-info {
+    color: #3498db;
+}
+
+.np-item.np-empty {
+    color: #95a5a6;
+}
 /* ╔══════════════════════════════════════════════════════════════╗
    ║  КІНЕЦЬ — v6.0 · 23 секції · динамічні теми                ║
    ╚══════════════════════════════════════════════════════════════╝ */
