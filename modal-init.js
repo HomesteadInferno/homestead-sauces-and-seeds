@@ -34,14 +34,21 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
 
                     <div class="form-group">
-                        <label>Місто</label>
-                        <input type="text" id="cust-city" placeholder="Київ, Одеса...">
+                        <label>Місто (почніть вводити...)</label>
+                        <div style="position: relative;">
+                            <input type="text" id="cust-city" placeholder="Наприклад: Київ" autocomplete="off">
+                            <div id="city-suggestions" class="np-suggestions"></div>
+                        </div>
                         <small>Тільки населені пункти України</small>
                     </div>
 
-                    <div class="form-group">
-                        <label>Відділення № або Адреса</label>
-                        <input type="text" id="cust-branch" placeholder="Відділення №...">
+                    <div class="form-group" id="branch-group">
+                        <label>Відділення або поштомат (номер чи адреса)</label>
+                        <div style="position: relative;">
+                            <input type="text" id="cust-branch-input" placeholder="Введіть номер або назву..." autocomplete="off">
+                            <div id="branch-suggestions" class="np-suggestions"></div>
+                        </div>
+                        <input type="hidden" id="cust-branch">
                     </div>
 
                     <div class="form-group">

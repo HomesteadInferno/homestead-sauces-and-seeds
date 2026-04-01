@@ -1,5 +1,10 @@
 // ===== СИСТЕМА ПОШУКУ ТОВАРІВ =====
 
+// Додаємо DOMPurify для санітізації (якщо не підключено глобально)
+if (typeof DOMPurify === 'undefined') {
+    console.warn('DOMPurify не знайдено. Підключіть: <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initSearch();
 });
@@ -14,15 +19,18 @@ function initSearch() {
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.trim().toLowerCase();
         
+        // Обмежуємо довжину запиту для безпеки (до 100 символів)
+        const safeQuery = query.substring(0, 100);
+        
         // Якщо менше 2 символів - ховаємо результати
-        if (query.length < 2) {
+        if (safeQuery.length < 2) {
             searchResults.style.display = 'none';
             searchResults.innerHTML = '';
             return;
         }
         
         // Шукаємо товари
-        const results = searchProducts(query);
+        const results = searchProducts(safeQuery);
         
         // Показуємо результати
         displaySearchResults(results, searchResults);
@@ -93,7 +101,7 @@ function searchProducts(query) {
     return results.slice(0, 8);
 }
 
-    // функція відображення результатів 
+// функція відображення результатів 
 function displaySearchResults(results, container) {
     if (results.length === 0) {
         container.innerHTML = '<div class="search-no-results" style="padding: 15px; text-align: center; color: #888;">Нічого не знайдено 😕</div>';
@@ -107,20 +115,32 @@ function displaySearchResults(results, container) {
         'seedlings': '🌱 Розсада'
     };
     
-    container.innerHTML = results.map(item => {
+    // Санітізуємо дані перед вставкою
+    const sanitizedResults = results.map(item => ({
+        ...item,
+        name: typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(item.name, { ALLOWED_TAGS: [] }) : item.name, // Видаляємо всі теги
+        category: typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(categoryNames[item.category] || item.category, { ALLOWED_TAGS: [] }) : categoryNames[item.category] || item.category,
+        price: isNaN(item.price) ? 0 : item.price // Перевіряємо, що ціна - число
+    }));
+    
+    container.innerHTML = sanitizedResults.map(item => {
         // Перевіряємо наявність
         const isInStock = item.inStock !== false;
         
+        // Санітізуємо URL для безпеки
+        const safeId = encodeURIComponent(item.id);
+        const safeImageSrc = item.images && item.images[0] ? encodeURI(item.images[0]) : '';
+        
         return `
-    <a href="product.html?id=${item.id}" class="search-result-item">
+    <a href="product.html?id=${safeId}" class="search-result-item">
         <div class="search-result-img" style="${isInStock ? '' : 'filter: grayscale(1); opacity: 0.7;'}">
-            <img src="${item.images[0]}" alt="${item.name}">
+            <img src="${safeImageSrc}" alt="${item.name}">
         </div>
         <div class="search-result-info">
             <div class="search-result-name">
                 ${item.name} ${isInStock ? '' : '<span style="color: #ff4444; font-size: 10px; margin-left: 5px;">(ОЧІКУЄТЬСЯ)</span>'}
             </div>
-            <div class="search-result-category">${categoryNames[item.category] || item.category}</div>
+            <div class="search-result-category">${item.category}</div>
         </div>
         <div class="search-result-price">${item.price} ₴</div>
     </a>

@@ -1,10 +1,21 @@
-
-//БЛОК КЕРУВАННЯ АКЦІЯМИ.
+﻿//БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
     isSaleActive: false, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
     promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10% НА НАСІННЯ ТА СОУСИ!"
+};
+
+const CART_CONSTANTS = {
+    MAX_QTY: 100,           // Максимальна кількість товару
+    MAX_NAME_LENGTH: 200,   // Максимальна довжина назви
+    MAX_DISCOUNT: 0.35,     // Максимальна знижка (35%)
+    MAX_ORDERS_PER_MINUTE: 5 // Rate limiting
+};
+
+// ===== НАЛАШТУВАННЯ НОВОЇ ПОШТИ =====
+const NP_SETTINGS = { // Вставте сюди URL вашого розгорнутого Google Apps Script
+    apiUrl: 'https://script.google.com/macros/s/AKfycbxNB2OUb--HMte2S_9oQmIYN8Fl_V-NcaBpUAiHx0xeJTxWeLKV1x8C0ZFZUyTDS0mL/exec'
 };
 
 // ===== ФУНКЦІЯ ЗАХИСТУ ВІД XSS АТАК =====
@@ -15,17 +26,62 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+function sanitizeInput(text, maxLength = 100) {
+    if (!text) return '';
+    
+    // 1. Конвертуємо в рядок
+    text = String(text);
+    
+    // 2. Видаляємо HTML теги (більш надійний вираз)
+    text = text.replace(/<\/?[^>]+(>|$)/g, "");
+    
+    // 3. Видаляємо потенційно небезпечні технічні символи, зберігаючи пунктуацію
+    text = text.replace(/[<>\\]/g, '');
+    
+    // 4. Видаляємо зайві пробіли
+    text = text.trim().replace(/\s+/g, ' ');
+    
+    // 5. Обмежуємо довжину
+    text = text.substring(0, maxLength);
+    
+    return text;
+}
+
+
 // ===== ВАЛІДАЦІЯ ЦІН (ЗАХИСТ ВІД МАНІПУЛЯЦІЙ) =====
 function validatePrice(productId, price) {
-    // Перевіряємо чи ціна збігається з базою
-    if (typeof allProducts !== 'undefined' && allProducts[productId]) {
-        const realPrice = allProducts[productId].price;
-        // Допускаємо невелику похибку для знижок
-        if (Math.abs(price - realPrice) > realPrice * 0.35) { // max знижка 35%
-            console.warn('⚠️ Підозріла ціна для', productId, '- очікувалось:', realPrice, 'отримано:', price);
-            return realPrice; // Повертаємо правильну ціну
-        }
+    if (typeof allProducts === 'undefined' || !allProducts[productId]) {
+        console.warn('⚠️ Товар не знайдено:', productId);
+        return price;
     }
+    
+    const product = allProducts[productId];
+    const isSaleActive = GLOBAL_SETTINGS && GLOBAL_SETTINGS.isSaleActive && product.allowSale;
+    const discount = isSaleActive ? GLOBAL_SETTINGS.discountPercent : 0;
+
+    // Функція для розрахунку точної очікуваної ціни
+    const calculateExpected = (base) => isSaleActive ? Math.round(base * (1 - discount / 100)) : base;
+
+    let expectedPrices = [calculateExpected(product.price)];
+
+    // Додаємо ціни версій насіння
+    if (product.seedVersions) {
+        Object.values(product.seedVersions).forEach(v => {
+            expectedPrices.push(calculateExpected(v.price));
+        });
+    }
+
+    // Тепер порівнюємо з точністю до 1 гривні (на випадок нюансів округлення)
+    const isValid = expectedPrices.some(ep => Math.abs(price - ep) <= 1);
+
+    if (!isValid) {
+        console.warn('⚠️ Підозріла ціна для', productId);
+        console.warn('   Дозволені варіанти:', expectedPrices);
+        console.warn('   Отримано:', price);
+        // Повертаємо стандартну акційну ціну, якщо валідація не пройшла
+        return calculateExpected(product.price);
+    }
+
     return price;
 }
 
@@ -59,21 +115,25 @@ function applyGlobalSale() {
         }
     });
 
-    const mainPriceContainer = document.getElementById('p-price');
-    const mainAddToCartBtn = document.querySelector('.add-btn');
-    if (mainPriceContainer) {
-        const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
-        if (isSaleAllowed) {
-            const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val'));
-            const newPrice = Math.round(basePrice * (1 - discount / 100));
-            mainPriceContainer.innerHTML = `
-                <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.8em; margin-right: 10px; color: white;">${basePrice.toFixed(2)} ₴</span>
-                <span class="sale-price">${newPrice.toFixed(2)} ₴</span>
-                <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>
-            `;
-            if (mainAddToCartBtn) mainAddToCartBtn.setAttribute('data-price', newPrice);
-        } else if (mainAddToCartBtn) {
-            mainAddToCartBtn.setAttribute('data-price', mainPriceContainer.getAttribute('data-val'));
+    // Застосовуємо знижку до головної сторінки товару ТІЛЬКИ якщо ми не на сторінці товару
+    // (логіка сторінки товару обробляє знижки самостійно через product-page.js)
+    if (typeof currentProductId === 'undefined' || currentProductId === null) {
+        const mainPriceContainer = document.getElementById('p-price');
+        const mainAddToCartBtn = document.querySelector('.add-btn');
+        if (mainPriceContainer) {
+            const isSaleAllowed = mainPriceContainer.getAttribute('data-allow-sale') === 'true';
+            if (isSaleAllowed) {
+                const basePrice = parseFloat(mainPriceContainer.getAttribute('data-val'));
+                const newPrice = Math.round(basePrice * (1 - discount / 100));
+                mainPriceContainer.innerHTML = `
+                    <span style="text-decoration: line-through; opacity: 0.5; font-size: 0.8em; margin-right: 10px; color: white;">${basePrice.toFixed(2)} ₴</span>
+                    <span class="sale-price">${newPrice.toFixed(2)} ₴</span>
+                    <span style="font-size: 16px; opacity: 0.6; font-weight: normal;">/ 5 шт.</span>
+                `;
+                if (mainAddToCartBtn) mainAddToCartBtn.setAttribute('data-price', newPrice);
+            } else if (mainAddToCartBtn) {
+                mainAddToCartBtn.setAttribute('data-price', mainPriceContainer.getAttribute('data-val'));
+            }
         }
     }
 
@@ -100,40 +160,55 @@ function updateCartUI() {
     const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
     const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
 
-    document.querySelectorAll('.cart-count, #cart-count, .cart-badge').forEach(c => { c.innerText = totalQty; });
+    // Кешуємо елементи для продуктивності
+    const cartCounts = document.querySelectorAll('.cart-count, #cart-count, .cart-badge');
+    cartCounts.forEach(c => { c.innerText = totalQty; });
 
     const listContainers = document.querySelectorAll('#final-list, .cart-items-container');
     listContainers.forEach(container => {
         if (cart.length === 0) {
             container.innerHTML = '<p class="empty-cart-msg">Кошик порожній</p>';
         } else {
-            container.innerHTML = cart.map((item, index) => `
-                <div class="cart-item">
+            const fragment = document.createDocumentFragment(); // Використовуємо фрагмент для продуктивності
+            cart.forEach((item, index) => {
+                // Перевіряємо, чи є стара ціна для відображення закреслення
+                const hasDiscount = item.originalPrice && item.originalPrice > item.price;
+                const priceDisplay = hasDiscount 
+                    ? `<span style="text-decoration: line-through; opacity: 0.5; font-size: 0.85em; margin-right: 5px;">${parseFloat(item.originalPrice).toFixed(2)} ₴</span>${parseFloat(item.price).toFixed(2)} ₴`
+                    : `${parseFloat(item.price).toFixed(2)} ₴`;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
                     <div class="cart-item-info">
                         <div class="cart-item-name">${escapeHtml(item.name)}</div>
                         <div class="cart-item-details">
-                            ${parseFloat(item.price).toFixed(2)} ₴ 
+                            ${priceDisplay} 
                             <span style="opacity: 0.7; font-size: 0.9em;">
-    ${
-        (item.name.toLowerCase().includes('соус') || item.name.toLowerCase().includes('sauce')) 
-        ? '/ шт.' 
-        : (item.name.toLowerCase().includes('box') || item.name.toLowerCase().includes('набір'))
-        ? '/ за набір' 
-        : '/ пакет 5 насінин (Перці), 15 насінин інші овочі'
-    }
-</span>
+                                ${
+                                    (item.name.toLowerCase().includes('соус') || item.name.toLowerCase().includes('sauce')) 
+                                    ? '/ шт.' 
+                                    : (item.name.toLowerCase().includes('box') || item.name.toLowerCase().includes('набір'))
+                                    ? '/ за набір' 
+                                    : '/ за пакет з насінням'
+                                }
+                            </span>
                         </div>
-                    </div> <div class="cart-item-actions">
+                    </div>
+                    <div class="cart-item-actions">
                         <span class="cart-item-subtotal">${(parseFloat(item.price) * parseInt(item.qty)).toFixed(2)} ₴</span>
                         <div class="qty-stepper">
                             <button class="qty-btn qty-minus" onclick="changeQty(${index}, -1)" aria-label="Зменшити">−</button>
                             <span class="qty-value">${parseInt(item.qty)}</span>
-                            <button class="qty-btn qty-plus"  onclick="changeQty(${index}, +1)" aria-label="Збільшити">+</button>
+                            <button class="qty-btn qty-plus" onclick="changeQty(${index}, +1)" aria-label="Збільшити">+</button>
                         </div>
                         <button class="cart-item-remove" onclick="removeFromCart(${index})" aria-label="Видалити товар">×</button>
                     </div>
-                </div>
-            `).join('');
+                `;
+                fragment.appendChild(itemDiv);
+            });
+            container.innerHTML = '';
+            container.appendChild(fragment);
         }
     });
 
@@ -160,15 +235,302 @@ window.openCheckout = function() {
         document.getElementById('success-msg').style.display = 'none';
         
         // Автозаповнення збережених даних
-        const fields = ['name', 'phone', 'city', 'branch', 'email'];
+        const fields = ['name', 'phone', 'city', 'branch', 'email', 'delivery', 'city_ref'];
         fields.forEach(f => {
             const val = localStorage.getItem('saved_' + f);
+            if (!val) return;
+            
+            if (f === 'city_ref') {
+                const cityEl = document.getElementById('cust-city');
+                if (cityEl) cityEl.dataset.ref = val;
+                return;
+            }
+            
+            // ✅ ФІКС: Заповнюємо видиме поле відділення теж
+            if (f === 'branch') {
+                const branchVisible = document.getElementById('cust-branch-input');
+                if (branchVisible) branchVisible.value = val;
+            }
+
             const el = document.getElementById(f === 'email' ? 'email' : 'cust-' + f);
-            if (val && el) el.value = val;
+            if (el) el.value = val;
         });
         updateCartUI();
+        initNovaPoshta(); // Ініціалізація логіки НП
     }
 };
+
+// --- Логіка Нової Пошти ---
+let isNPInitialized = false;
+// Виносимо змінні у вищий масштаб, щоб вони були доступні при повторних викликах
+let currentCityBranches = [];
+let lastSelectedCity = "";
+let isLocked = false;
+let debounceTimeout;
+
+// ✅ Переміщуємо допоміжні функції вгору, щоб вони були доступні завжди
+const cleanForSearch = (str) => {
+    if (!str) return "";
+    return str.toLowerCase()
+        .replace(/[^a-zа-яіїєґ0-9]/gi, ' ') 
+        .replace(/\s+/g, ' ')               
+        .trim();
+};
+
+function initNovaPoshta() {
+    const cityInput = document.getElementById('cust-city');
+    const branchInput = document.getElementById('cust-branch-input');
+    const branchLabel = document.querySelector('#branch-group label');
+    const deliverySelect = document.getElementById('cust-delivery');
+    const branchSuggestions = document.getElementById('branch-suggestions');
+    const citySuggestions = document.getElementById('city-suggestions');
+    const branchHidden = document.getElementById('cust-branch');
+
+    const updateBranchUI = () => {
+        if (!deliverySelect || !branchLabel || !branchInput) return;
+        const isCourier = deliverySelect.value === "Кур'єр НП";
+        branchLabel.innerText = isCourier ? "Адреса доставки (вулиця, будинок, квартира)" : "Відділення або поштомат (номер чи адреса)";
+        branchInput.placeholder = isCourier ? "Наприклад: вул. Шевченка 1, кв. 10" : "Введіть номер або назву...";
+        if (isCourier && branchSuggestions) branchSuggestions.style.display = 'none';
+    };
+
+    // Функція для автоматичного завантаження відділень при старті
+    const checkAutoLoad = () => {
+        if (cityInput && cityInput.value && cityInput.dataset.ref) {
+            if (cityInput.value !== lastSelectedCity || currentCityBranches.length === 0) {
+                lastSelectedCity = cityInput.value;
+                loadWarehouses(cityInput.dataset.ref);
+            }
+        }
+    };
+
+    if (isNPInitialized) {
+        updateBranchUI();
+        checkAutoLoad();
+        return;
+    }
+
+    if (deliverySelect) deliverySelect.addEventListener('change', updateBranchUI);
+    updateBranchUI();
+
+    if (!cityInput || !branchInput) return;
+
+    // Функція для показу списку міст при фокусі або введенні
+    const triggerCitySearch = async (query) => {
+        if (isLocked) return;
+
+        const cleanedQuery = cleanForSearch(query);
+        const cleanedLast = cleanForSearch(lastSelectedCity);
+
+        if (cleanedQuery === cleanedLast || cleanedQuery === "") {
+            citySuggestions.style.display = 'none';
+            return;
+        }
+        if (query.length < 1) {
+            citySuggestions.style.display = 'none';
+            return;
+        }
+
+        // Показуємо статус завантаження
+        citySuggestions.innerHTML = '<div class="np-item">Шукаємо місто... 🔍</div>';
+        citySuggestions.style.display = 'block';
+
+        // Логіка запиту (винесена для перевикористання)
+        const response = await fetch(NP_SETTINGS.apiUrl, {
+            method: 'POST',
+            body: JSON.stringify({
+                modelName: "Address",
+                calledMethod: "searchSettlements",
+                methodProperties: { CityName: query, Limit: 5 }
+            })
+        });
+        const data = await response.json();
+
+        // Перевіряємо, чи юзер не встиг стерти текст, поки чекав відповідь
+        if (cityInput.value.trim() === "") {
+            citySuggestions.style.display = 'none';
+            return;
+        }
+
+        if (data.success && data.data[0]?.Addresses && data.data[0].Addresses.length > 0) {
+            citySuggestions.innerHTML = data.data[0].Addresses.map(addr => `
+                <div class="np-item" data-ref="${addr.DeliveryCity}" data-name="${addr.MainDescription}" data-full="${addr.Present}">
+                    ${addr.Present}
+                </div>
+            `).join('');
+            citySuggestions.style.display = 'block';
+        } else {
+            citySuggestions.innerHTML = '<div class="np-item">Місто не знайдено 😕</div>';
+        }
+    };
+
+    cityInput.addEventListener('input', (e) => {
+        if (isLocked) return;
+        clearTimeout(debounceTimeout);
+        const query = e.target.value.trim();
+        
+        // Скидаємо вибір тільки якщо текст реально змінився
+        if (cleanForSearch(query) !== cleanForSearch(lastSelectedCity)) {
+            cityInput.dataset.ref = "";
+            lastSelectedCity = "";
+        }
+
+        debounceTimeout = setTimeout(async () => {
+            await triggerCitySearch(query);
+        }, 150);
+    });
+
+    // Показуємо список при кліку на поле, якщо там вже щось введено
+    cityInput.addEventListener('focus', () => {
+        if (isLocked) return;
+        const val = cityInput.value.trim();
+        if (val.length >= 1 && val !== lastSelectedCity) triggerCitySearch(val);
+    });
+
+    citySuggestions.addEventListener('click', async (e) => {
+        const item = e.target.closest('.np-item');
+        if (!item) return;
+
+        e.stopPropagation();
+        isLocked = true; // 🛡️ Блокуємо будь-які спрацювання search поки ми в процесі
+        clearTimeout(debounceTimeout);
+
+        const { ref: cityRef, name: cityName, full: fullTitle } = item.dataset;
+
+        // 1. Оновлюємо UI миттєво
+        cityInput.dataset.ref = cityRef;
+        cityInput.value = fullTitle;
+        lastSelectedCity = fullTitle;
+        citySuggestions.innerHTML = '';
+        citySuggestions.style.display = 'none';
+
+        // 2. Готуємо поле відділення
+        branchInput.value = '';
+        branchHidden.value = '';
+        branchInput.placeholder = (deliverySelect?.value === "Кур'єр НП") ? 'Вулиця, будинок...' : 'Завантаження відділень... ⏳';
+        currentCityBranches = [];
+        
+        branchInput.focus(); 
+
+        // 3. Завантажуємо та знімаємо блок через паузу
+        await loadWarehouses(cityRef);
+        setTimeout(() => { isLocked = false; }, 500); 
+    });
+
+    // --- Пошук по відділеннях (фільтрація локального списку) ---
+    branchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        // ✅ СИНХРОНІЗАЦІЯ: Якщо користувач пише вручну, оновлюємо приховане поле
+        branchHidden.value = e.target.value;
+
+        if (deliverySelect && deliverySelect.value !== "Кур'єр НП") {
+            renderBranchSuggestions(query);
+        }
+    });
+
+    // Показуємо всі варіанти при фокусі, якщо місто вже вибрано
+    branchInput.addEventListener('focus', () => {
+        const val = branchInput.value.toLowerCase().trim();
+        
+        if (deliverySelect && deliverySelect.value === "Кур'єр НП") return;
+
+        if (currentCityBranches.length > 0) {
+            renderBranchSuggestions(val);
+        } else if (cityInput.value.trim() !== "" && !lastSelectedCity) {
+            // Не забираємо фокус силою, просто нагадуємо
+            citySuggestions.style.display = 'none';
+        }
+    });
+
+    branchSuggestions.addEventListener('click', (e) => {
+        const item = e.target.closest('.np-item');
+        if (!item) return;
+
+        const branchName = item.dataset.name;
+        branchInput.value = branchName;
+        branchHidden.value = branchName;
+        branchSuggestions.style.display = 'none';
+    });
+
+    function renderBranchSuggestions(query) {
+        // Захист: якщо обрано кур'єра, ніколи не показуємо список підказок
+        if (deliverySelect && deliverySelect.value === "Кур'єр НП") {
+            branchSuggestions.style.display = 'none';
+            return;
+        }
+
+        if (currentCityBranches.length === 0) {
+            branchSuggestions.style.display = 'none';
+            return;
+        }
+
+        const searchWords = cleanForSearch(query).split(' ').filter(w => w.length > 0);
+
+        const filtered = currentCityBranches.filter(b => {
+            if (searchWords.length === 0) return true;
+            const cleanDesc = cleanForSearch(b.Description);
+            // Перевіряємо, чи кожне слово з запиту є в описі відділення
+            return searchWords.every(word => cleanDesc.includes(word));
+        }).slice(0, 15);
+
+        if (filtered.length > 0) {
+            branchSuggestions.innerHTML = filtered.map(b => `
+                <div class="np-item" data-name="${b.Description}">
+                    ${b.Description}
+                </div>
+            `).join('');
+            branchSuggestions.style.display = 'block';
+        } else {
+            branchSuggestions.innerHTML = '<div class="np-item">Нічого не знайдено</div>';
+            branchSuggestions.style.display = 'block';
+        }
+    }
+
+    // Закриття списків при кліку поза ними
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.form-group')) {
+            citySuggestions.style.display = 'none';
+            branchSuggestions.style.display = 'none';
+        }
+    });
+
+    // Додаткове QoL: Закриття на ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            citySuggestions.style.display = 'none';
+            branchSuggestions.style.display = 'none';
+        }
+    });
+
+    async function loadWarehouses(cityRef) {
+        const response = await fetch(NP_SETTINGS.apiUrl, {
+            method: 'POST',
+            body: JSON.stringify({
+                modelName: "Address",
+                calledMethod: "getWarehouses",
+                methodProperties: { CityRef: cityRef }
+            })
+        });
+        const data = await response.json();
+
+        if (data.success && data.data.length > 0) {
+            currentCityBranches = data.data;
+            branchInput.placeholder = 'Введіть номер або адресу';
+            
+            // Показуємо список негайно тільки якщо це НЕ кур'єрська доставка
+            const isNotCourier = deliverySelect && deliverySelect.value !== "Кур'єр НП";
+            if (isNotCourier && (branchInput.value.trim().length > 0 || document.activeElement === branchInput)) {
+                renderBranchSuggestions(branchInput.value.toLowerCase().trim());
+            }
+        } else {
+            branchInput.placeholder = 'Відділень не знайдено';
+        }
+    }
+
+    isNPInitialized = true;
+    checkAutoLoad(); // Перший запуск
+}
 
 window.closeCheckout = function() {
     const modal = document.getElementById('checkoutModal');
@@ -191,11 +553,11 @@ window.changeQty = function(index, delta) {
     const newQty = cart[index].qty + delta;
 
     if (newQty <= 0) {
-        // qty впала до 0 — питаємо, чи точно видалити
         if (!confirm(`Видалити «${cart[index].name}» з кошика?`)) return;
         cart.splice(index, 1);
     } else {
-        cart[index].qty = Math.min(newQty, 100); // максимум 100 шт.
+        // ✅ НОВЕ: Використання константи
+        cart[index].qty = Math.min(newQty, CART_CONSTANTS.MAX_QTY);
     }
 
     saveCart(cart);
@@ -204,42 +566,38 @@ window.changeQty = function(index, delta) {
 };
 
 // Універсальна функція додавання
-window.addToCart = function(productId, price, name, qty = 1) {
+window.addToCart = function(productId, price, name, qty = 1, originalPrice = null) {
     let cart = getFreshCart();
     
-    // ЗАХИСТ: Валідуємо ціну
-    const validatedPrice = validatePrice(productId, parseFloat(price));
-    const validatedQty = Math.max(1, Math.min(100, parseInt(qty))); // Від 1 до 100
+    // ✅ НОВЕ: Sanitize назви
+    const safeName = sanitizeInput(name, CART_CONSTANTS.MAX_NAME_LENGTH);
     
-    // Шукаємо товар у кошику:
-    // 1. Якщо є productId - шукаємо за ним
-    // 2. АБО шукаємо за назвою (на випадок старих товарів без ID)
+    // ✅ НОВЕ: Використання константи
+    const validatedPrice = validatePrice(productId, parseFloat(price));
+    const validatedQty = Math.max(1, Math.min(CART_CONSTANTS.MAX_QTY, parseInt(qty)));
+    
+    // Шукаємо існуючий товар
     const existing = cart.find(item => {
-        // Спочатку перевіряємо по ID (якщо обидва мають ID)
         if (productId && item.productId && item.productId === productId) {
-            return true;
+            return item.name.toLowerCase().trim() === safeName.toLowerCase().trim();
         }
-        // Потім перевіряємо по назві (без врахування регістру)
-        if (item.name.toLowerCase().trim() === name.toLowerCase().trim()) {
-            return true;
-        }
-        return false;
+        return item.name.toLowerCase().trim() === safeName.toLowerCase().trim();
     });
 
     if (existing) {
-        // Знайшли - просто додаємо кількість
-        existing.qty = Math.min(existing.qty + validatedQty, 100); // Максимум 100 шт
+        // ✅ НОВЕ: Використання константи
+        existing.qty = Math.min(existing.qty + validatedQty, CART_CONSTANTS.MAX_QTY);
         existing.price = validatedPrice;
-        // Оновлюємо productId якщо його не було
+        existing.originalPrice = originalPrice;
         if (productId && !existing.productId) {
             existing.productId = productId;
         }
     } else {
-        // Не знайшли - додаємо новий товар
         cart.push({ 
             productId: productId, 
-            name: name.trim().substring(0, 200), // Обмежуємо довжину назви
+            name: safeName,
             price: validatedPrice, 
+            originalPrice: originalPrice,
             qty: validatedQty 
         });
     }
@@ -248,8 +606,13 @@ window.addToCart = function(productId, price, name, qty = 1) {
     updateCartUI();
 };
 
+
 // 1. Для сторінки товару (product.html)
 window.pushToCart = function() {
+    if (typeof currentProductId === 'undefined') {
+        console.error('currentProductId не визначено');
+        return;
+    }
     const priceContainer = document.getElementById('p-price');
     const addBtn = document.querySelector('.add-btn');
     const qtyEl = document.getElementById('p-qty');
@@ -264,14 +627,26 @@ window.pushToCart = function() {
                ? allProducts[productId].name 
                : document.getElementById('p-name').innerText;
 
+    // 🔥 НОВЕ: ДОДАЄМО ВЕРСІЮ НАСІННЯ ДО НАЗВИ
+    const versionKey = addBtn.getAttribute('data-version');
+    if (versionKey && productId && typeof allProducts !== 'undefined' && allProducts[productId].seedVersions) {
+        const versionData = allProducts[productId].seedVersions[versionKey];
+        if (versionData && versionData.label) {
+            name = `${name} (${versionData.label})`; // Вийде: "Zebrange (Ізольоване)"
+        }
+    }
+
     const isAllowed = priceContainer.getAttribute('data-allow-sale') === 'true';
+    // Беремо БАЗОВУ ціну (без знижки) з атрибуту data-val
+    const originalPrice = parseFloat(priceContainer.getAttribute('data-val'));
+    
     const price = isAllowed && addBtn.hasAttribute('data-price') 
                   ? parseFloat(addBtn.getAttribute('data-price')) 
-                  : parseFloat(priceContainer.getAttribute('data-val'));
+                  : originalPrice;
     
     const qty = parseInt(qtyEl.value) || 1;
     
-    addToCart(productId, price, name, qty);
+    addToCart(productId, price, name, qty, originalPrice);
     alert("Додано у кошик! 🌶️");
 };
 
@@ -295,15 +670,17 @@ window.addToCartDirectly = function(productId, buttonElement) {
         const cleanPrice = priceMatch ? parseFloat(priceMatch[0].replace(',', '.')) : 0;
 
         if (isNaN(cleanPrice)) throw new Error("Не вдалося розпізнати ціну");
-
+        // Отримуємо базову ціну для закреслення
+        const basePrice = parseFloat(priceElement.getAttribute('data-base-price'));
         // 3. ДОДАЄМО В КОШИК через універсальну функцію
         // Це гарантує правильний пошук і об'єднання товарів
-        addToCart(productId, cleanPrice, actualName, 1);
+        addToCart(productId, cleanPrice, actualName, 1, basePrice);
         
         alert(`🌶️ ${actualName} додано!`);
 
     } catch (error) {
         console.error("Помилка додавання:", error.message);
+        alert("Помилка додавання товару. Спробуйте ще раз.");
     }
 };
 
@@ -324,61 +701,154 @@ function generateOrderNumber() {
     const unique = Math.random().toString(36).substring(2, 6).toUpperCase();
     return `HS-${day}${month}${year}-${unique}`;
 }
+const rateLimiter = {
+    attempts: [],
+    
+    canSubmit() {
+        const now = Date.now();
+        const oneMinuteAgo = now - 60000; // 60 секунд
+        
+        // Видаляємо старі спроби
+        this.attempts = this.attempts.filter(time => time > oneMinuteAgo);
+        
+        // Перевіряємо ліміт
+        if (this.attempts.length >= CART_CONSTANTS.MAX_ORDERS_PER_MINUTE) {
+            return false;
+        }
+        
+        // Додаємо нову спробу
+        this.attempts.push(now);
+        return true;
+    },
+    
+    reset() {
+        this.attempts = [];
+    }
+};
 // === 4. ВІДПРАВКА ЗАМОВЛЕННЯ ===
 window.submitOrder = async function() {
-    // ЗАХИСТ ВІД БОТІВ: Honeypot перевірка
+    // ✅ НОВЕ: Rate limiting
+    if (!rateLimiter.canSubmit()) {
+        alert("Забагато спроб відправки. Зачекайте хвилину.");
+        return;
+    }
+    
+    // Honeypot перевірка (залишається як є)
     const honeypot = document.getElementById('website_url');
     if (honeypot && honeypot.value !== '') {
-        // Бот заповнив приховане поле - ігноруємо замовлення
         console.warn('🤖 Бот виявлено');
-        alert("Дякуємо за замовлення! Ми з вами зв'яжемося.");
+        alert("Дякуємо за замовлення!");
         closeCheckout();
         return;
     }
     
-    // 1. Отримуємо посилання на поля
+    // Отримуємо поля
     const fields = {
         name: document.getElementById('cust-name'),
         phone: document.getElementById('cust-phone'),
+        delivery: document.getElementById('cust-delivery'),
         city: document.getElementById('cust-city'),
         branch: document.getElementById('cust-branch')
     };
 
     let hasError = false;
 
-    // 2. Очищаємо попередні помилки
+    // Очищаємо попередні помилки
     Object.values(fields).forEach(el => el && el.classList.remove('input-error'));
 
-    // 3. Перевірка на порожнечу
+    // ✅ НОВЕ: Sanitize усіх полів
+    const sanitizedData = {};
+    
     for (let key in fields) {
-        if (!fields[key] || !fields[key].value.trim()) {
-            fields[key]?.classList.add('input-error');
+        const field = fields[key];
+        if (!field) continue;
+        
+        const value = field.value.trim();
+        
+        // Перевірка на порожнечу
+        if (!value) {
+            field.classList.add('input-error');
             hasError = true;
+            continue;
+        }
+        
+        // Sanitize (крім телефону — його перевіряємо окремо)
+        if (key !== 'phone') {
+            const maxLen = key === 'name' ? 50 : 100;
+            sanitizedData[key] = sanitizeInput(value, maxLen);
+            field.value = sanitizedData[key]; // Оновлюємо поле
+        } else {
+            sanitizedData[key] = value; // Телефон перевіряємо нижче
+        }
+    }
+    function validatePhone(phone) {
+    if (!phone) return false;
+    
+    // 1. Очищаємо від усіх зайвих символів
+    const cleaned = phone.replace(/[\s\(\)\-]/g, '');
+    
+    // 2. Перевіряємо формат: +380XXXXXXXXX або 0XXXXXXXXX
+    const phoneRegex = /^(?:\+38)?0\d{9}$/;
+    
+    return phoneRegex.test(cleaned);
+}
+
+function cleanPhone(phone) {
+    if (!phone) return '';
+    
+    // Очищаємо і повертаємо у форматі +380XXXXXXXXX
+    const cleaned = phone.replace(/[\s\(\)\-]/g, '');
+    
+    // Якщо починається з 0 — додаємо +38
+    if (cleaned.startsWith('0')) {
+        return '+38' + cleaned;
+    }
+    
+    // Якщо вже є +38 — повертаємо як є
+    if (cleaned.startsWith('+38')) {
+        return cleaned;
+    }
+    
+    return cleaned;
+}
+
+
+    // ✅ НОВЕ: Покращена валідація телефону
+    if (fields.phone) {
+        if (!validatePhone(fields.phone.value)) {
+            alert("Некоректний номер телефону.\nПриклад: 0951234567 або +380951234567");
+            fields.phone.classList.add('input-error');
+            hasError = true;
+        } else {
+            // Очищаємо і форматуємо телефон
+            const cleanedPhone = cleanPhone(fields.phone.value);
+            fields.phone.value = cleanedPhone;
+            sanitizedData.phone = cleanedPhone;
         }
     }
 
-    // 4. СПЕЦІАЛЬНА ПЕРЕВІРКА ТЕЛЕФОНУ
-    // Формат: +380 або 0, далі 9 цифр
-    const phoneRegex = /^(?:\+38)?0\d{9}$/;
-    if (fields.phone && !phoneRegex.test(fields.phone.value.trim().replace(/\s/g, ''))) {
-        alert("Будь ласка, введіть коректний номер телефону (наприклад: 0951234567)");
-        fields.phone.classList.add('input-error');
-        hasError = true;
-    }
-
-    // Валідація email (якщо заповнений — перевіряємо формат)
+    // Email валідація (якщо заповнений)
     const emailEl = document.getElementById('email');
     if (emailEl && emailEl.value.trim()) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailEl.value.trim())) {
+            alert("Будь ласка, введіть коректний email");
             emailEl.classList.add('input-error');
-            alert("Будь ласка, введіть коректний email або залиште поле порожнім");
-            return;
+            hasError = true;
+        } else {
+            // ✅ НОВЕ: Sanitize email
+            sanitizedData.email = sanitizeInput(emailEl.value.trim(), 100);
+            emailEl.value = sanitizedData.email;
         }
     }
 
+    // Перед перевіркою hasError, переконуємося, що branch підтягнуто з текстового поля, 
+    // якщо приховане чомусь порожнє (наприклад, не вибрали зі списку)
+    if (!fields.branch.value && document.getElementById('cust-branch-input').value) {
+        fields.branch.value = document.getElementById('cust-branch-input').value;
+    }
+
     if (hasError) {
-        alert("Будь ласка, перевірте дані, підсвічені червоним 🔴");
         return;
     }
 
@@ -386,7 +856,7 @@ window.submitOrder = async function() {
     const submitBtn = document.querySelector('.checkout-summary .order-btn');
     if (!submitBtn) { console.error('submitOrder: кнопку order-btn не знайдено'); return; }
     const originalText = submitBtn.innerHTML;
-    // 🔥 ГЕНЕРУЄМО КРАСИВИЙ НОМЕР
+    // 🔥 ГЕНЕРАТОР КРАСИВИЙ НОМЕР
     const orderID = generateOrderNumber();
     const cart = getFreshCart();
     const totalSum = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
@@ -400,6 +870,7 @@ window.submitOrder = async function() {
         id: orderID, 
         name: fields.name.value.trim(),
         phone: fields.phone.value.trim(),
+        delivery: fields.delivery.value.trim(),
         city: fields.city.value.trim(),
         branch: fields.branch.value.trim(),
         email: document.getElementById('email')?.value.trim() || "-",
@@ -410,12 +881,15 @@ window.submitOrder = async function() {
     // Зберігаємо в пам'ять для наступного разу
     localStorage.setItem('saved_name', orderData.name);
     localStorage.setItem('saved_phone', orderData.phone);
+    localStorage.setItem('saved_delivery', orderData.delivery);
     localStorage.setItem('saved_city', orderData.city);
+    localStorage.setItem('saved_city_ref', fields.city.dataset.ref || '');
     localStorage.setItem('saved_branch', orderData.branch);
 
     /// 4. Формуємо повідомлення для Telegram
     let orderText = `🌶️ НОВЕ ЗАМОВЛЕННЯ: ${orderData.id}\n`;
     orderText += `👤 ${orderData.name}\n📞 ${orderData.phone}\n`;
+    orderText += `🚚 Доставка: ${orderData.delivery}\n`;
     orderText += `📍 ${orderData.city}, ${orderData.branch}\n`;
     if (orderData.email !== "-") orderText += `📧 ${orderData.email}\n`;
     if (orderData.comment) orderText += `💬 Коментар: ${orderData.comment}\n`;
@@ -452,6 +926,7 @@ window.submitOrder = async function() {
         saveCart([]);
         updateCartUI();
     } catch (e) {
+        console.error("Помилка відправки:", e);
         alert("Помилка відправки. Спробуйте ще раз або напишіть нам у месенджер.");
     } finally {
         submitBtn.disabled = false;
@@ -489,7 +964,7 @@ window.changeImage = function(dir) {
 // === 5. ВІДПРАВКА ВІДГУКУ (НОВЕ) ===
 window.sendReview = async function() {
     const honey = document.getElementById('rev-honey')?.value;
-if (honey) return; // Якщо поле заповнене — це бот, просто ігноруємо
+    if (honey) return; // Якщо поле заповнене — це бот
     // 1. Знаходимо кнопку та дані
     const btn = document.querySelector('#review-form-section .add-btn-aside');
     const author = document.getElementById('rev-author')?.value.trim().substring(0, 100);
@@ -538,14 +1013,10 @@ if (honey) return; // Якщо поле заповнене — це бот, пр
         }, 5000);
 
     } catch (e) {
+        console.error("Помилка відправки відгуку:", e);
         alert("Помилка відправки. Напишіть нам у Telegram!");
-        btn.disabled = false;
-        btn.innerText = originalText;
-        btn.style.opacity = "1";
     }
 };
-
-
 
 document.addEventListener('DOMContentLoaded', updateCartUI);
 window.addEventListener('pageshow', updateCartUI);
@@ -557,6 +1028,3 @@ function goBack() {
         window.location.href = 'index.html';
     }
 }
-
-
-

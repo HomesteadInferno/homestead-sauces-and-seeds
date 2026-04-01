@@ -53,7 +53,7 @@
     --fs-base:         20px;         /* основний текст                */
     --fs-sm:           17px;         /* дрібніший текст               */
     --fs-xs:           15px;         /* дуже дрібний                  */
-    --fs-h1:           56px;         /* заголовок головної            */
+    --fs-h1:           30px;         /* заголовок головної            */
     --fs-product-name: 3rem;         /* назва товару                  */
 
     /* ── Радіуси ── */
@@ -325,6 +325,7 @@ header {
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .search-container {
     position: relative;
+    z-index: 11000;
     max-width: 520px;
     width: 100%;
     margin: 0 auto;
@@ -370,7 +371,7 @@ header {
     border-radius: var(--radius-lg);
     max-height: 480px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 11001; /* Збільшено з 1000 до 9999, щоб уникнути перекриття з іншими елементами */
     display: none;
     box-shadow: 0 12px 36px rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -398,7 +399,6 @@ header {
 .search-result-category         { font-size: var(--fs-xs); color: var(--text-muted); margin-top: 2px; }
 .search-result-price            { font-size: 15px; font-weight: 700; color: var(--primary-color); flex-shrink: 0; }
 .search-no-results              { padding: 28px; text-align: center; color: var(--text-muted); }
-
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    §6  🛒  КОШИК
@@ -535,8 +535,10 @@ header {
     font-size: var(--fs-base);
     line-height: 1.85;
     opacity: 0.82;
-    max-width: 860px;
+    max-width: 85%;
     margin: 24px auto;
+    text-align: center;
+    color: var(--text-color);
 }
 
 .pepper-icon { width: 28px; height: auto; vertical-align: middle; margin: 0 4px; }
@@ -1930,6 +1932,26 @@ main.product-page {
     max-height: 160px;
 }
 
+.np-suggestions {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: #2a1a10;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+.np-item {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.np-item:hover { background: rgba(255,255,255,0.05); }
+
+
 /* ═══════════════════════════════════════════
    ПРАВА ЧАСТИНА — ЧЕК / ЗАМОВЛЕННЯ
 ═══════════════════════════════════════════ */
@@ -2361,7 +2383,10 @@ main.product-page {
 footer {
     border-top: 1px solid rgba(255, 69, 0, 0.2); /* Тонка вогняна лінія */
     padding: 60px 0 30px;
+    margin: 0;
     margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
     background: linear-gradient(to bottom, rgba(20,15,10,0.8), rgba(10,5,0,1));
     color: var(--text-muted);
 }
@@ -2587,6 +2612,7 @@ footer {
     font-family: var(--font-accent);
     font-style: italic; /* Playfair Display в італіку — це чистий секс */
     font-weight: 700;
+    z-index: 1111;
 }
 
 .sale-price {
@@ -3245,6 +3271,66 @@ body.otherseeds-page header::after {
     font-weight: bold;
 }
 
+/* Стиль для соусного бандлу */
+.special-sauce {
+    border: 2px solid #ee9b00 !important; /* Яскравий помаранчевий */
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(238, 155, 0, 0.1) 100%) !important;
+}
+
+.special-sauce .bundle-badge {
+    background: #ee9b00;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-sauce {
+    background: #ae2012 !important; /* Глибокий червоний (колір чилі) */
+    color: white;
+}
+
+.btn-sauce:hover {
+    background: #9b2226 !important;
+}
+
+/* Робимо підписи апетитнішими */
+.special-sauce .bundle-list li span {
+    font-size: 0.8rem;
+    color: #e9d8a6;
+    display: block;
+    margin-top: 2px;
+    font-weight: 300;
+}
+
+/* Виділяємо Honey Sting */
+.special-sauce .bundle-list li:last-child {
+    color: #ffd700;
+    font-weight: 500;
+}
+/* Стиль для бандлу "Вирости свій вогонь" */
+.special-grow {
+    border: 2px solid #588157 !important; /* Натуральний зелений */
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(88, 129, 87, 0.1) 100%) !important;
+}
+
+.special-grow .bundle-badge {
+    background: #588157;
+    color: white;
+}
+
+.btn-grow {
+    background: #3a5a40 !important; /* Темно-зелений */
+    color: white;
+}
+
+.btn-grow:hover {
+    background: #344e41 !important;
+}
+
+/* Підсвітка для головної фішки */
+.special-grow .bundle-list li:nth-child(2) {
+    color: #a3b18a;
+    font-weight: bold;
+}
 
 
 /* ╔══════════════════════════════════════════════════════════════╗
