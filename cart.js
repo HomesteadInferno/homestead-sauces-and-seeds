@@ -15,7 +15,7 @@ const CART_CONSTANTS = {
 
 // ===== НАЛАШТУВАННЯ НОВОЇ ПОШТИ =====
 const NP_SETTINGS = { // Вставте сюди URL вашого розгорнутого Google Apps Script
-    apiUrl: 'https://script.google.com/macros/s/AKfycbxNB2OUb--HMte2S_9oQmIYN8Fl_V-NcaBpUAiHx0xeJTxWeLKV1x8C0ZFZUyTDS0mL/exec'
+    apiUrl: 'https://script.google.com/macros/s/AKfycbwOg7C3piQhwj1_AuO7y6sOvwywt9G7fCZ8txQhBd1T-oPjRGF9_V4N2IdYaHS9GluLBw/exec'
 };
 
 // ===== ФУНКЦІЯ ЗАХИСТУ ВІД XSS АТАК =====
@@ -363,8 +363,10 @@ function initNovaPoshta() {
         try {
             const response = await fetch(NP_SETTINGS.apiUrl, {
                 method: 'POST',
+                mode: 'cors',
+                redirect: 'follow',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'text/plain'
                 },
                 body: JSON.stringify({
                     modelName: "Address",
@@ -610,8 +612,10 @@ function initNovaPoshta() {
         try {
             const response = await fetch(NP_SETTINGS.apiUrl, {
                 method: 'POST',
+                mode: 'cors',
+                redirect: 'follow',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'text/plain'
                 },
                 body: JSON.stringify({
                     modelName: "Address",
@@ -1119,9 +1123,10 @@ function cleanPhone(phone) {
     orderText += `\n\n💰 РАЗОМ: ${totalSum.toFixed(2)} ₴`;
 
     try {
-        await fetch("https://script.google.com/macros/s/AKfycbwoomvnzTKc2-YOUm3jqoPpX1zEcMAUNGY5oJ1W0GDzHzw6kmllnx_tvK3kSNN8nAT8/exec", {
-            method: "POST", 
-            mode: "no-cors", 
+        const response = await fetch("https://script.google.com/macros/s/AKfycbxrYj-iKdPcfWqDk9G3fdnGHh-MMZNflC7cXDPTXMw3IsbMlaoe6Sfb9cxcmUVTEP02/exec", {
+            method: "POST",
+            mode: "cors", 
+            redirect: "follow",
             cache: 'no-cache', 
             headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ 
@@ -1135,20 +1140,37 @@ function cleanPhone(phone) {
             })
         });
         
-        // Показ успіху
-        document.getElementById('modal-main-content').style.display = 'none';
-        const successMsg = document.getElementById('success-msg');
-        if (successMsg) {
-            successMsg.style.display = 'block';
-            // Знаходимо ID, який ми заклали в modal-init.js, і вставляємо туди номер
-            const orderDisplay = document.getElementById('orderNumberDisplay');
-            if (orderDisplay) orderDisplay.innerText = orderData.id;
+        if (!response.ok) {
+            throw new Error(`Помилка сервера: ${response.status}`);
         }
-        saveCart([]);
-        updateCartUI();
+
+        // Тепер ми можемо прочитати JSON від Google Script
+        const result = await response.json();
+
+        if (result.status === "success") {
+            // Показ успіху тільки якщо сервер підтвердив запис
+            document.getElementById('modal-main-content').style.display = 'none';
+            const successMsg = document.getElementById('success-msg');
+            if (successMsg) {
+                successMsg.style.display = 'block';
+                const orderDisplay = document.getElementById('orderNumberDisplay');
+                if (orderDisplay) orderDisplay.innerText = orderData.id;
+            }
+            saveCart([]);
+            updateCartUI();
+            console.log("Сервер підтвердив замовлення:", result.orderId);
+        } else {
+            // Сервер повернув помилку (наприклад, помилка валідації секретного токена)
+            throw new Error(result.message || "Сервер відхилив замовлення");
+        }
+
     } catch (e) {
         console.error("Помилка відправки:", e);
-        alert("Помилка відправки. Спробуйте ще раз або напишіть нам у месенджер.");
+        if (e.message.includes('NetworkError') || e.message.includes('fetch')) {
+            alert("Проблема зі з'єднанням. Перевірте інтернет та спробуйте ще раз 🌐");
+        } else {
+            alert("Помилка сервера. Спробуйте ще раз або напишіть нам у месенджер 🌶️");
+        }
     } finally {
         submitBtn.disabled = false;
         submitBtn.classList.remove('btn-loading'); // Прибираємо клас затухання
@@ -1201,6 +1223,7 @@ window.sendReview = async function() {
     // 2. Візуальне блокування кнопки
     const originalText = btn.innerText;
     btn.disabled = true;
+    btn.classList.add('btn-loading');
     btn.innerText = "Надсилаємо...";
     btn.style.opacity = "0.6";
     btn.style.cursor = "not-allowed";
@@ -1228,6 +1251,7 @@ window.sendReview = async function() {
         // 5. Повертаємо кнопку в норму через 5 секунд
         setTimeout(() => {
             btn.disabled = false;
+            btn.classList.remove('btn-loading');
             btn.innerText = originalText;
             btn.style.background = ""; 
             btn.style.cursor = "pointer";
