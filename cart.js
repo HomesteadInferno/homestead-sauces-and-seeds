@@ -1,4 +1,4 @@
-﻿//БЛОК КЕРУВАННЯ АКЦІЯМИ.
+﻿﻿//БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
     isSaleActive: false, 
     discountPercent: 10, 
@@ -1233,8 +1233,9 @@ window.sendReview = async function() {
     try {
         // 3. Реальна відправка
         await fetch("https://script.google.com/macros/s/AKfycbzAN1VnfuzH1SrRjEJPJh3V0UOHHQGAnwki6ROuyKCHD3K_psk65dNZZrlICR13KRw6/exec", {
-            method: "POST", 
-            mode: "no-cors", 
+            method: "POST",
+            mode: "cors",
+            redirect: "follow",
             headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ message: reviewText })
         });

@@ -1,52 +1,10 @@
-# robots.txt для Gapka's Homestead Inferno
-# https://homesteadinferno.github.io/homestead-sauces-and-seeds/
-
 User-agent: *
 Allow: /
 
-# Дозволити всі головні сторінки
-Allow: /index.html
-Allow: /sauces.html
-Allow: /seedsandseedlings.html
-Allow: /otherseeds.html
-Allow: /product.html
-Allow: /growing-guide.html
-Allow: /qrpage.html
-Allow: /faq.html
+# Забороняємо індексацію технічних скриптів та папок
+Disallow: /scripts/
+Disallow: /node_modules/
+Disallow: /.github/
 
-# Заборонити службові файли
-Disallow: /privacy.html
-Disallow: /*.json$
-Disallow: /*.xml$
-
-# Дозволити зображення
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.png$
-Allow: /*.svg$
-
-# Sitemap
+# Шлях до карти сайту
 Sitemap: https://homesteadinferno.github.io/homestead-sauces-and-seeds/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 1
-
-# Google
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0
-
-# Bing
-User-agent: Bingbot
-Allow: /
-
-# Yandex (популярний в Україні)
-User-agent: Yandex
-Allow: /
-
-# Заборонити спам-ботам
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
