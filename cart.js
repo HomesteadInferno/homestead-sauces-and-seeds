@@ -1149,6 +1149,20 @@ function cleanPhone(phone) {
         const result = await response.json();
 
         if (result.status === "success") {
+            // Відстеження успішної покупки в Google Analytics 4
+            if (typeof gtag === 'function') {
+                gtag('event', 'purchase', {
+                    transaction_id: orderData.id,
+                    value: totalSum,
+                    currency: 'UAH',
+                    items: cart.map(item => ({
+                        item_id: item.productId || item.name,
+                        item_name: item.name,
+                        price: item.price,
+                        quantity: item.qty
+                    }))
+                });
+            }
             // Показ успіху тільки якщо сервер підтвердив запис
             document.getElementById('modal-main-content').style.display = 'none';
             const successMsg = document.getElementById('success-msg');
