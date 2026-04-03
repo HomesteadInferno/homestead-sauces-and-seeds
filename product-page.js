@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "@context": "https://schema.org/",
             "@type": "Product",
             "name": product.name,
-            "image": product.images.filter(img => img !== "").map(img => baseUrl + "images/" + img),
+            "image": product.images.filter(img => img !== "").map(img => baseUrl + img),
             "description": product.description.replace(/<br>/g, ' '), // Прибираємо теги
             "sku": id.toUpperCase(),
             "brand": {
