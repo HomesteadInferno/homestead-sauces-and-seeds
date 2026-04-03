@@ -297,6 +297,30 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Блог (Нотатки) -->
+  <url>
+    <loc>https://homesteadinferno.github.io/ghi/blog.html</loc>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Доставка та оплата -->
+  <url>
+    <loc>https://homesteadinferno.github.io/ghi/shipping.html</loc>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Публічна оферта (Умови) -->
+  <url>
+    <loc>https://homesteadinferno.github.io/ghi/terms.html</loc>
+    <lastmod>2026-03-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
   <!-- QR сторінка -->
   <url>
     <loc>https://homesteadinferno.github.io/ghi/qrpage.html</loc>
