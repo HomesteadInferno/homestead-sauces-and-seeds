@@ -79,7 +79,7 @@ heatScore:"4",
         heatScore: "2",
         // Масив фото. Перше - головне.
         images: [
-            "habanero-dominica-red-main.webp", 
+            "Habanero-Dominica-Red-main.webp", 
             "product-secondary-placeholder.webp", 
             "product-secondary-placeholder.webp" // Третє фото
         ],
