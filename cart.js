@@ -1,9 +1,11 @@
 ﻿﻿﻿﻿﻿﻿//БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
-    isSaleActive: false, 
+    isSaleActive: true, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
-    promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10% НА НАСІННЯ ТА СОУСИ!"
+    promoText: "🔥 ГОТУЄМОСЯ ДО ВЕЛИКОГО ЗАПУСКУ ВОСЕНИ 2026!",
+    // Щоб розблокувати — просто зробіть масив порожнім: lockedCategories: []  ЗАМІСТь "ГОТУЄМОСЯ..." promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10% НА НАСІННЯ ТА СОУСИ!"
+    lockedCategories: ['sauces', 'seeds', 'otherseeds'] 
 };
 
 const CART_CONSTANTS = {
@@ -146,6 +148,35 @@ function applyGlobalSale() {
     }
 }
 document.addEventListener('DOMContentLoaded', applyGlobalSale);
+
+// Функція для блокування категорій "Скоро у продажу"
+function applyCategoryLock() {
+    if (!GLOBAL_SETTINGS.lockedCategories || GLOBAL_SETTINGS.lockedCategories.length === 0) return;
+
+    // 1. Блокуємо картки на головній сторінці
+    GLOBAL_SETTINGS.lockedCategories.forEach(cat => {
+        const links = document.querySelectorAll(`.card-link.${cat}`);
+        links.forEach(link => {
+            link.classList.add('is-locked');
+            link.addEventListener('click', (e) => e.preventDefault());
+        });
+    });
+
+    // 2. Перевіряємо, чи не зайшов користувач на заблоковану сторінку через URL
+    const currentPath = window.location.pathname;
+    const isLockedPage = (currentPath.includes('sauces.html') && GLOBAL_SETTINGS.lockedCategories.includes('sauces')) ||
+                         (currentPath.includes('seedsandseedlings.html') && GLOBAL_SETTINGS.lockedCategories.includes('seeds')) ||
+                         (currentPath.includes('otherseeds.html') && GLOBAL_SETTINGS.lockedCategories.includes('otherseeds'));
+
+    if (isLockedPage) {
+        window.location.href = 'index.html'; // Редирект на головну
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    applyGlobalSale();
+    applyCategoryLock();
+});
 
 // === 1. РОБОТА З ПАМ'ЯТТЮ ===
 function getFreshCart() {
