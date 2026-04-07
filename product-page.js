@@ -119,6 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
             "offers": offers
         };
 
+        if (product.isFlavor) {
+            schema.flavor = product.isFlavor.replace(/.*? (.+)/, '$1').trim(); // Витягуємо текст смаку, наприклад, "Шоколад & Дим"
+        }
+
         // Додаємо відгуки та рейтинг (виправляємо помилку відсутності полів для Google Search Console)
         if (product.reviews && product.reviews.length > 0) {
             schema.review = product.reviews.map(r => ({
