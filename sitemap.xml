@@ -344,42 +344,4 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
 </urlset>
-
-<!-- 
-════════════════════════════════════════════════════════════════
-ІНСТРУКЦІЯ:
-════════════════════════════════════════════════════════════════
-
-1. Оновлюй <lastmod> дату коли редагуєш сторінки (формат: YYYY-MM-DD)
-
-2. Додавай нові товари за шаблоном:
-   <url>
-     <loc>URL_ТОВАРУ</loc>
-     <lastmod>ДАТА</lastmod>
-     <changefreq>monthly</changefreq>
-     <priority>0.8</priority>
-   </url>
-
-3. Priority (пріоритет):
-   - 1.0 = Головна сторінка
-   - 0.9 = Категорії
-   - 0.8 = Товари
-   - 0.7 = Корисний контент (блог, інструкції)
-   - 0.5-0.6 = Додаткові сторінки
-   - 0.3 = Технічні сторінки (privacy)
-
-4. Changefreq (частота змін):
-   - daily = щодня (новини, блог)
-   - weekly = щотижня (головна, акції)
-   - monthly = щомісяця (товари, FAQ)
-   - yearly = щороку (privacy, terms)
-
-5. Після змін перевір sitemap:
-   https://www.xml-sitemaps.com/validate-xml-sitemap.html
-
-6. Відправ Google:
-   - Google Search Console → Sitemaps → Add sitemap
-   - URL: https://homesteadinferno.github.io/ghi/sitemap.xml
--->

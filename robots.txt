@@ -1,10 +1,9 @@
 User-agent: *
 Allow: /
 
-# Забороняємо індексацію технічних скриптів та папок
 Disallow: /scripts/
 Disallow: /node_modules/
 Disallow: /.github/
+Disallow: /404.html
 
-# Шлях до карти сайту
 Sitemap: https://homesteadinferno.github.io/ghi/sitemap.xml
