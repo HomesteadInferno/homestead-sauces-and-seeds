@@ -1267,10 +1267,12 @@ heatScore:"2",
 
                         if (targetCategory) {
                             const allPrices = [];
+                            let categoryInStock = false;
                             Object.values(allProducts)
                                 .filter(p => p.category === targetCategory)
                                 .forEach(p => {
                                     allPrices.push(Number(p.price));
+                                    if (p.inStock !== false) categoryInStock = true;
                                     if (p.isolatedAvailable) allPrices.push(Math.round(p.price * 1.25));
                                 });
 
@@ -1278,6 +1280,10 @@ heatScore:"2",
                                 obj.offers.lowPrice = Math.min(...allPrices);
                                 obj.offers.highPrice = Math.max(...allPrices);
                                 obj.offers.offerCount = allPrices.length;
+                                // Оновлюємо статус наявності
+                                obj.offers.availability = categoryInStock 
+                                    ? "https://schema.org/InStock" 
+                                    : "https://schema.org/OutOfStock";
                                 wasUpdated = true;
                             }
                         }
