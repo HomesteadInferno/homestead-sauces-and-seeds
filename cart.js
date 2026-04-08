@@ -3,7 +3,7 @@ const GLOBAL_SETTINGS = {
     isSaleActive: true, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
-    promoText: "🔥 ГОТУЄМОСЯ ДО ВЕЛИКОГО ЗАПУСКУ ВОСЕНИ 2026! Щоб час пробіг швидше, завітайте у наш <a href="https://homesteadinferno.github.io/ghi/blog.html">БЛОГ</a> (https://homesteadinferno.github.io/ghi/blog.html)! Ми будемо раді, а Ви - підготовлені.",
+    promoText: "🔥 ГОТУЄМОСЯ ДО ВЕЛИКОГО ЗАПУСКУ ВОСЕНИ 2026!",
     // Щоб розблокувати — просто зробіть масив порожнім: lockedCategories: []  ЗАМІСТь "ГОТУЄМОСЯ..." promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10% НА НАСІННЯ ТА СОУСИ!"
     lockedCategories: ['sauces', 'seeds', 'otherseeds'] 
 };
