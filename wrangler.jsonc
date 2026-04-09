@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ghi",
+  "compatibility_date": "2026-04-09",
+  "assets": {
+    "directory": ".",
+    "exclude": [".git/"] // Це прямо забороняє чіпати папку .git
+  }
+}
