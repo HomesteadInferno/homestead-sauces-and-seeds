@@ -1,6 +1,6 @@
 ﻿﻿﻿﻿﻿﻿﻿﻿//БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
-    isSaleActive: false, 
+    isSaleActive: true, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
     promoText: "🔥 ГОТУЄМОСЯ ДО ВЕЛИКОГО ЗАПУСКУ ВОСЕНИ 2026!",
