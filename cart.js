@@ -1,11 +1,11 @@
 ﻿﻿﻿﻿﻿﻿﻿﻿//БЛОК КЕРУВАННЯ АКЦІЯМИ.
 const GLOBAL_SETTINGS = {
-    isSaleActive: false, 
+    isSaleActive: true, 
     discountPercent: 10, 
     saleDeadline: "2026-02-05", 
     promoText: "🔥 ГОТУЄМОСЯ ДО ВЕЛИКОГО ЗАПУСКУ ВОСЕНИ 2026!",
     // Щоб розблокувати — просто зробіть масив порожнім: lockedCategories: []  ЗАМІСТь "ГОТУЄМОСЯ..." promoText: "ПЕКЕЛЬНИЙ ТИЖДЕНЬ: -10% НА НАСІННЯ ТА СОУСИ!"
-    lockedCategories: [''] 
+    lockedCategories: ['sauces', 'seeds', 'otherseeds']  
 };
 
 const CART_CONSTANTS = {
