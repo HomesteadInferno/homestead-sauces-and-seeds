@@ -3590,6 +3590,87 @@ body.otherseeds-page header::after {
    ║  КІНЕЦЬ — v6.0 · 23 секції · динамічні теми                ║
    ╚══════════════════════════════════════════════════════════════╝ */
 
+ /* ПРИБРТИИ НА СТАРТІ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 🔒 СИСТЕМА БЛОКУВАННЯ (COMING SOON) */
+.card-link.is-locked {
+    filter: grayscale(0.8) brightness(0.6);
+    cursor: not-allowed !important;
+    pointer-events: none; /* Вимикає кліки */
+    position: relative;
+}
 
+.card-link.is-locked::before {
+    content: "ЗАПУСК ВОСЕНИ 🌶️";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    z-index: 100;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.7);
+    white-space: nowrap;
+    letter-spacing: 1px;
+}
+
+.card-link.is-locked:hover {
+    transform: none !important; /* Прибираємо анімацію при наведенні для заблокованих */
+}
+
+/* 🔒 БЛОКУВАННЯ В ПОШУКУ */
+.search-result-item.is-locked-search {
+    filter: grayscale(0.8) brightness(0.5);
+    cursor: not-allowed !important;
+    position: relative;
+    pointer-events: none; /* Вимикає клік */
+}
+
+.search-result-item.is-locked-search::after {
+    content: "ЗАПУСК ВОСЕНИ";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-5deg);
+    background: var(--primary-color);
+    color: #fff;
+    padding: 2px 8px;
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid #fff;
+    z-index: 5;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    white-space: nowrap;
+}
+
+/* 🔒 ГЛОБАЛЬНЕ БЛОКУВАННЯ ВСЬОГО ПОШУКУ (БЕЗ ЗМІН У JS) */
+#search-results .search-result-item {
+    pointer-events: none !important; /* Повністю вимикає можливість кліку */
+    filter: grayscale(0.8) brightness(0.6); /* Робить результати сірими */
+    position: relative;
+    cursor: not-allowed !important;
+}
+
+#search-results .search-result-item::before {
+    content: "ЗАПУСК ВОСЕНИ 🌶️";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary-color);
+    color: #fff;
+    padding: 4px 10px;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid #fff;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    white-space: nowrap;
+}
 
 
