@@ -3576,6 +3576,7 @@ body.otherseeds-page header::after {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
     box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    margin-bottom: 50px;
 }
 
 .subscribe-form {
