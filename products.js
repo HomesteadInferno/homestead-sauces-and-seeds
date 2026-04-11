@@ -1244,13 +1244,13 @@ heatScore:"2",
 // 🌶️ ВРОЖАЙ ПЕКЛА (СВІЖІ ТА СУШЕНІ)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 "fresh_reaper_red": {
-    name: "Carolina Reaper Red (Свіжий плід)",
+    name: "Carolina Reaper Chocolate (Свіжий плід)",
     searchName: "свіжий перець, кароліна ріпер свіжа, fresh pepper",
     category: "fresh-peppers",
     price: 0,
     heatLevel: "☠️ ЕКСТРЕМАЛЬНА",
     heatScore: "1", // Фільтр: Свіжі
-    images: ["carolina-reaper-red-main.webp"],
+    images: ["carolina-reaper-chocolate-main.webp"],
     description: "Свіжі плоди найгострішого перцю у світі. Зібрані в день відправки.",
     inStock: false,
     allowSale: false
@@ -1367,6 +1367,8 @@ heatScore:"2",
                         if (nameLower.includes("соуси")) targetCategory = "sauces";
                         else if (nameLower.includes("суперхотів")) targetCategory = "seeds";
                         else if (nameLower.includes("інше насіння")) targetCategory = "otherseeds";
+                        else if (nameLower.includes("врожай пекла")) targetCategory = "fresh-peppers";
+                        else if (nameLower.includes("інкубаційні яйця")) targetCategory = "poultry";
 
                         if (targetCategory) {
                             const allPrices = [];
@@ -1374,7 +1376,9 @@ heatScore:"2",
                             Object.values(allProducts)
                                 .filter(p => p.category === targetCategory)
                                 .forEach(p => {
-                                    allPrices.push(Number(p.price));
+                                    if (Number(p.price) > 0) {
+                                        allPrices.push(Number(p.price));
+                                    }
                                     if (p.inStock !== false) categoryInStock = true;
                                     if (p.isolatedAvailable) allPrices.push(Math.round(p.price * 1.25));
                                 });
