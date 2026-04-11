@@ -149,7 +149,7 @@ function openNotifyModal(category) {
     currentNotifyCategory = category;
     
     if (category === 'fresh-peppers') {
-        text.innerText = "Ми напишемо вам, як тільки зберемо перший врожай свіжих суперхотів восени 2025! 🍂";
+        text.innerText = "Ми напишемо вам, як тільки зберемо перший врожай свіжих суперхотів восени 2026! 🍂";
     } else if (category === 'poultry') {
         text.innerText = "Наш флок готується до виходу! Ми сповістимо вас про старт продажів інкубаційних яєць. 🐣";
     }
