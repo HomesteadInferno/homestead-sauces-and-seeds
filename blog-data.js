@@ -294,19 +294,19 @@ const blogPosts = [
         <div class="variety-card">
             <h4>Carolina Reaper (Red & Chocolate)</h4>
             <img src="images/peppers/reaper-main.jpg" alt="Carolina Reaper" class="article-img" />
-            <p>Наш флагман. Ми вирощуємо класичну червону та елегантну шоколадну версії.<a href="product.html?id=carolinareaperchocolate" class="link-to-product"> <strong>Carolina Reaper Chocolate</strong></a>  зазвичай має більш "важкий" аромат і підступну гостроту, що накочує хвилями.</p>
+            <p>Наш флагман. Ми вирощуємо класичну червону та елегантну шоколадну версії. <strong>Carolina Reaper Chocolate</strong> зазвичай має більш "важкий" аромат і підступну гостроту, що накочує хвилями.</p>
         </div>
 
         <div class="variety-card">
             <h4>Гвардія 7 Pot: Brain Strain & Bubblegum</h4>
             <img src="images/peppers/7pot-family.jpg" alt="7 Pot Peppers" class="article-img" />
-            <p><a href="product.html?id=7PotBrainStrainYellow" class="link-to-product"> <strong>7 Pot Brain Strain (Red | Yellow)</strong></a> — перці з поверхнею, що нагадує розпечений мозок. Поруч із ними — екзотичний <a href="product.html?id=7potbubblegumchocolate" class="link-to-product"> <strong>Bubblegum Chocolate</strong></a>, знаменитий своєю кольоровою чашечкою, що забарвлюється в тон плоду.</p>
+            <p><strong>7 Pot Brain Strain (Red | Yellow)</strong> — перці з поверхнею, що нагадує розпечений мозок. Поруч із ними — екзотичний <strong>Bubblegum Chocolate</strong>, знаменитий своєю кольоровою чашечкою, що забарвлюється в тон плоду.</p>
         </div>
 
         <div class="variety-card">
             <h4>Naga Bhut Jolokia & Scorpion</h4>
             <img src="images/peppers/naga-ghost.jpg" alt="Ghost Peppers" class="article-img" />
-            <p>Класика жанру. У списку — класичний <a href="product.html?id=bhutjolokiared" class="link-to-product"> <strong>Bhut Jolokia</strong></a>, <a href="product.html?id=nagajolokia" class="link-to-product"> <strong>Naga Bhut Jolokia</strong></a> та <a href="product.html?id=morugascorpionred" class="link-to-product"> <strong>Moruga Scorpion</strong></a>. Ці сорти — фундамент для наших найгостріших соусів.</p>
+            <p>Класика жанру. У списку — класичний <strong>Bhut Jolokia</strong>, <strong>Naga Bhut Jolokia</strong> та <strong>Moruga Scorpion</strong>. Ці сорти — фундамент для наших найгостріших соусів.</p>
         </div>
 
         <h2 style="color: #d97706; margin-top: 40px;">🥭 Дивізіон "Тропічний шторм": Habanero & Scotch Bonnet</h2>
@@ -315,13 +315,13 @@ const blogPosts = [
         <div class="variety-card">
             <h4>Habanero Clan</h4>
             <img src="images/peppers/habanero-grid.jpg" alt="Habanero Collection" class="article-img" />
-            <p>У нас справжній пантеон Хабанеро:<a href="product.html?id=habaneroredsavina" class="link-to-product"> <strong>Savina Red</strong></a> (екс-рекордсмен), <a href="product.html?id=habanerochocolate" class="link-to-product"><strong>Chocolate</strong></a>, <a href="product.html?id=habanerodominica" class="link-to-product"><strong>Dominica</strong></a> та яскравий <a href="product.html?id=habanerobigsun" class="link-to-product"><strong>Big Sun</strong></a>. Кожен має свій відтінок фруктових нот.</p>
+            <p>У нас справжній пантеон Хабанеро: <strong>Savina Red</strong> (екс-рекордсмен), <strong>Chocolate</strong>, <strong>Dominica</strong> та яскравий <strong>Big Sun</strong>. Кожен має свій відтінок фруктових нот.</p>
         </div>
 
         <div class="variety-card">
             <h4>Scotch Bonnet & Fatalii</h4>
             <img src="images/peppers/caribbean-vibe.jpg" alt="Scotch Bonnet and Fatalii" class="article-img" />
-            <p>Ямайська душа нашого городу. Два види <a href="product.html?id=scotchbonnet" class="link-to-product"><strong>Scotch Bonnet</strong></a> та десант <a href="product.html?id=fatalii" class="link-to-product"><strong>Fatalii</strong></a> (Yellow, Red). Фаталі — це лимонна блискавка, яка б'є миттєво.</p>
+            <p>Ямайська душа нашого городу. Два види <strong>Scotch Bonnet</strong> та десант <strong>Fatalii</strong> (Yellow, Red). Фаталі — це лимонна блискавка, яка б'є миттєво.</p>
         </div>
 
         <h2 style="color: #059669; margin-top: 40px;">🎨 Дивізіон "Естетика та Екзотика": Baccatum & Pubescens</h2>
@@ -330,29 +330,29 @@ const blogPosts = [
         <div class="variety-card">
             <h4>Giant Rocoto</h4>
             <img src="images/peppers/giant-rocoto.jpg" alt="Giant Rocoto" class="article-img" />
-            <p>Зірка партії. Чорне насіння, фіолетові квіти та товсті соковиті стінки.<a href="product.html?id=giantrocotored" class="link-to-product"><strong> Rocoto</strong></a> — це перець-довгожитель, який обожнює прохолоду і ненавидить спеку, зовсім як ми!.</p>
+            <p>Зірка партії. Чорне насіння, фіолетові квіти та товсті соковиті стінки. <strong> Rocoto</strong> — це перець-довгожитель, який обожнює прохолоду і ненавидить спеку, зовсім як ми!.</p>
         </div>
 
         <div class="variety-card">
             <h4>Baccatum Beauty: Zebrange & Sugar Rush</h4>
             <img src="images/peppers/zebrange-sugar.jpg" alt="Baccatum peppers" class="article-img" />
-            <p><a href="product.html?id=sugarrushstripey" class="link-to-product"><strong>Sugar Rush</strong></a> (Полосатий цукор) та смугастий <a href="product.html?id=zebrange" class="link-to-product"><strong>Zebrange</strong></a> — головні "моделі" для фотосесій. Вони солодкі, ароматні та неймовірно врожайні.</p>
+            <p><strong>Sugar Rush</strong> (Полосатий цукор) та смугастий <strong>Zebrange</strong> — головні "моделі" для фотосесій. Вони солодкі, ароматні та неймовірно врожайні.</p>
         </div>
 
         <div class="variety-card">
             <h4>Monkey Face & Aji Melocoton</h4>
             <img src="images/peppers/funky-shapes.jpg" alt="Monkey Face Pepper" class="article-img" />
-            <p>Сорти з характером. <a href="product.html?id=monkeyfaceyellow" class="link-to-product"><strong>Monkey Face</strong></a> дивує формою, а <a href="product.html?id=ajimelocoton" class="link-to-product"><strong>Aji Melocoton</strong></a> дарує ніжний персиковий смак та делікатну гостроту.</p>
+            <p>Сорти з характером. <strong>Monkey Face</strong> дивує формою, а <strong>Aji Melocoton</strong> дарує ніжний персиковий смак та делікатну гостроту.</p>
         </div>
 
         <h2 style="color: #2563eb; margin-top: 40px;">🍕 Дивізіон "Кухонний Спецназ": Класика гриля</h2>
         <p>Те, що робить щоденну їжу яскравішою. Робочі конячки плантації.</p>
         <ul>
-            <li><strong><a href="product.html?id=jalapeno" class="link-to-product">Jalapeno</a> :</strong> Король маринування та "попперсів".</li>
-            <li><strong><a href="product.html?id=padron" class="link-to-product">Padron</a></strong>  & <strong><a href="product.html?id=shishito" class="link-to-product">Shishito</a>:</strong> Ідеальні для швидкої обсмажки на олії з сіллю.</li>
-            <li><strong><a href="product.html?id=lemondrop" class="link-to-product">Lemon Drop</a></strong>  & <strong><a href="product.html?id=starfishred" class="link-to-product">Brazilian Starfish</a>:</strong> Цитрусові нотки для салатів та риби.</li>
-            <li><strong><a href="product.html?id=peterpepper" class="link-to-product">Peter Pepper</a> :</strong> Перець, який завжди викликає посмішку завдяки своїй анатомічній формі.</li>
-            <li><strong><a href="product.html?id=anchosanluis" class="link-to-product">Ancho San Luis</a> :</strong> Великі, м'ясисті плоди для фарширування та сушіння.</li>
+            <li><strong>Jalapeno :</strong> Король маринування та "попперсів".</li>
+            <li><strong>Padron</strong> & <strong>Shishito:</strong> Ідеальні для швидкої обсмажки на олії з сіллю.</li>
+            <li><strong>Lemon Drop</strong> & <strong>Brazilian Starfish:</strong> Цитрусові нотки для салатів та риби.</li>
+            <li><strong>Peter Pepper :</strong> Перець, який завжди викликає посмішку завдяки своїй анатомічній формі.</li>
+            <li><strong>Ancho San Luis :</strong> Великі, м'ясисті плоди для фарширування та сушіння.</li>
         </ul>
 
         <div class="outro-box" style="margin-top: 50px; padding: 30px; background: #262626; color: white; border-radius: 10px;">
