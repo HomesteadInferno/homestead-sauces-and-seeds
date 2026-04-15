@@ -319,11 +319,12 @@ header {
 
 /* Анімований рядок-підказка */
 .top-nav {
-    font-size: 13px;
+    font-size: 18px;
     color: var(--text-muted);
     letter-spacing: 0.5px;
     position: relative;
-    height: 18px;
+    height: 1em; /* Висота підлаштовується під розмір шрифту */
+    line-height: 1.2em;
     overflow: hidden;
     width: 100%;
     display: flex;
@@ -335,7 +336,7 @@ header {
     width: 100%;
     text-align: center;
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(100%); /* Початкова позиція нижче блоку на всю висоту */
     animation: textSlide 9s infinite ease-in-out;
 }
 .top-nav span:nth-child(1) { animation-delay: 0s;  }
@@ -343,11 +344,11 @@ header {
 .top-nav span:nth-child(3) { animation-delay: 6s;  }
 
 @keyframes textSlide {
-    0%   { opacity: 0; transform: translateY(8px);  }
+    0%   { opacity: 0; transform: translateY(100%);  }
     5%   { opacity: 1; transform: translateY(0);    }
     28%  { opacity: 1; transform: translateY(0);    }
-    33%  { opacity: 0; transform: translateY(-8px); }
-    100% { opacity: 0; transform: translateY(-8px); }
+    33%  { opacity: 0; transform: translateY(-100%); }
+    100% { opacity: 0; transform: translateY(-100%); }
 }
 
 /* Логотипи */
