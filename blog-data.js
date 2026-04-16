@@ -549,7 +549,7 @@ const blogPosts = [
         date: '2026-04-16',
         author: 'Gapka',
         readTime: '6 хв',
-        image: 'images/blog/ameraucana-flock.jpg',
+        image: 'ameraucan-babies.webp',
         featured: false,
         excerpt: 'Вони активні, розумні і несуть блакитні яйця. Розповідаємо, чому порода Амераукана стала справжньою родзинкою нашого пташиного двору.',
         content: `
