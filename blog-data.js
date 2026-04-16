@@ -16,7 +16,7 @@ const blogPosts = [
         date: '2026-03-14',
         author: 'Gapka',
         readTime: '5 хв',
-        image: 'germination.webp',
+        image: 'images/photo_2026-04-11_17-48-47.jpg',
         featured: true,
         excerpt: 'Часто нас питають: "А чи точно воно виросте?". Замість тисячі слів ми просто показуємо наш сімейний архів пророщування суперхотів цього сезону.',
         content: `
@@ -773,7 +773,7 @@ const blogPosts = [
         date: '2026-01-15',
         author: 'Gapka',
         readTime: '8 хв',
-        image: 'images/germination.jpg',
+        image: 'germination.webp',
         featured: false,
         excerpt: 'Насіння не проростає? Ці трюки підвищать схожість навіть найкапризніших суперхотів.',
         content: `
