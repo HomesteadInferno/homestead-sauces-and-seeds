@@ -16,7 +16,7 @@ const blogPosts = [
         date: '2026-03-14',
         author: 'Gapka',
         readTime: '5 хв',
-        image: 'images/photo_2026-04-11_17-48-47.jpg',
+        image: 'germination.webp',
         featured: true,
         excerpt: 'Часто нас питають: "А чи точно воно виросте?". Замість тисячі слів ми просто показуємо наш сімейний архів пророщування суперхотів цього сезону.',
         content: `
@@ -243,7 +243,6 @@ const blogPosts = [
         excerpt: 'Повний гайд по виду Capsicum Chinense — звідки береться найбільша гострота у світі перців.',
         content: `
             <p>Capsicum Chinense — це не просто вид перцю. Це цілий світ найгостріших сортів планети.</p>
-
             <h3>Характеристики виду:</h3>
             <ul>
                 <li><strong>Гострота:</strong> 100,000 - 2,200,000+ SHU</li>
