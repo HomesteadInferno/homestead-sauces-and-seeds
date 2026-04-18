@@ -386,6 +386,36 @@
             color: var(--text-secondary);
             line-height: 1.7;
         }
+
+        /* SUBSCRIPTION SECTION STYLES */
+        .sub-form-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-warm);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        .sub-input-guide {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-warm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        .sub-input-guide:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
         .cta-container {
             display: flex;
             flex-direction: column;
@@ -1535,6 +1565,22 @@
     </div>
         </div>
         
+        <!-- БЛОК ПІДПИСКИ -->
+        <div class="sub-form-container" id="subscribe-section">
+            <h3 class="section-title" style="border:none; margin-top:0; justify-content: center;">📩 Вступити до клубу Gapka Homestead Inferno</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">
+                Залиште свій Email, щоб отримувати секретні поради з вирощування та новини про врожай 2026 першими!
+            </p>
+            <form onsubmit="handleGeneralSubscribe(event)">
+                <input type="email" id="sub-email" placeholder="Ваш Email" required class="sub-input-guide">
+                <button type="submit" id="sub-btn" class="species-btn active" style="width: 100%; border: none;">Приєднатися</button>
+            </form>
+            <!-- Honeypot (захист від ботів) -->
+            <div style="position: absolute; left: -9999px; opacity: 0;">
+                <input type="text" id="hp_sub_guide" tabindex="-1" autocomplete="off">
+            </div>
+        </div>
+
         </main>
         
         <div class="cta-container">
@@ -1562,7 +1608,7 @@
 
     <script>
         // Перемикання між видами
-        const speciesButtons = document.querySelectorAll('.species-btn');
+        const speciesButtons = document.querySelectorAll('.species-buttons .species-btn');
         const speciesContents = document.querySelectorAll('.species-content');
 
         speciesButtons.forEach(btn => {
@@ -1597,21 +1643,85 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform =                     entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.step, .info-box, .characteristics').forEach(el => {
+        document.querySelectorAll('.step, .info-box, .characteristics, .sub-form-container').forEach(el => {
             observer.observe(el);
         });
+
+        // --- ЛОГІКА ПІДПИСКИ (GOOGLE SHEETS) ---
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZK1F30stAzlsKyegtcgKOGnq9odihOtWZpVWOgueOj927iLUqdukVT_0MCnjdcWce/exec";
+
+        function getVisitorId() {
+            let id = localStorage.getItem('ghi_visitor_id');
+            if (!id) {
+                id = 'v_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+                localStorage.setItem('ghi_visitor_id', id);
+            }
+            return id;
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        async function sendToGoogleSheet(data) {
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                return true;
+            } catch (error) {
+                console.error('Помилка відправки:', error);
+                return false;
+            }
+        }
+
+        async function handleGeneralSubscribe(event) {
+            event.preventDefault();
+            const honeypot = document.getElementById('hp_sub_guide');
+            if (honeypot && honeypot.value !== '') return; // Бот-детект
+
+            const emailInput = document.getElementById('sub-email');
+            const email = emailInput.value.trim();
+            const btn = document.getElementById('sub-btn');
+            
+            if (!validateEmail(email)) {
+                alert('Будь ласка, введіть коректну адресу! 📧');
+                return;
+            }
+
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.textContent = "ЗАПИСУЄМО...";
+
+            await sendToGoogleSheet({
+                date: new Date().toLocaleString("uk-UA"),
+                email: email,
+                orderType: "ПІДПИСКА_МАРКЕТИНГ",
+                details: "Підписка з інструкції вирощування (Growing Guide)",
+                secret_token: "summerof26",
+                client_id: getVisitorId()
+            });
+
+            // Візуальний фідбек
+            btn.textContent = "✓ ВИ В КЛУБІ!";
+            btn.style.background = "linear-gradient(135deg, #4caf50, #2e7d32)";
+            emailInput.value = "";
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.style.background = "";
+            }, 4000);
+        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
