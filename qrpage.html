@@ -627,14 +627,18 @@
             <div class="divider" style="margin-top: 40px; opacity: 0.5;"></div>
 
             <div class="club-subscribe">
-                <h3 class="club-title">Вступити до клубу Inferno</h3>
+                <h3 class="club-title">Вступити до клубу Gapka Homestead Inferno</h3>
                 <p class="club-desc">
-                    Залиште свій email, щоб першими отримувати секретні рецепти (як-от наші знамениті мариновані яйця), знижки для "своїх" та новини з ферми.
+                    Залиште свій email, щоб першими отримувати новини з ферми та цікаві секрети.
                 </p>
                 <form class="subscribe-form" onsubmit="handleGeneralSubscribe(event)">
                     <input type="email" id="sub-email" placeholder="Ваш Email для зв'язку" required class="sub-input">
                     <button type="submit" id="sub-btn" class="sub-btn">Приєднатися</button>
                 </form>
+                <!-- Honeypot field (захист від ботів, як у modal-init) -->
+                <div style="position: absolute; left: -9999px; opacity: 0;">
+                    <input type="text" id="website_url" tabindex="-1" autocomplete="off">
+                </div>
                 <p class="club-micro">Жодного спаму. Наш головний по безпеці, півень Чилі, особисто це контролює 🐓</p>
             </div>
         </div>
@@ -697,6 +701,15 @@
 
         async function handleGeneralSubscribe(event) {
             event.preventDefault();
+
+            // --- ПЕРЕВІРКА HONEYPOT ---
+            const honeypot = document.getElementById('website_url');
+            if (honeypot && honeypot.value !== '') {
+                console.warn('🤖 Бот виявлений');
+                alert('Дякуємо за підписку!'); // Обманюємо бота, показуючи успіх
+                return;
+            }
+
             const emailInput = document.getElementById('sub-email');
             const email = emailInput.value.trim();
             const btn = document.getElementById('sub-btn');
