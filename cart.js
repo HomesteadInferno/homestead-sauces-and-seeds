@@ -1395,7 +1395,7 @@ window.sendReview = async function() {
         return;
     }
 
-    // 2. Візуальне блокування кнопки
+    // 2. Візуальне блокування
     const originalText = btn.innerText;
     btn.disabled = true;
     btn.classList.add('btn-loading');
@@ -1403,16 +1403,20 @@ window.sendReview = async function() {
     btn.style.opacity = "0.6";
     btn.style.cursor = "not-allowed";
 
-    const reviewText = `💬 НОВИЙ ВІДГУК!\n📦 Товар: ${prodName}\n👤 Автор: ${author}\n📝 Текст: ${text}`;
-
     try {
-        // 3. Реальна відправка
-        await fetch("https://script.google.com/macros/s/AKfycbzbBRpcgSGY2llXEN5MbmwmbfwiI6SwIlI9QU7XkqXm7lrFX61xt-pnZ0-f-IP9Zd3Y/exec", {
+        // 3. Відправка на основний скрипт з токеном
+        await fetch("https://script.google.com/macros/s/AKfycbyL5WKFxLfStcgOQHasZ4QYi5wh1jxNVKhis495gjd6BGAlhex8e1b6607fUV4Y0zUA/exec", {
             method: "POST",
             mode: "cors",
             redirect: "follow",
             headers: { "Content-Type": "text/plain" },
-            body: JSON.stringify({ message: reviewText })
+            body: JSON.stringify({ 
+                orderType: "ВІДГУК",
+                name: author,
+                product: prodName,
+                message: text,
+                secret_token: "summerof26"
+            })
         });
 
         // 4. Успіх: міняємо вигляд кнопки
