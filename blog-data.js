@@ -104,7 +104,7 @@ const blogPosts = [
         date: '2026-03-05',
         author: 'Gapka',
         readTime: '10 хв',
-        image: 'Carolina-Reaper-Red-main.webp',
+        image: 'carolina-reaper-red-main.webp',
         featured: false,
         excerpt: 'Найгостріший перець у світі — Carolina Reaper. Детальний гайд як виростити його вдома від А до Я.',
         content: `
