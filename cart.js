@@ -353,6 +353,15 @@ function initDeliveryOptions() {
     const citySuggestions = document.getElementById('city-suggestions');
     const branchHidden = document.getElementById('cust-branch'); // Приховане поле для Nova Poshta Ref
 
+    // Логіка попередження про оплату
+    const paymentRadios = document.querySelectorAll('input[name="cust-payment"]');
+    const codInfo = document.getElementById('cod-info-msg');
+
+    const togglePaymentWarning = () => {
+        const selected = document.querySelector('input[name="cust-payment"]:checked')?.value;
+        if (codInfo) codInfo.style.display = (selected === 'cod') ? 'block' : 'none';
+    };
+
     if (!deliverySelect || !cityInput || !branchInput || !branchLabel) return;
 
     // Оновлення UI для типу доставки
@@ -416,6 +425,12 @@ function initDeliveryOptions() {
 
     if (deliverySelect) deliverySelect.addEventListener('change', updateBranchUI);
     updateBranchUI();
+
+    // Обробка зміни способу оплати
+    paymentRadios.forEach(radio => {
+        radio.addEventListener('change', togglePaymentWarning);
+    });
+    togglePaymentWarning(); // Початкова перевірка
 
     // ───────────────────────────────────────────────────────────────
     // ПОШУК МІСТА
@@ -1100,7 +1115,9 @@ window.submitOrder = async function() {
         branch: document.getElementById('cust-branch'), // приховане поле для ID/повного тексту
         branchInput: document.getElementById('cust-branch-input') // видиме текстове поле
     };
-
+    // Отримуємо значення обраного способу оплати
+const paymentElement = document.querySelector('input[name="cust-payment"]:checked');
+const payment = paymentElement ? paymentElement.value : 'Не вказано';
     // 1. СИНХРОНІЗАЦІЯ ПЕРЕД ВАЛІДАЦІЄЮ
     // Якщо приховане поле порожнє, але у видимому щось є - копіюємо (на випадок ручного вводу)
     if (fields.branch && fields.branchInput && !fields.branch.value.trim()) {
@@ -1255,6 +1272,7 @@ function cleanPhone(phone) {
         id: orderID, 
         name: fields.name.value.trim(),
         phone: fields.phone.value.trim(),
+        payment: payment === 'card' ? '💳 Картка' : '📦 Післяплата', // Перетворюємо код у зрозумілий текст
         delivery: fields.delivery.value.trim(),
         city: fields.city.value.trim(), // Місто завжди беремо з cust-city
         // Для Укрпошти branch буде повною адресою, для НП - відділенням/адресою
@@ -1278,9 +1296,11 @@ function cleanPhone(phone) {
 
     /// 4. Формуємо повідомлення для Telegram
     let orderText = `🌶️ НОВЕ ЗАМОВЛЕННЯ: ${orderData.id}\n`;
+    const deliveryIcon = orderData.delivery.includes("Укрпошта") ? "📮" : "🚚";
     orderText += `👤 ${orderData.name}\n📞 ${orderData.phone}\n`;
-    orderText += `🚚 Доставка: ${orderData.delivery}\n`;
+    orderText += `${deliveryIcon} Доставка: ${orderData.delivery}\n`;
     orderText += `📍 ${orderData.city}, ${orderData.branch}\n`;
+    orderText += `💰 Оплата: ${orderData.payment}\n`;
     if (orderData.email !== "-") orderText += `📧 ${orderData.email}\n`;
     if (orderData.comment) orderText += `💬 Коментар: ${orderData.comment}\n`;
     orderText += `\n🛒 Товари:\n`;
@@ -1300,6 +1320,8 @@ function cleanPhone(phone) {
                 email: orderData.email,   
                 name: orderData.name,
                 phone: orderData.phone,    // Додав телефон (зайвим не буде)
+                payment: orderData.payment, // Передаємо спосіб оплати
+                delivery: orderData.delivery, // Передаємо спосіб доставки
                 total: totalSum,           // Додав суму окремим полем для логів
                 cart: cart,                // Передаємо масив товарів для чека в імейлі
                 secret_token: "summerof26"
@@ -1333,6 +1355,39 @@ function cleanPhone(phone) {
             successMsg.style.display = 'block';
             const orderDisplay = document.getElementById('orderNumberDisplay');
             if (orderDisplay) orderDisplay.innerText = orderData.id;
+
+            // Відображення зведення по доставці
+            const deliverySummary = document.getElementById('delivery-summary-box');
+            if (deliverySummary) {
+                const icon = orderData.delivery.includes("Укрпошта") ? "📮" : "🚚";
+                deliverySummary.innerHTML = `
+                    <p style="margin: 0 0 8px; color: var(--primary-orange); font-weight: bold; font-size: 14px; text-transform: uppercase;">Спосіб доставки:</p>
+                    <p style="margin: 0; font-size: 16px; color: #fff;">${icon} ${orderData.delivery}</p>
+                    <p style="margin: 5px 0 0; font-size: 14px; opacity: 0.8;">📍 ${orderData.city}, ${orderData.branch}</p>
+                `;
+            }
+
+            // Логіка відображення оплати
+            const bankDetails = document.getElementById('bank-details-area');
+            if (bankDetails) {
+                if (payment === 'card') {
+                    bankDetails.innerHTML = `
+                        <div style="background: #0d0d0d; border: 1px dashed var(--primary-orange); padding: 15px; border-radius: 10px; text-align: left;">
+                            <p style="color: var(--primary-orange); font-weight: bold; margin-bottom: 10px; font-size: 14px; text-transform: uppercase;">💳 Реквізити для оплати:</p>
+                            <p style="font-family: monospace; font-size: 18px; color: #fff; margin: 10px 0; letter-spacing: 1px;">5168 7521 5680 2145</p>
+                            <p style="font-size: 12px; color: #888; line-height: 1.4;">Після оплати, будь ласка, надішліть нам скріншот у відповідь на лист або в Telegram. Це значно прискорить відправку!</p>
+                            <a href="https://www.privat24.ua/send/jkvgx" target="_blank" style="display: block; background: var(--primary-orange); color: white; text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; margin-top: 15px; font-weight: bold; font-size: 14px;">ОПЛАТИТИ В ПРИВАТ24</a>
+                        </div>
+                    `;
+                } else {
+                    bankDetails.innerHTML = `
+                        <div style="background: #0d0d0d; border: 1px solid #333; padding: 15px; border-radius: 10px; text-align: left;">
+                            <p style="color: #fff; margin: 0; font-weight: bold;">📦 Накладений платіж</p>
+                            <p style="color: #888; font-size: 13px; margin: 5px 0 0;">Ви зможете оплатити замовлення при отриманні у відділенні пошти.</p>
+                        </div>
+                    `;
+                }
+            }
         }
         saveCart([]);
         updateCartUI();
@@ -1342,7 +1397,7 @@ function cleanPhone(phone) {
         console.error("Помилка відправки:", e);
         // Специфічна перевірка для CORS помилок, які часто виникають з Google Scripts
         if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError')) {
-            alert("Помилка мережі або CORS. Перевірте з'єднання. Якщо проблема повторюється — напишіть нам у месенджер! 🌐");
+            alert("Помилка мережі або CORS. Перевірте з'єднання. Якщо проблема повторюється — напишіть нам на пошту! 🌐");
         } else {
             alert("Помилка сервера. Спробуйте ще раз або напишіть нам у месенджер 🌶️");
         }

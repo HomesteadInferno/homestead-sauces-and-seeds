@@ -53,9 +53,27 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
 
                     <div class="form-group">
-                        <label>Електронна пошта</label>
-                        <input type="email" id="email">
-                    </div>
+    <label>Спосіб оплати</label>
+    <div class="payment-options" style="display: flex; gap: 15px; margin-top: 5px;">
+        <label style="font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <input type="radio" name="cust-payment" value="card" checked style="accent-color: var(--primary-orange);"> 
+            💳 На картку
+        </label>
+        <label style="font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <input type="radio" name="cust-payment" value="cod" style="accent-color: var(--primary-orange);"> 
+            📦 Накладений платіж
+        </label>
+    </div>
+    <div id="cod-info-msg" style="display:none; margin-top:12px; padding:12px; background:rgba(231,76,60,0.08); border:1px solid rgba(231,76,60,0.3); border-radius:8px; font-size:13px; line-height:1.4;">
+        <span style="color:#e74c3c;">⚠️</span> <strong>Зверніть увагу:</strong> пошта нараховує комісію за переказ коштів. 
+        <br><small style="opacity:0.8;">(Нова Пошта: ~20 грн + 2% від суми замовлення)</small>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Електронна пошта</label>
+    <input type="email" id="email">
+</div>
 
                     <div class="form-group">
                         <label>Коментар</label>
@@ -86,7 +104,11 @@ document.addEventListener("DOMContentLoaded", function() {
             <div id="success-msg" style="display:none; text-align: center; padding: 50px 20px;">
                 <h2 style="color: var(--primary-orange);">🌿 Замовлення прийнято!</h2>
                 <p>Номер: <strong id="orderNumberDisplay"></strong></p>
-                <p>Дякуємо! Ми скоро зв'яжемося з вами.</p>
+                
+                <div id="delivery-summary-box" style="margin: 20px auto; max-width: 450px; text-align: left; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 15px;"></div>
+                <div id="bank-details-area" style="margin: 20px auto; max-width: 450px;"></div>
+
+                <p style="margin-top: 20px; opacity: 0.8;">Дякуємо! Ми скоро зв'яжемося з вами для підтвердження.</p>
                 <button class="order-btn" style="max-width: 200px; margin: 20px auto 0;" onclick="closeCheckout()">Закрити</button>
             </div>
         </div>
