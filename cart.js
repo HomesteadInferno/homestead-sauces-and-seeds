@@ -1288,7 +1288,7 @@ function cleanPhone(phone) {
     orderText += `\n\n💰 РАЗОМ: ${totalSum.toFixed(2)} ₴`;
 
     try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbxlQ-hEWA4T3MuTraaN6dJKhroZWlVMLmbU89rn8Gsk19H2FzUkyG-NhPo52Gw8NDM/exec", {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbzZDg25gW5P5gIaqLTfU_BNgTw4st8UnuR7rMxOWVTf7bIkcWu2fiCUAosAloeKhpdY/exec", {
             method: "POST",
             mode: "cors", 
             redirect: "follow",
