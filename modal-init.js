@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // ВСТАВ СЮДИ СВОЄ ПОСИЛАННЯ З cart.js
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZK1F30stAzlsKyegtcgKOGnq9odihOtWZpVWOgueOj927iLUqdukVT_0MCnjdcWce/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyEoZrr4kvX5Ve_Fc-Co5mfLFml6XYK_wKo7OWK0iPjpYhhCLKma_frPLWNHPn7kPZ/exec";
 
 let currentNotifyCategory = '';
 
