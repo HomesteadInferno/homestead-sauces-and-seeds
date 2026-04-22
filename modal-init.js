@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // ВСТАВ СЮДИ СВОЄ ПОСИЛАННЯ З cart.js
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1T8KNg1nvnalrAtGWuSSSia4s2xbJ-MCtIfJ4sEH6h9hCiglS1RIqQVs7SkDO9JCr/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIGG990RTNryW3YkePWSu4g41h-4zS_EeCTxHx_tdnMQ-8V3he5xOmIOdrOx9MjYSI/exec";
 
 let currentNotifyCategory = '';
 
