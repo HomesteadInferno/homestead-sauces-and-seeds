@@ -1004,7 +1004,7 @@ const blogPosts = [
     </div>
 
     <div style="background: #1a1a1a; border: 1px solid #d4af37; padding: 10px; border-radius: 4px; text-align: center; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);">
-        <img src="ajiMelocoton22.04.webp" alt="22.04" style="width: 100%; height: 150px; object-fit: cover; border-radius: 2px;">
+        <img src="ajiMelocoton22.04.webp" alt="22.04" style="width: 100%; object-fit: cover; border-radius: 2px;">
         <p style="margin: 10px 0 5px; font-weight: bold; color: #d4af37;">22.04.</p>
         <p style="font-size: 0.75em; color: #aaa; margin: 0;">22.04. На третій день можемо бачити перші "пасинки" в пазухах.</p>
     </div>
