@@ -17,7 +17,7 @@ const CART_CONSTANTS = {
 
 // ===== НАЛАШТУВАННЯ НОВОЇ ПОШТИ =====
 const NP_SETTINGS = { // Вставте сюди URL вашого розгорнутого Google Apps Script
-    apiUrl: 'https://script.google.com/macros/s/AKfycbwOg7C3piQhwj1_AuO7y6sOvwywt9G7fCZ8txQhBd1T-oPjRGF9_V4N2IdYaHS9GluLBw/exec'
+    apiUrl: 'https://script.google.com/macros/s/AKfycbw1T8KNg1nvnalrAtGWuSSSia4s2xbJ-MCtIfJ4sEH6h9hCiglS1RIqQVs7SkDO9JCr/exec'
 };
 
 // ===== ФУНКЦІЯ ЗАХИСТУ ВІД XSS АТАК =====
