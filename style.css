@@ -323,7 +323,7 @@ header {
     color: var(--text-muted);
     letter-spacing: 0.5px;
     position: relative;
-    height: 1em; /* Висота підлаштовується під розмір шрифту */
+    height: 1.2em; /* Висота підлаштовується під розмір шрифту */
     line-height: 1.2em;
     overflow: hidden;
     width: 100%;
@@ -342,7 +342,6 @@ header {
 .top-nav span:nth-child(1) { animation-delay: 0s;  }
 .top-nav span:nth-child(2) { animation-delay: 3s;  }
 .top-nav span:nth-child(3) { animation-delay: 6s;  }
-.top-nav span:nth-child(4) { animation-delay: 9s;  }
 
 @keyframes textSlide {
     0%   { opacity: 0; transform: translateY(100%);  }
