@@ -240,6 +240,7 @@ body {
     background-color: var(--bg-dark);
     font-family: var(--font-body);
     font-weight: 300; /* Roboto Slab виглядає дуже стильно саме в легкій вазі */
+    overflow-x: hidden;
     line-height: var(--lh-body);
     letter-spacing: var(--ls-body);
     color: rgba(234, 221, 207, 0.85);
@@ -323,7 +324,7 @@ header {
     color: var(--text-muted);
     letter-spacing: 0.5px;
     position: relative;
-    height: 1em; /* Висота підлаштовується під розмір шрифту */
+    height: 1.2em; /* Висота підлаштовується під розмір шрифту */
     line-height: 1.2em;
     overflow: hidden;
     width: 100%;
@@ -337,17 +338,18 @@ header {
     text-align: center;
     opacity: 0;
     transform: translateY(100%); /* Початкова позиція нижче блоку на всю висоту */
-    animation: textSlide 9s infinite ease-in-out;
+    animation: textSlide 12s infinite ease-in-out; /* Збільшено тривалість анімації до 12 секунд */
 }
 .top-nav span:nth-child(1) { animation-delay: 0s;  }
 .top-nav span:nth-child(2) { animation-delay: 3s;  }
 .top-nav span:nth-child(3) { animation-delay: 6s;  }
+.top-nav span:nth-child(4) { animation-delay: 9s;  } /* Затримка для четвертої фрази */
 
 @keyframes textSlide {
     0%   { opacity: 0; transform: translateY(100%);  }
-    5%   { opacity: 1; transform: translateY(0);    }
-    28%  { opacity: 1; transform: translateY(0);    }
-    33%  { opacity: 0; transform: translateY(-100%); }
+    4.16%   { opacity: 1; transform: translateY(0);    } /* 5% від 12с */
+    20.83%  { opacity: 1; transform: translateY(0);    } /* 25% від 12с */
+    25%  { opacity: 0; transform: translateY(-100%); } /* 30% від 12с */
     100% { opacity: 0; transform: translateY(-100%); }
 }
 
@@ -745,17 +747,24 @@ header {
 .card-link:hover .card-label::before { width: 60px; }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   §8  🎬  ВІДЕО БАНЕР
+   §8  🎬  ВІДЕО БАНЕР (FULL WIDTH)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.hero-banner { margin: 70px 0; }
+.hero-banner { 
+    margin: 70px 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%); /* Центруємо елемент відносно його власної ширини */
+    /* Видалено right: 50%; margin-left: -50vw; margin-right: -50vw; */
+}
 
 .video-container {
     position: relative;
-    width: 100%; height: 480px;
-    border-radius: var(--radius-lg);
+    width: 100%; 
+    height: 480px;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
-    position: relative;
+    box-shadow: none;
 }
 .video-container::after {
     content: '';
@@ -2585,6 +2594,7 @@ footer {
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 40px;
     margin-bottom: 40px;
+    padding: 0 20px;
 }
 
 /* Брендинг у футері */
@@ -2974,7 +2984,18 @@ footer {
     #modal-main-content { grid-template-columns: 1fr !important; }
 
     /* Футер */
-    .footer-content { grid-template-columns: 1fr; gap: 24px; }
+    .footer-content { 
+        grid-template-columns: 1fr 1fr; 
+        gap: 30px; 
+        padding: 0 20px;
+    }
+    .footer-brand {
+        grid-column: span 2;
+        text-align: center;
+    }
+    .footer-tagline {
+        margin: 0 auto;
+    }
 
     /* FAQ */
     .step-grid { grid-template-columns: 1fr; }
@@ -3014,11 +3035,41 @@ footer {
         display: none;
     }
 
+    /* Футер на маленьких екранах */
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 35px;
+    }
+    .footer-brand {
+        grid-column: span 1;
+    }
+    .footer-logo-img {
+        margin: 0 auto 15px;
+    }
+    .footer-links a:hover, .footer-contacts a:hover, .footer-pp a:hover {
+        padding-left: 0;
+    }
+
     /* Product page на крихітному екрані */
     .main-img-wrap   { aspect-ratio: 4 / 3; }  /* трохи ширше */
     #p-name          { font-size: 1.5rem; }
     .price-big,
     #p-price         { font-size: 24px; }
+
+    /* Адаптація відео-банера для дуже маленьких екранів */
+    .hero-content {
+        padding: 20px 0; /* Зменшуємо вертикальний відступ */
+    }
+    .hero-content h2 {
+        font-size: 28px; /* Менший заголовок */
+    }
+    .hero-content p {
+        font-size: 16px; /* Менший текст параграфа */
+    }
+    .hero-content h2, .hero-content p {
+        padding: 0 15px; /* Регулюємо горизонтальний відступ для дуже маленьких екранів */
+    }
 }
 
 
@@ -3758,67 +3809,4 @@ body.otherseeds-page header::after {
 
 .card-link.is-locked:hover {
     transform: none !important; /* Прибираємо анімацію при наведенні для заблокованих */
-}
-
-/* 🔒 БЛОКУВАННЯ В ПОШУКУ */
-.search-result-item.is-locked-search {
-    filter: grayscale(0.8) brightness(0.5);
-    cursor: not-allowed !important;
-    position: relative;
-    pointer-events: none; /* Вимикає клік */
-}
-
-.search-result-item.is-locked-search::after {
-    content: "ЗАПУСК ВОСЕНИ";
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-5deg);
-    background: var(--primary-color);
-    color: #fff;
-    padding: 2px 8px;
-    font-family: var(--font-heading);
-    font-size: 10px;
-    font-weight: 700;
-    border: 1px solid #fff;
-    z-index: 5;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    white-space: nowrap;
-}
-
-/* 🔒 ГЛОБАЛЬНЕ БЛОКУВАННЯ ВСЬОГО ПОШУКУ (БЕЗ ЗМІН У JS) */
-#search-results .search-result-item {
-    pointer-events: none !important; /* Повністю вимикає можливість кліку */
-    filter: grayscale(0.8) brightness(0.6); /* Робить результати сірими */
-    position: relative;
-    cursor: not-allowed !important;
-}
-
-#search-results .search-result-item::before {
-    content: "ЗАПУСК ВОСЕНИ 🌶️";
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--primary-color);
-    color: #fff;
-    padding: 4px 10px;
-    font-family: var(--font-heading);
-    font-size: 11px;
-    font-weight: 700;
-    border: 1px solid #fff;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    white-space: nowrap;
-}
-
-@keyframes badge-pulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) rotate(-5deg) scale(1);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.7);
-    }
-    50% {
-        transform: translate(-50%, -50%) rotate(-5deg) scale(1.05);
-        box-shadow: 0 8px 30px var(--accent-shadow);
-    }
 }
